@@ -3,6 +3,7 @@
 #' @param x date column
 #'
 #' @return logical
+#' @export
 #'
 is_yyyy_mm_dd <- function(x) {
 
@@ -21,6 +22,7 @@ return(out)
 #' @param word the key word to validate
 #'
 #' @returns list
+#' @export
 #'
 generate_cli_action <- function(x,word){
 
@@ -48,6 +50,7 @@ generate_cli_action <- function(x,word){
 #' @param x action class
 #'
 #' @returns list
+#' @export
 #'
 make_action_cli <- function(x){
 
@@ -83,6 +86,7 @@ make_action_cli <- function(x){
 #' @param x ti or segment obj
 #'
 #' @returns print
+#' @export
 #'
 print_fn_info <- function(x) {
 
@@ -113,6 +117,7 @@ print_next_steps <- function(){
 #' @param x an S7 class
 #'
 #' @returns cli messages
+#' @export
 #'
 print_actions_steps <- function(x){
 
