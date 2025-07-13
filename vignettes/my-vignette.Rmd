@@ -1,0 +1,111 @@
+---
+title: "my-vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{my-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(tidyverse)
+library(fpaR)
+
+```
+
+
+
+# Getting started with time intelligence functions
+
+
+"time intelligence" is generic name for a collection of functions that do perform time related analysis such as calculating the year over year difference in a variable....
+
+While conceptually this is straight forward, in practice you will either have missing data or period imbalances tht make this  not as straight forward as you want.
+
+
+This package is a collection of apis providing a consistent way to tackle most of your routine and complex functions
+
+
+To avoid confusion, each step will print a set of instructions
+
+lets get started
+
+
+## dataset
+
+For our examples we will use the excellent {contoso} dataset for our tutorials. 
+
+the {fpaR} comes with a tibble version of the dataset for practice but recommend the {contoso} dataset as it comes with both tibble and database version so you can practice using function against either source of data
+
+While the {contoso} dataset has many tables, we will focus on the sales table for our examples
+
+```{r}
+sales |> 
+  head(10)
+```
+
+Here we see a typical transaction table with customer_key, product_key, store_key, etc.
+
+For each transaction there are a few metrics, for example unit_price, quantity, cogs and margin. 
+
+While your dataset will be different, basically we need to focus on three inputs:
+
+1) A date column
+2) grouping columns
+3) the aggregation column
+
+
+When you look at the dataset you will see that some subets only have tranasaction on certain days while other periods are more complete.
+
+Lets talk through some common "time intelligence" functions and the challenges we would normally meet on the way and how we will solve them. 
+
+1) incomplete calendar
+2) imbalanced periods
+3) lack of consistency
+4) inconsistent data interface 
+
+# the basics
+
+- your data (tibble or dbi form)
+- your grouping
+- your function
+- execution step
+- optional: keep as dbi or return as tibble
+```{r}
+library(fpaR)
+library(tidyverse)
+
+sales |>
+  ytd(order_date,.value=margin,calendar_type="standard") 
+
+```
+
+
+## period to date
+
+- you want to track cumulative performance over time
+- typically used to understand perceetnage of total but can be a standalone metric
+
+
+
+```{r}
+
+```
+This 
+
+
+```{r}
+
+sales |> 
+  ytd(order_date,.value=margin,calendar_type="standard")  |> 
+  calculate() |> 
+  collect()
+```
+
+Looking at the results, you see that on 2022-01-09, our original dataset was missing transactions and/or had zero transactions, so if you wanted to use comparable methods, you would pull an error on that day.
+
+

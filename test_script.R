@@ -1,11 +1,15 @@
 
+?pkgdown::build_articles(pkg = ".", path = "docs/articles", depth = 1L,
+               encoding = "UTF-8", quiet = TRUE)
 
+
+usethis::use_vignette("my-vignette")
 
 x <- wtd(sales,order_date,margin,"standard")
 
 
 devtools::document()
-
+devtools::document()
 
 x |> complete_calendar()
 

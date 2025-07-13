@@ -96,6 +96,7 @@ print_fn_info <- function(x) {
 #' Prints functions next steps
 #'
 #' @returns print
+#' @export
 #'
 print_next_steps <- function(){
 
