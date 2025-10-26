@@ -1,6 +1,9 @@
 ---
 title: "Get Started"
 output: rmarkdown::html_vignette
+format:
+  html:
+    code-link: true
 vignette: >
   %\VignetteIndexEntry{my-vignette}
   %\VignetteEngine{knitr::rmarkdown}
@@ -70,8 +73,6 @@ What is our workflow?
 Let's see in action by calling the fpar::ytd() function to calculate the year-to-date margin by order date for all transactions
 
 ```{r}
-
-
 library(tidyverse)
 library(fpaR)
 
@@ -81,46 +82,93 @@ sales |> #<1>
 
 
 ```
+1. dataframe
+2. year-to-date
 
+When you first execute a ti function, a message is printed to clarify the actions and steps it will take:
 
-Lots going on here and we will get into it later but the basics are there for you
+- function name & description
+- what calendar type is used and any modifications made to calendar to fill in incomplete dates or missing groups
+- details of what aggregations actions are used
 
-We are articulate clearly what the function is doing to avoid confusing terminology
-We clarify the calendar type that was created and what is missing
-We summarize the actions
-list out next steps from here
+This will actually return a ti object which is an S7 object. To execute the function, pass the object to fpaR::calculate() and this will then execute the steps and return a duckdb tibble.
 
+You can further return it to a tibble with dplyr::collect()
 
-this return is a {S7} class object, and for time intelligence functions, a {ti} object that pre-processess a number of functions but doesn't actually execute the code. 
+::: {.callout-note}
+## options()
 
-If needed you can pull out the individual parts of the object with @ but for the most part unless you understand the internal package logic, this won't be meaningful to you `r epoxy("It cost {.dollar money}.", .transformer = "inline")`
+- You can set options(fpar.calculute=TRUE) to avoid the print stage and automatically calculate the object
+- You can also set options(fpa.collect=TRUE) to also always return a tibble -- be aware of the size of your data
 
-
-## period to date
-
-- you want to track cumulative performance over time
-- typically used to understand percetnage of total but can be a standalone metric
+:::
 
 
 
 
 ```{r}
-library(epoxy)
-
-money <- 120525
-```
-
-i
-```{epoxy}
+sales |> #<1>
+  ytd(order_date,.value=margin,calendar_type="standard")|> #<2>
+  calculate() |>  #<3)
+  dplyr::collect()
 
 ```
 
-# sales |> 
-#   ytd(order_date,.value=margin,calendar_type="standard")  |> 
-#   calculate() |> 
-#   collect()
-```
+1. dataframe
+2. year-to-date
+3. execute function and return a duckdb object
 
-Looking at the results, you see that on 2022-01-09, our original dataset was missing transactions and/or had zero transactions, so if you wanted to use comparable methods, you would pull an error on that day.
+What if we want we want to find the year-to-date margin of each store? Simply pass through a grouped tibble with dplyr::group_by() and the ti functions will calculate year-to-date sales for each member of the group.
+
+
+::: {.callout-note}
+## Missing date indicator
+
+A ti object will add a missing date column to indicate where the dataset is missing a date for your awareness
+
+:::
+
+```{r}
+sales |> #<1>
+  dplyr::group_by(currency_code) |> #<2>
+  ytd(order_date,.value=margin,calendar_type="standard") #<3>
+
+```
+1. tibble
+2. Add in the groups you want
+3. select the ti function
+
+
+You will see in the print message under the calendar section that a calendar was created with 1 group.
+
+
+## Understanding the print message
+
+### function name & description
+
+- This will print out the function name and generalized description of what the function is doing
+- People tend to use to terms inter-changable when doing time related functions, so this sections provides clarity to what the formula is doing
+
+### calendar
+- this clarifies what calendar type is used (standard, 5-5-4, or 4-4-5)
+- how dates were missing and replaced
+- the number of groups created 
+- the names of new columns that were added to the data
+
+## actions
+- summary of what the function is doing (eg shifting a period, comparing period balances, etc)
+
+## next steps
+- depending on the object, this will list possible functions you can run
+```{r}
+sales |> #<1>
+  group_by(currency_code) |> 
+  mom(.date=order_date,.value=quantity,calendar_type = "standard",lag_n=4) |> #<2>
+  complete_calendar() #<3>
+```
+1. pass data
+2. calculute month-over-month for quantity
+3. pull a complete calendar with augmented features
+
 
 

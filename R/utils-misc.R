@@ -107,6 +107,8 @@ print_next_steps <- function(){
   cli::cli_h2("Next Steps:")
 
   cli::cli_li("Use {.code calculate()} to return the results")
+  cli::cli_li("Use {.code pull_calendar()} to return the calendar used in the calculation")
+  cli::cli_li("Use {.code complete_calendar()} to return the calendar used in the calculation augmented with supporting attributes")
 
   cli::cli_rule()
 }

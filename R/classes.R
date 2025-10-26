@@ -98,7 +98,7 @@ data <- S7::new_class(
       )
       ,calendar_type=S7::new_property(
         class=S7::class_character
-        ,default = "standard"
+        ,default = getOption("fpaR.calendar_type", default = "Standard")
         ,validator =function(value){
 
           if(!any(value %in% c("standard","554",NA_character_))) return(cli::format_error("Please return either 'standard' or '554'"))

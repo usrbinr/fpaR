@@ -1,0 +1,31 @@
+---
+title: "notes"
+format: html
+extensions:
+  preview-colour:
+    code: true
+    text: true
+---
+
+## readme
+
+- clean up print document with segment and abc classes
+- validate ti tests and functions all work appropriately
+- finish documenting codes / functions in how to edit a function (v)
+- validate all defaults are ready
+- add in vignette for ti functions
+  
+    - how to use the package
+      - api and interface
+      - explanation of arguments
+        -  calendar_type
+        -  time_unit
+        -  grouping
+    - Challenges with time intelligence functions
+    - ti types
+      - period shifting
+      - aggregation
+      -
+    - calendar type detail
+    - how the class object / system workflow works
+    

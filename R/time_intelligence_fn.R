@@ -575,12 +575,12 @@ momtd_fn <- function(x){
 
   # mtd table
 
-  mtd_dbi <- mtd(.data = x@data@data,.date = !!x@data@date_quo,.value = !!x@value@value_quo,calendar_type = x@data@data_type) |>
+  mtd_dbi <- mtd(.data = x@data@data,.date = !!x@data@date_quo,.value = !!x@value@value_quo,calendar_type = x@data@calendar_type) |>
     calculate()
 
   # pmtd table
 
-  pmtd_dbi <- pmtd(.data = x@data@data,.date = !!x@data@date_quo,.value = !!x@value@value_quo,calendar_type = x@data@data_type,lag_n = x@fn@lag_n) |>
+  pmtd_dbi <- pmtd(.data = x@data@data,.date = !!x@data@date_quo,.value = !!x@value@value_quo,calendar_type = x@data@calendar_type,lag_n = x@fn@lag_n) |>
     calculate()
 
   # join tables together
@@ -588,11 +588,14 @@ momtd_fn <- function(x){
   out_dbi <-   dplyr::full_join(
     mtd_dbi
     ,pmtd_dbi
-    ,by=dplyr::join_by(date==date,year,month,!!!x@data@group_quo,missing_date_indicator)
+    ,by=dplyr::join_by(date==date,year,month,!!!x@data@group_quo)
   ) |>
     dplyr::summarise(
       dplyr::across(dplyr::contains(x@value@value_vec),\(x) sum(x,na.rm=TRUE))
-      ,.by=c(missing_date_indicator,date,year,month,!!!x@data@group_quo,pp_missing_dates_cnt,pp_extra_dates_cnt)
+      ,.by=c(missing_date_indicator,date,year,month,!!!x@data@group_quo)
+    ) |>
+    dplyr::relocate(
+      date,year,month
     )
   return(out_dbi)
 

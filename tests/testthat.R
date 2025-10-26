@@ -8,5 +8,6 @@
 
 library(testthat)
 library(fpaR)
+library(cohort)
 
 test_check("fpaR")

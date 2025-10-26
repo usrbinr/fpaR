@@ -1,0 +1,35 @@
+---
+title: "calendar_types"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(fpaR)
+```
+
+
+## Calendar Types
+
+What do we mean by different calendar types?
+
+What we call a "standard" calendar refers to the typical gregorian calendar that you have sitting in front of you. 12 months in a year, 365 or 366 days in year depending if its a leap year, 7 days in a week, etc. 
+
+However for some business they need a non-standard calendar due to period imbances. For example if compare feburary sales to march sales this will be misleading as feburary has 28 days compared to March's 31 days. Some industries are more sensitive if certain months have more weekends than other months
+
+To address those imbalances some industries use a altenrative calendars. Two of the most common ones are 5-5-4 and 4-4-5. This defines the first month as 4 weeks, the second month as four weeks and the last month in a quarter as 5 weeks. This way each quarter has the exact number of days and period to period compares are more consistent (eg. compare last quarter first month sales vs. this quarter first month sales will have same days)
+
+For the 4-5-4 calendar, we use the [National Retail Federation](https://nrf.com/resources/4-5-4-calendar) convention, however you can set your convention with the optional `non_standard_start_date` argument.
+
+::: {.callout-note}
+## 4-5-4 note
+Dividing the retail calendar into 52 weeks of seven days each, or 364 days, leaves an extra day each year to be accounted for. As a result, every five to six years a week is added to the fiscal calendar. This anomaly has most recently occurred in FY12, FY17 and FY23.
+:::
+
+
+

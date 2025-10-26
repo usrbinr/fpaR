@@ -52,9 +52,9 @@ abc <- function(.data,category_values,.value){
     ,time_unit                =time_unit(value="day")
     ,action=action(
       value = c("proportion of total","Aggregate")
-      ,method= "This calculates a rolling cumulative distribution of variable
-      and segments each group member's contribution by the break points provided.
-      Helpful to know which group member's proportational contribution to the total.
+      ,method= "This calculates a rolling cumulative distribution of a variable
+      and then segments each group member's contribution by the break points provided.
+      This is helpful to know which group member's proportational contribution to the total.
       ")
     )
 
@@ -98,7 +98,6 @@ abc_fn <- function(x){
         ,.groups="drop"
       ) |>
       dbplyr::window_order(desc(!!x@value@new_column_name_quo))
-
   } else {
 
   summary_dbi <- x@data@data |>
@@ -164,17 +163,18 @@ abc_fn <- function(x){
       category_dbi
       ,by=dplyr::join_by(cum_unit_prop<=category_value)
     ) |>
-  dplyr::mutate(
+    dplyr::mutate(
       delta=category_value-cum_unit_prop
     ) |>
-  dplyr::mutate(
+    dplyr::mutate(
       row_id_rank=rank(delta)
       ,.by=row_id
     ) |>
     dplyr::filter(
       row_id_rank==1
     ) |>
-  dplyr::select(-c(row_id_rank,delta))
+    dplyr::select(-c(row_id_rank,delta)) |>
+    dplyr::relocate(category_name,category_value)
 
   ## previous ------
 #
