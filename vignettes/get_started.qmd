@@ -1,20 +1,12 @@
 ---
 title: "Get Started"
-output: rmarkdown::html_vignette
 format:
   html:
     code-link: true
-vignette: >
-  %\VignetteIndexEntry{my-vignette}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+#| eval: false
 library(tidyverse)
 library(fpaR)
 
@@ -73,6 +65,7 @@ What is our workflow?
 Let's see in action by calling the fpar::ytd() function to calculate the year-to-date margin by order date for all transactions
 
 ```{r}
+#| eval: false
 library(tidyverse)
 library(fpaR)
 
@@ -107,6 +100,7 @@ You can further return it to a tibble with dplyr::collect()
 
 
 ```{r}
+#| eval: false
 sales |> #<1>
   ytd(order_date,.value=margin,calendar_type="standard")|> #<2>
   calculate() |>  #<3)
@@ -129,6 +123,7 @@ A ti object will add a missing date column to indicate where the dataset is miss
 :::
 
 ```{r}
+#| eval: false
 sales |> #<1>
   dplyr::group_by(currency_code) |> #<2>
   ytd(order_date,.value=margin,calendar_type="standard") #<3>
@@ -161,6 +156,7 @@ You will see in the print message under the calendar section that a calendar was
 ## next steps
 - depending on the object, this will list possible functions you can run
 ```{r}
+#| eval: false
 sales |> #<1>
   group_by(currency_code) |> 
   mom(.date=order_date,.value=quantity,calendar_type = "standard",lag_n=4) |> #<2>

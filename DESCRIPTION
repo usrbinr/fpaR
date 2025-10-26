@@ -29,6 +29,6 @@ Suggests:
 Config/testthat/edition: 3
 Depends: 
     R (>= 2.10)
-URL: https://alejandrohagan.github.io/fpaR/
+URL: https://usrbinr.github.io/fpaR/
 VignetteBuilder: knitr
 Config/Needs/website: rmarkdown

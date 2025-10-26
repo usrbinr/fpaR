@@ -86,29 +86,29 @@ intelligence related analysis in a consistent, fast and transparent way.
 
 Below is the full list of time intelligence functions:
 
-| short_name | description                                    | shift | aggregate | compare |
-|------------|------------------------------------------------|-------|-----------|---------|
-| YoY        | Full Year over Year                            |       |           | X       |
-| YTD        | Year-to-Date                                   |       | X         |         |
-| PYTD       | Prior Year-to-Date amount                      | X     | X         |         |
-| YoYTD      | Current Year-to-Date over Prior Year-to-Date   | X     | X         | X       |
-| YTDOPY     | Year-to-Date over Full Previous Year           | X     | X         | X       |
-| QoQ        | Full Quarter over Quarter                      |       |           | X       |
-| QTD        | Quarter-to-Date                                |       | X         |         |
-| PQTD       | Prior Quarter-to-Date                          | X     | X         |         |
-| QOQTD      | Quarter-over-Quarter-to-Date                   | X     | X         | X       |
-| QTDOPQ     | Quarter-to-Date over Full Previous Quarter     | X     | X         | X       |
-| MTD        | Month-to-Date                                  |       | X         |         |
-| MoM        | Full Month over Full Month                     |       |           | X       |
-| MoMTD      | Current Month-to-Date over Prior Month-to-Date | X     | X         | X       |
-| PMTD       | Prior Month’s MTD amount                       | X     | X         |         |
-| MTDOPM     | Month-to-Date over Full Previous Month         | X     | X         | X       |
-| WTD        | Week-to-Date                                   |       | X         |         |
-| WoW        | Full Week over Full Week                       |       |           | X       |
-| WoWTD      | Current Week-to-Date over Prior Week-to-Date   | X     | X         | X       |
-| PWTD       | Prior Week-to-Date                             | X     | X         |         |
-| ATD        | cumlaitve total from inception to date         |       | x         |         |
-| DoD        | Full Day over Full Day                         |       |           | X       |
+| short_name | description | shift | aggregate | compare |
+|----|----|----|----|----|
+| YoY | Full Year over Year |  |  | X |
+| YTD | Year-to-Date |  | X |  |
+| PYTD | Prior Year-to-Date amount | X | X |  |
+| YoYTD | Current Year-to-Date over Prior Year-to-Date | X | X | X |
+| YTDOPY | Year-to-Date over Full Previous Year | X | X | X |
+| QoQ | Full Quarter over Quarter |  |  | X |
+| QTD | Quarter-to-Date |  | X |  |
+| PQTD | Prior Quarter-to-Date | X | X |  |
+| QOQTD | Quarter-over-Quarter-to-Date | X | X | X |
+| QTDOPQ | Quarter-to-Date over Full Previous Quarter | X | X | X |
+| MTD | Month-to-Date |  | X |  |
+| MoM | Full Month over Full Month |  |  | X |
+| MoMTD | Current Month-to-Date over Prior Month-to-Date | X | X | X |
+| PMTD | Prior Month’s MTD amount | X | X |  |
+| MTDOPM | Month-to-Date over Full Previous Month | X | X | X |
+| WTD | Week-to-Date |  | X |  |
+| WoW | Full Week over Full Week |  |  | X |
+| WoWTD | Current Week-to-Date over Prior Week-to-Date | X | X | X |
+| PWTD | Prior Week-to-Date | X | X |  |
+| ATD | cumlaitve total from inception to date |  | x |  |
+| DoD | Full Day over Full Day |  |  | X |
 
 ## How to use fpaR?
 
@@ -157,6 +157,11 @@ sales |>
 
     • Use `calculate()` to return the results
 
+    • Use `pull_calendar()` to return the calendar used in the calculation
+
+    • Use `complete_calendar()` to return the calendar used in the calculation
+    augmented with supporting attributes
+
     ────────────────────────────────────────────────────────────────────────────────
 
 This prints a summary of the function’s actions,details the calendar’s
@@ -173,20 +178,20 @@ sales |>
 ```
 
     # Source:     SQL [?? x 7]
-    # Database:   DuckDB v1.1.3 [hagan@Linux 6.12.10-76061203-generic:R 4.4.3//tmp/RtmpLBktPR/file4b8fe61bc9464]
+    # Database:   DuckDB 1.4.1 [hagan@Linux 6.16.3-76061603-generic:R 4.5.1//tmp/Rtmpp6cUJM/file8932c1f96ec0c]
     # Ordered by: date
         year month date       margin missing_date_indicator mtd_margin
        <dbl> <dbl> <date>      <dbl>                  <dbl>      <dbl>
-     1  2022     2 2022-02-26 17891.                      0    219599.
-     2  2022     2 2022-02-27     0                       1    219599.
-     3  2022     2 2022-02-28  7647.                      0    227246.
-     4  2021     7 2021-07-29     0                       1     48746.
-     5  2021     7 2021-07-30     0                       1     48746.
-     6  2021     7 2021-07-31  4070.                      0     52816.
-     7  2022     2 2022-02-01  7032.                      0      7032.
-     8  2022     2 2022-02-02  8778.                      0     15810.
-     9  2022     2 2022-02-03 10359.                      0     26169.
-    10  2022     2 2022-02-04  7337.                      0     33506.
+     1  2021    11 2021-11-01   310.                      0       310.
+     2  2021    11 2021-11-02   605.                      0       916.
+     3  2021    11 2021-11-03 15938.                      0     16854.
+     4  2021    11 2021-11-04  1987.                      0     18840.
+     5  2021    11 2021-11-05  1763.                      0     20603.
+     6  2021    11 2021-11-06  7703.                      0     28306.
+     7  2021    11 2021-11-07     0                       1     28306.
+     8  2021    11 2021-11-08   325.                      0     28631.
+     9  2021    11 2021-11-09  2309.                      0     30940.
+    10  2021    11 2021-11-10  3476.                      0     34416.
     # ℹ more rows
     # ℹ 1 more variable: days_in_current_period <dbl>
 
@@ -210,16 +215,16 @@ sales |>
     # A tibble: 10 × 7
         year month date       margin missing_date_indicator mtd_margin
        <dbl> <dbl> <date>      <dbl>                  <dbl>      <dbl>
-     1  2023     7 2023-07-23     0                       1     69606.
-     2  2023     7 2023-07-24   107.                      0     69713.
-     3  2023     7 2023-07-25   566.                      0     70279.
-     4  2023     7 2023-07-26  1331.                      0     71610.
-     5  2023     7 2023-07-27  4201.                      0     75811.
-     6  2023     7 2023-07-28  4508.                      0     80319.
-     7  2023     7 2023-07-29  6999.                      0     87319.
-     8  2023     7 2023-07-30     0                       1     87319.
-     9  2023     7 2023-07-31     0                       1     87319.
-    10  2023    12 2023-12-01  2158.                      0      2158.
+     1  2022     1 2022-01-01 11796.                      0     11796.
+     2  2022     1 2022-01-02     0                       1     11796.
+     3  2022     1 2022-01-03  5338.                      0     17134.
+     4  2022     1 2022-01-04 18693.                      0     35827.
+     5  2022     1 2022-01-05  5424.                      0     41251.
+     6  2022     1 2022-01-06 10382.                      0     51633.
+     7  2022     1 2022-01-07  4647.                      0     56280.
+     8  2022     1 2022-01-08 10743.                      0     67023.
+     9  2022     1 2022-01-09     0                       1     67023.
+    10  2022     1 2022-01-10   336.                      0     67360.
     # ℹ 1 more variable: days_in_current_period <dbl>
 
 ### What if you need the analysis at the group level?
@@ -272,6 +277,11 @@ sales |>
     ── Next Steps: ──
 
     • Use `calculate()` to return the results
+
+    • Use `pull_calendar()` to return the calendar used in the calculation
+
+    • Use `complete_calendar()` to return the calendar used in the calculation
+    augmented with supporting attributes
 
     ────────────────────────────────────────────────────────────────────────────────
 
