@@ -18,7 +18,10 @@
 #' @export
 #'
 #' @examples
-#' abc(sales,c(.1,.5,.7,.96,1),.value=margin)
+#'\dontrun{
+#' abc(contoso::sales,c(.1,.5,.7,.96,1),.value=margin)
+#'}
+#'
 abc <- function(.data,category_values,.value){
 
   # capture value as text
@@ -47,7 +50,7 @@ abc <- function(.data,category_values,.value){
       ,fn_name                = "ABC"
       ,fn_long_name           = "ABC Classification"
       ,lag_n                  = NA_integer_
-      ,new_date_column_name  = NA_character_
+      ,new_date_column_name   = NA_character_
       )
     ,time_unit                =time_unit(value="day")
     ,action=action(
@@ -346,7 +349,7 @@ cohort_fn <- function(x){
       dplyr::relocate(
         cohort_date
         ,cohort_id
-        ,tidyselect::num_range(prefix="p_",1:last_col())
+        ,tidyselect::num_range(prefix="p_",1:tidyselct::last_col())
       )
 
   }

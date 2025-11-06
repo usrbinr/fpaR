@@ -31,5 +31,8 @@ segment object
 }
 }
 \examples{
-abc(sales,c(.1,.5,.7,.96,1),.value=margin)
+\dontrun{
+abc(contoso::sales,c(.1,.5,.7,.96,1),.value=margin)
+}
+
 }

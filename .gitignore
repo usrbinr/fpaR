@@ -6,3 +6,4 @@ fpaR.Rcheck/
 fpaR*.tar.gz
 fpaR*.tgz
 docs
+test
