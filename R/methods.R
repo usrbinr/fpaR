@@ -231,7 +231,7 @@ S7::method(complete_calendar,ti) <- function(x){
 #' @returns ti object
 #' @export
 #'
-S7::method(print,ti) <- function(x, ...){
+print.ti <- function(x,...){
 
 
   ## subset function descriptions from table
@@ -291,12 +291,13 @@ print_next_steps()
 
 
 #' Print segment objects
-#' @name print
-#' @param x segment object
-#' @param ...
+#' @param x A \code{ti} object.
+#' @param ... Unused. Present for S3/S7 compatibility; additional arguments are ignored.
+#
 #'
-#' @returns segment object
-#' @export
+#' @return segment object
+#' @rdname print.ti
+#' @exportS3Method print ti
 #'
 S7::method(print,segment) <- function(x,...){
 

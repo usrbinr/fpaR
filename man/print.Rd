@@ -2,19 +2,19 @@
 % Please edit documentation in R/methods.R
 \name{print}
 \alias{print}
+\alias{print.ti}
 \title{Print ti objects}
+\usage{
+\method{print}{ti}(x, ...)
+}
 \arguments{
-\item{x}{segment object}
+\item{x}{ti object}
 
-\item{...}{}
+\item{...}{unused. Please ignore.}
 }
 \value{
 ti object
-
-segment object
 }
 \description{
 Print ti objects
-
-Print segment objects
 }

@@ -21,7 +21,8 @@ Imports:
     S7,
     tidyr,
     glue,
-    janitor
+    janitor,
+    stringr
 LazyData: true
 Suggests: 
     testthat (>= 3.0.0),
