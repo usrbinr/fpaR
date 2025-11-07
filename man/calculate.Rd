@@ -17,10 +17,14 @@ Calculate
 Calculate
 }
 \examples{
+\dontrun{
 x <- ytd(sales,.date=order_date,.value=quantity,calendar_type="standard")
 calculate(x)
+}
+\dontrun{
 sales |>
     group_by(store_key) |>
     abc(category_values = c(.3,.5,.75,.85)) |>
-    calculate() |>
+    calculate()
+}
 }

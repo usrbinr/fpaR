@@ -118,7 +118,7 @@ print_actions_steps <- function(x){
   cli::cli_h2("Actions:")
 
 
-  if(any(str_detect(x@action@value[[1]],"32m"))){
+  if(any(stringr::str_detect(x@action@value[[1]],"32m"))){
 
 
     cli::cli_text(x@action@value[[1]]," ",cli::col_blue(x@value@value_vec))
@@ -131,16 +131,16 @@ print_actions_steps <- function(x){
 
   #shift
 
-  cli::cli_text(x@action@value[[2]]," ",cli::col_green(na.omit(x@fn@lag_n))," ",cli::col_green(na.omit(x@fn@shift)))
+  cli::cli_text(x@action@value[[2]]," ",cli::col_green(stats::na.omit(x@fn@lag_n))," ",cli::col_green(stats::na.omit(x@fn@shift)))
 
   #compare
 
-  cli::cli_text(x@action@value[[3]]," ",cli::col_br_magenta(na.omit(x@fn@compare)))
+  cli::cli_text(x@action@value[[3]]," ",cli::col_br_magenta(stats::na.omit(x@fn@compare)))
 
 
   ## prop of total
 
-  if(any(str_detect(x@action@value[[4]],"32m"))){
+  if(any(stringr::str_detect(x@action@value[[4]],"32m"))){
 
 
     cli::cli_text(x@action@value[[4]])
@@ -154,7 +154,7 @@ print_actions_steps <- function(x){
   ## distinct count
 
 
-  if(any(str_detect(x@action@value[[5]],"32m"))){
+  if(any(stringr::str_detect(x@action@value[[5]],"32m"))){
 
 
     cli::cli_text(x@action@value[[5]]," ",cli::col_blue(x@value@value_vec))
@@ -172,9 +172,9 @@ print_actions_steps <- function(x){
 
 utils::globalVariables(
   c(
-  "pick", "desc", "var", "cum_sum", "prop_total", "row_id", "max_row_id",
+   "desc", "var", "cum_sum", "prop_total", "row_id", "max_row_id",
   "dim_category", "cum_prop_total", "cum_unit_prop", "dim_threshold",
-  ":=", "out_tbl", "dir_path", "files", "str_extract", "if_else", "str_remove",
+  ":=", "out_tbl", "dir_path",
   "map_chr", "as_label", "n", "prop_n", "lead", "pull", "relocate", "select",
   "order_date", "quantity", "fn_name_lower", "test", ".cluster", "centers_input",
   "kmeans_models", "kmeans_results", "tot.withinss", "sql", "quarter", "quater",

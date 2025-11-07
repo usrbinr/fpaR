@@ -42,7 +42,7 @@ abc <- function(.data,category_values,.value){
 
 
   x <-   segment(
-    data                      = data(.data,date_vec = NA,calendar_type = NA)
+    data                      = fpaR:::data(.data,date_vec = NA,calendar_type = NA)
     ,value                    = value(value_vec = value_vec,new_column_name_vec = "abc")
     ,category                 = category(category_values=category_values)
     ,fn = fn(
@@ -195,7 +195,6 @@ abc_fn <- function(x){
 
 #' @title Cohort Analysis
 #' @name cohort
-#'
 #' @param .data tibble or dbi object
 #' @param .date date column
 #' @param .value id column
@@ -225,7 +224,7 @@ cohort <- function(.data,.date,.value,calendar_type,time_unit="month",period_lab
 
 
   x <-  segment(
-    data=data(
+    data=fpaR:::data(
       .data
       ,calendar_type = "standard"
       ,date_vec = rlang::as_label(rlang::enquo(.date))
@@ -323,7 +322,7 @@ cohort_fn <- function(x){
       dplyr::relocate(
         cohort_date
         ,cohort_id
-        ,tidyselect::any_of(
+        ,dplyr::any_of(
           as.character(
             as.Date(x@data@min_date:x@data@max_date)
           )
@@ -349,7 +348,7 @@ cohort_fn <- function(x){
       dplyr::relocate(
         cohort_date
         ,cohort_id
-        ,tidyselect::num_range(prefix="p_",1:tidyselct::last_col())
+        ,dplyr::num_range(prefix="p_",1:dplyr::last_col())
       )
 
   }
@@ -359,3 +358,4 @@ cohort_fn <- function(x){
 
 
 
+utils::globalVariables(c("category","delta","row_id_rank","cohort_date","period_id","cohort_id","category_value"))

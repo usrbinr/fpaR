@@ -18,11 +18,11 @@ test_that("sum errors should equal 0", {
 
   # Join and calculate delta
   result <- cohort_test_tbl |>
-    dplyr::full_join(cohort_control_tbl, by = join_by(cohort, name)) |>
+    dplyr::full_join(cohort_control_tbl, by = dplyr::join_by(cohort, name)) |>
     dplyr::mutate(delta = test_value - control_value) |>
     dplyr::summarise(sum_errors = sum(abs(delta))) |>
     dplyr::pull(sum_errors)
 
   # Assert that sum of errors equals 0
-  expect_equal(result, 0, tolerance = 1e-6)
+  testthat::expect_equal(result, 0, tolerance = 1e-6)
 })

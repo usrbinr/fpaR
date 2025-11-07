@@ -133,8 +133,11 @@ S7::method(create_calendar,segment) <- function(x){
 #' @returns dbi object
 #' @export
 #' @examples
+#'\dontrun{
 #' x <- ytd(sales,.date=order_date,.value=quantity,calendar_type="standard")
 #' calculate(x)
+#'}
+
 S7::method(calculate,ti) <- function(x){
 
   out <-   x@fn@fn_exec(x)|>
@@ -152,12 +155,13 @@ S7::method(calculate,ti) <- function(x){
 #' @returns dbi object
 #' @export
 #' @examples
+#' \dontrun{
 #' sales |>
 #'     group_by(store_key) |>
 #'     abc(category_values = c(.3,.5,.75,.85)) |>
-#'     calculate() |>
+#'     calculate()
+#'}
 S7::method(calculate,segment) <- function(x){
-
 
   out <- x@fn@fn_exec(x)
 
@@ -221,23 +225,20 @@ S7::method(complete_calendar,ti) <- function(x){
 #' @title Print ti objects
 #' @name print
 #'
+#' @param ... unused. Please ignore.
 #' @param x ti object
-#' @param ... additional arguments
 #'
 #' @returns ti object
 #' @export
 #'
-#' @examples
-#' x <- ytd(sales,.date=order_date,.value=quantity,calendar_type="standard")
-#' x
-S7::method(print,ti) <- function(x,...){
+S7::method(print,ti) <- function(x, ...){
 
 
   ## subset function descriptions from table
 
 
-  value_chr <- x@value@value_vec
-  group_count <- x@data@group_count
+  value_chr     <-   x@value@value_vec
+  group_count   <-   x@data@group_count
   calendar_type <-   x@data@calendar_type
 
 

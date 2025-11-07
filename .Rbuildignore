@@ -12,3 +12,9 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^README.html
+^README.qmd
+^README_files
+^fig
+^test.R
+^test_script.R

@@ -480,10 +480,10 @@ mtd_fn <- function(x){
   out_dbi <- full_dbi |>
     dbplyr::window_order(date) |>
     dplyr::mutate(
-      !!x@value@new_column_name_vec:=base::cumsum(!!x@value@value_quo)
+      !!x@value@new_column_name_vec:=cumsum(!!x@value@value_quo)
       ,.by=c(year,month,!!!x@data@group_quo)
     ) |>
-    mutate(
+    dplyr::mutate(
       days_in_current_period=lubridate::day(date)
     )
 
@@ -517,7 +517,7 @@ pmtd_fn <- function(x){
       ,month=lubridate::month(date)
       ,.before = 1
     ) |>
-    select(-c(missing_date_indicator))
+    dplyr::select(-c(missing_date_indicator))
 
   # create lag table
   lag_dbi <- full_dbi |>
@@ -532,7 +532,7 @@ pmtd_fn <- function(x){
       month=lubridate::month(date_lag)
       ,year=lubridate::year(date_lag)
     ) |>
-    mutate(
+    dplyr::mutate(
       days_in_comparison_period=lubridate::day(date)
     ) |>
     dplyr::select(-c(year,month,date))
@@ -935,7 +935,7 @@ atd_fn <- function(x){
   out_dbi<- full_dbi |>
     dbplyr::window_order(date) |>
     dplyr::mutate(
-      !!x@value@new_column_name_vec:=base::cumsum(!!x@value@value_quo)
+      !!x@value@new_column_name_vec:=cumsum(!!x@value@value_quo)
       ,.by=c(!!!x@data@group_quo)
     )
   return(out_tbl)
@@ -980,3 +980,7 @@ dod_fn <- function(x){
   return(out_dbi)
 
 }
+
+
+
+utils::globalVariables(c("missing_date_indicator","pp_missing_dates_cnt","pp_extra_dates_cnt","days_in_comparison_period"))

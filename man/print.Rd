@@ -18,7 +18,3 @@ Print ti objects
 
 Print segment objects
 }
-\examples{
-x <- ytd(sales,.date=order_date,.value=quantity,calendar_type="standard")
-x
-}
