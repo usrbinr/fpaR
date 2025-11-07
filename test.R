@@ -1,5 +1,4 @@
-#'
-#'
+
 #'
 #' complete_calendar <- function(x){
 #'

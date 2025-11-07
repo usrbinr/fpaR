@@ -211,7 +211,7 @@ abc_fn <- function(x){
 #' -  It will assign to each member a time base cohort based on the member's first entry in the `.date` column
 #' -  The cohort will be generalized by the time_unit argument you selected
 #' -  Then the distinct count of each cohort member over time is calculated
-#' @returns segment object
+#' @return segment object
 #' @export
 #'
 cohort <- function(.data,.date,.value,calendar_type,time_unit="month",period_label=FALSE){
@@ -262,7 +262,6 @@ cohort <- function(.data,.date,.value,calendar_type,time_unit="month",period_lab
 #' Internal function for the cohort segment object
 #'
 #' @param x segment object
-#' @param period_label optional label
 #'
 #' @returns function
 #'

@@ -8,8 +8,6 @@ cohort_fn(x)
 }
 \arguments{
 \item{x}{segment object}
-
-\item{period_label}{optional label}
 }
 \value{
 function
