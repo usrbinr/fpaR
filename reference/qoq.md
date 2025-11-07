@@ -84,5 +84,16 @@ qoq(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 #> 
 #> ── Actions: ──
 #> 
-#> Error in str_detect(x@action@value[[1]], "32m"): could not find function "str_detect"
+#> ✔Aggregate quantity
+#> ✔Shift 1 quarter
+#> ✔Compare previous full quarter
+#> ✖Proportion Of Total
+#> ✖Count Distinct
+#> 
+#> 
+#> ── Next Steps: ──
+#> 
+#> • Use `calculate()` to return the results
+#> ────────────────────────────────────────────────────────────────────────────────
+#> 
 ```
