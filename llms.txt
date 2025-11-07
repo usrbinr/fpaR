@@ -459,8 +459,8 @@ effects**.
   period quarter-to-date
 - [`pqtd_fn()`](https://usrbinr.github.io/fpaR/reference/pqtd_fn.md) :
   Previous quarter-to-date for tibble objects
-- [`print`](https://usrbinr.github.io/fpaR/reference/print.md) : Print
-  ti objects
+- [`print(`*`<ti>`*`)`](https://usrbinr.github.io/fpaR/reference/print.md)
+  : Print ti objects
 - [`print_actions_steps()`](https://usrbinr.github.io/fpaR/reference/print_actions_steps.md)
   : Print action steps
 - [`print_fn_info()`](https://usrbinr.github.io/fpaR/reference/print_fn_info.md)

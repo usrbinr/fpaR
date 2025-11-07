@@ -14,10 +14,6 @@ cohort_fn(x)
 
   segment object
 
-- period_label:
-
-  optional label
-
 ## Value
 
 function

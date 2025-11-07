@@ -114,37 +114,106 @@ any groups that are passed through with <code><a href="https://dplyr.tidyverse.o
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">pwtd</span><span class="op">(</span><span class="va">sales</span>,.date<span class="op">=</span><span class="va">order_date</span>,.value<span class="op">=</span><span class="va">quantity</span>,calendar_type<span class="op">=</span><span class="st">"standard"</span>,lag_n<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Previous Week-to-date</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────────</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Function: `pwtd` was executed</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Description:</span> ──</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> This creates a daily `cumsum()` of the <span style="color: #55FFFF;">previous week</span> <span style="color: #00BB00;">quantity</span> from the start of</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> the <span style="color: #BBBB00;">standard</span> calendar week to the end of the week</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Calendar:</span> ──</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • The calendar aggregated <span style="color: #FF55FF;">order_date</span> to the <span style="color: #BBBB00;">day</span> time unit</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • A <span style="color: #FF5555;">standard</span> calendar is created with <span style="color: #00BB00;">0 groups</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • Calendar ranges from <span style="color: #55FF55;">2021-05-18</span> to <span style="color: #55FF55;">2024-04-20</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • <span style="color: #0000BB;">222</span> days were missing and replaced with 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • New date column <span style="color: #FF5555;">date</span>, <span style="color: #FF5555;">year</span>, <span style="color: #FF5555;">month</span> and <span style="color: #FF5555;">week</span> was created from <span style="color: #FF55FF;">order_date</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Actions:</span> ──</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span>Aggregate <span style="color: #0000BB;">quantity</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span>Shift <span style="color: #00BB00;">1</span> <span style="color: #00BB00;">week</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span>Compare</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span>Proportion Of Total</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span>Count Distinct</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Next Steps:</span> ──</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> • Use `calculate()` to return the results</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;fpaR::ti&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  @ data     : &lt;fpaR::data&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ data           :List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ src       :List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  ..$ con  :Formal class 'duckdb_connection' [package "duckdb"] with 8 slots</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. ..@ conn_ref      :&lt;externalptr&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. ..- attr(*, "_registered_df_x")='data.frame':	7794 obs. of  17 variables:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..$ order_key    : num [1:7794] 233000 233100 233100 233100 233200 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..$ line_number  : num [1:7794] 0 0 1 2 0 1 2 3 0 1 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..$ order_date   : Date[1:7794], format: "2021-05-18" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..$ delivery_date: Date[1:7794], format: "2021-05-18" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..$ customer_key : num [1:7794] 1855811 1345436 1345436 1345436 926315 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..$ store_key    : num [1:7794] 585 550 550 550 370 370 370 370 60 60 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..$ product_key  : num [1:7794] 1483 499 1512 1490 2512 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..$ quantity     : num [1:7794] 2 1 3 3 3 2 3 2 3 5 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..$ unit_price   : num [1:7794] 377 148 335 181 182 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..$ net_price    : num [1:7794] 377 131 288 177 173 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..$ unit_cost    : num [1:7794] 173.2 75.7 153.9 92.1 60.3 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..$ currency_code: chr [1:7794] "USD" "USD" "USD" "USD" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..$ exchange_rate: num [1:7794] 1 1 1 1 0.708 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..$ gross_revenue: num [1:7794] 753 148 1004 542 546 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..$ net_revenue  : num [1:7794] 753 131 863 531 519 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..$ cogs         : num [1:7794] 346.4 75.7 461.6 276.2 180.9 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..$ margin       : num [1:7794] 407 55 402 255 338 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. ..@ driver        :Formal class 'duckdb_driver' [package "duckdb"] with 6 slots</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..@ database_ref:&lt;externalptr&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..@ config      :List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. .. ..$ extension_directory: chr "/home/runner/.local/share/R/duckdb/extensions"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. .. ..$ secret_directory   : chr "/home/runner/.local/share/R/duckdb/stored_secrets"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..@ dbdir       : chr "/tmp/Rtmpkn0GlH/file60a62c6f9740"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..@ read_only   : logi FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..@ convert_opts:List of 7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. .. ..$ timezone_out     : chr "UTC"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. .. ..$ tz_out_convert   : chr "with"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. .. ..$ bigint           : chr "numeric"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. .. ..$ array            : chr "none"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. .. ..$ arrow            : logi FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. .. ..$ experimental     : logi FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. .. ..$ strict_relational: logi TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. .. ..@ bigint      : chr "numeric"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. ..@ debug         : logi FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. ..@ convert_opts  :List of 7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. ..$ timezone_out     : chr "UTC"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. ..$ tz_out_convert   : chr "with"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. ..$ bigint           : chr "numeric"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. ..$ array            : chr "none"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. ..$ arrow            : logi FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. ..$ experimental     : logi FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. .. ..$ strict_relational: logi TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. ..@ reserved_words: chr [1:489] "abort" "absolute" "access" "action" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. ..@ timezone_out  : chr "UTC"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. ..@ tz_out_convert: chr "with"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  .. .. ..@ bigint        : chr "numeric"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  ..$ disco: NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  ..- attr(*, "class")= chr [1:4] "src_duckdb_connection" "src_dbi" "src_sql" "src"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ lazy_query:List of 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  ..$ x         : 'dbplyr_table_path' chr "x"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  ..$ vars      : chr [1:17] "order_key" "line_number" "order_date" "delivery_date" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  ..$ group_vars: chr(0) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  ..$ order_vars: NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  ..$ frame     : NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  ..- attr(*, "class")= chr [1:3] "lazy_base_remote_query" "lazy_base_query" "lazy_query"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. - attr(*, "class")= chr [1:5] "tbl_duckdb_connection" "tbl_dbi" "tbl_sql" "tbl_lazy" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ class_name     : chr "dbi"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ calendar_type  : chr "standard"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ date_vec       : chr "order_date"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ date_quo       : symbol order_date</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ min_date       : Date[1:1], format: "2021-05-18"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ max_date       : Date[1:1], format: "2024-04-20"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ date_range     : num 1068</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ date_count     : int 846</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ date_missing   : num 222</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ group_indicator: logi FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ group_quo      : list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ group_vec      : chr(0) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ group_count    : num 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  @ time_unit: &lt;fpaR::time_unit&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ value: chr "day"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  @ value    : &lt;fpaR::value&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ value_vec          : chr "quantity"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ value_quo          : symbol quantity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ new_column_name_vec: chr "pwtd_quantity"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ new_column_name_quo: symbol pwtd_quantity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  @ fn       : &lt;fpaR::fn&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ fn_exec             : function (x)  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ fn_name             : chr "pwtd"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ fn_long_name        : chr "Previous Week-to-date"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ shift               : chr "week"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ compare             : chr NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ label               : logi FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ new_date_column_name: chr [1:4] "date" "year" "month" "week"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ lag_n               : num 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  @ action   : &lt;fpaR::action&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ value :List of 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ : chr [1:2] "\033[32m✔\033[39m" "Aggregate"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ : chr [1:2] "\033[32m✔\033[39m" "Shift"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ : chr [1:2] "\033[31m✖\033[39m" "Compare"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ : chr [1:2] "\033[31m✖\033[39m" "Proportion Of Total"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ : chr [1:2] "\033[31m✖\033[39m" "Count Distinct"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ method: chr "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous week')}\n                             "| __truncated__</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
