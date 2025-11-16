@@ -93,7 +93,7 @@ qoq(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 #>  .. ..  .. .. .. .. ..@ config      :List of 2
 #>  .. ..  .. .. .. .. .. ..$ extension_directory: chr "/home/runner/.local/share/R/duckdb/extensions"
 #>  .. ..  .. .. .. .. .. ..$ secret_directory   : chr "/home/runner/.local/share/R/duckdb/stored_secrets"
-#>  .. ..  .. .. .. .. ..@ dbdir       : chr "/tmp/Rtmpkn0GlH/file60a617c1ade1"
+#>  .. ..  .. .. .. .. ..@ dbdir       : chr "/tmp/RtmpKEPn4a/file5c0617de41e"
 #>  .. ..  .. .. .. .. ..@ read_only   : logi FALSE
 #>  .. ..  .. .. .. .. ..@ convert_opts:List of 7
 #>  .. ..  .. .. .. .. .. ..$ timezone_out     : chr "UTC"

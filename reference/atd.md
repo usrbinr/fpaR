@@ -123,7 +123,7 @@ atd(sales,.date=order_date,.value=quantity,calendar_type="standard")
 #>  .. ..  .. .. .. .. ..@ config      :List of 2
 #>  .. ..  .. .. .. .. .. ..$ extension_directory: chr "/home/runner/.local/share/R/duckdb/extensions"
 #>  .. ..  .. .. .. .. .. ..$ secret_directory   : chr "/home/runner/.local/share/R/duckdb/stored_secrets"
-#>  .. ..  .. .. .. .. ..@ dbdir       : chr "/tmp/Rtmpkn0GlH/file60a664f2ff10"
+#>  .. ..  .. .. .. .. ..@ dbdir       : chr "/tmp/RtmpKEPn4a/file5c0646c885d9"
 #>  .. ..  .. .. .. .. ..@ read_only   : logi FALSE
 #>  .. ..  .. .. .. .. ..@ convert_opts:List of 7
 #>  .. ..  .. .. .. .. .. ..$ timezone_out     : chr "UTC"

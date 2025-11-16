@@ -125,40 +125,106 @@ sales |>
 ```
 
 ``` R
-── Month-to-date ───────────────────────────────────────────────────────────────
-
-Function: `mtd` was executed
-
-── Description: ──
-
-This creates a daily `cumsum()` of the current month margin from the start of
-the standard calendar month to the end of the month
-
-── Calendar: ──
-
-• The calendar aggregated order_date to the day time unit
-• A standard calendar is created with 0 groups
-• Calendar ranges from 2021-05-18 to 2024-04-20
-• 222 days were missing and replaced with 0
-• New date column date, year and month was created from order_date
-
-── Actions: ──
-
-✔Aggregate
-
-✖Shift
-
-✖Compare
-
-✖Proportion Of Total
-
-✖Count Distinct
-
-── Next Steps: ──
-
-• Use `calculate()` to return the results
-
-────────────────────────────────────────────────────────────────────────────────
+<fpaR::ti>
+ @ data     : <fpaR::data>
+ .. @ data           :List of 2
+ .. .. $ src       :List of 2
+ .. ..  ..$ con  :Formal class 'duckdb_connection' [package "duckdb"] with 8 slots
+ .. ..  .. .. ..@ conn_ref      :<externalptr> 
+ .. ..  .. .. .. ..- attr(*, "_registered_df_x")='data.frame':  7794 obs. of  17 variables:
+ .. ..  .. .. .. .. ..$ order_key    : num [1:7794] 233000 233100 233100 233100 233200 ...
+ .. ..  .. .. .. .. ..$ line_number  : num [1:7794] 0 0 1 2 0 1 2 3 0 1 ...
+ .. ..  .. .. .. .. ..$ order_date   : Date[1:7794], format: "2021-05-18" ...
+ .. ..  .. .. .. .. ..$ delivery_date: Date[1:7794], format: "2021-05-18" ...
+ .. ..  .. .. .. .. ..$ customer_key : num [1:7794] 1855811 1345436 1345436 1345436 926315 ...
+ .. ..  .. .. .. .. ..$ store_key    : num [1:7794] 585 550 550 550 370 370 370 370 60 60 ...
+ .. ..  .. .. .. .. ..$ product_key  : num [1:7794] 1483 499 1512 1490 2512 ...
+ .. ..  .. .. .. .. ..$ quantity     : num [1:7794] 2 1 3 3 3 2 3 2 3 5 ...
+ .. ..  .. .. .. .. ..$ unit_price   : num [1:7794] 377 148 335 181 182 ...
+ .. ..  .. .. .. .. ..$ net_price    : num [1:7794] 377 131 288 177 173 ...
+ .. ..  .. .. .. .. ..$ unit_cost    : num [1:7794] 173.2 75.7 153.9 92.1 60.3 ...
+ .. ..  .. .. .. .. ..$ currency_code: chr [1:7794] "USD" "USD" "USD" "USD" ...
+ .. ..  .. .. .. .. ..$ exchange_rate: num [1:7794] 1 1 1 1 0.708 ...
+ .. ..  .. .. .. .. ..$ gross_revenue: num [1:7794] 753 148 1004 542 546 ...
+ .. ..  .. .. .. .. ..$ net_revenue  : num [1:7794] 753 131 863 531 519 ...
+ .. ..  .. .. .. .. ..$ cogs         : num [1:7794] 346.4 75.7 461.6 276.2 180.9 ...
+ .. ..  .. .. .. .. ..$ margin       : num [1:7794] 407 55 402 255 338 ...
+ .. ..  .. .. ..@ driver        :Formal class 'duckdb_driver' [package "duckdb"] with 6 slots
+ .. ..  .. .. .. .. ..@ database_ref:<externalptr> 
+ .. ..  .. .. .. .. ..@ config      :List of 2
+ .. ..  .. .. .. .. .. ..$ extension_directory: chr "/home/hagan/.local/share/R/duckdb/extensions"
+ .. ..  .. .. .. .. .. ..$ secret_directory   : chr "/home/hagan/.local/share/R/duckdb/stored_secrets"
+ .. ..  .. .. .. .. ..@ dbdir       : chr "/tmp/RtmpBs78jg/file31ffc564e9f89"
+ .. ..  .. .. .. .. ..@ read_only   : logi FALSE
+ .. ..  .. .. .. .. ..@ convert_opts:List of 7
+ .. ..  .. .. .. .. .. ..$ timezone_out     : chr "UTC"
+ .. ..  .. .. .. .. .. ..$ tz_out_convert   : chr "with"
+ .. ..  .. .. .. .. .. ..$ bigint           : chr "numeric"
+ .. ..  .. .. .. .. .. ..$ array            : chr "none"
+ .. ..  .. .. .. .. .. ..$ arrow            : logi FALSE
+ .. ..  .. .. .. .. .. ..$ experimental     : logi FALSE
+ .. ..  .. .. .. .. .. ..$ strict_relational: logi TRUE
+ .. ..  .. .. .. .. ..@ bigint      : chr "numeric"
+ .. ..  .. .. ..@ debug         : logi FALSE
+ .. ..  .. .. ..@ convert_opts  :List of 7
+ .. ..  .. .. .. ..$ timezone_out     : chr "UTC"
+ .. ..  .. .. .. ..$ tz_out_convert   : chr "with"
+ .. ..  .. .. .. ..$ bigint           : chr "numeric"
+ .. ..  .. .. .. ..$ array            : chr "none"
+ .. ..  .. .. .. ..$ arrow            : logi FALSE
+ .. ..  .. .. .. ..$ experimental     : logi FALSE
+ .. ..  .. .. .. ..$ strict_relational: logi TRUE
+ .. ..  .. .. ..@ reserved_words: chr [1:489] "abort" "absolute" "access" "action" ...
+ .. ..  .. .. ..@ timezone_out  : chr "UTC"
+ .. ..  .. .. ..@ tz_out_convert: chr "with"
+ .. ..  .. .. ..@ bigint        : chr "numeric"
+ .. ..  ..$ disco: NULL
+ .. ..  ..- attr(*, "class")= chr [1:4] "src_duckdb_connection" "src_dbi" "src_sql" "src"
+ .. .. $ lazy_query:List of 5
+ .. ..  ..$ x         : 'dbplyr_table_path' chr "x"
+ .. ..  ..$ vars      : chr [1:17] "order_key" "line_number" "order_date" "delivery_date" ...
+ .. ..  ..$ group_vars: chr(0) 
+ .. ..  ..$ order_vars: NULL
+ .. ..  ..$ frame     : NULL
+ .. ..  ..- attr(*, "class")= chr [1:3] "lazy_base_remote_query" "lazy_base_query" "lazy_query"
+ .. .. - attr(*, "class")= chr [1:5] "tbl_duckdb_connection" "tbl_dbi" "tbl_sql" "tbl_lazy" ...
+ .. @ class_name     : chr "dbi"
+ .. @ calendar_type  : chr "standard"
+ .. @ date_vec       : chr "order_date"
+ .. @ date_quo       : symbol order_date
+ .. @ min_date       : Date[1:1], format: "2021-05-18"
+ .. @ max_date       : Date[1:1], format: "2024-04-20"
+ .. @ date_range     : num 1068
+ .. @ date_count     : int 846
+ .. @ date_missing   : num 222
+ .. @ group_indicator: logi FALSE
+ .. @ group_quo      : list()
+ .. @ group_vec      : chr(0) 
+ .. @ group_count    : num 0
+ @ time_unit: <fpaR::time_unit>
+ .. @ value: chr "day"
+ @ value    : <fpaR::value>
+ .. @ value_vec          : chr "margin"
+ .. @ value_quo          : symbol margin
+ .. @ new_column_name_vec: chr "mtd_margin"
+ .. @ new_column_name_quo: symbol mtd_margin
+ @ fn       : <fpaR::fn>
+ .. @ fn_exec             : function (x)  
+ .. @ fn_name             : chr "mtd"
+ .. @ fn_long_name        : chr "Month-to-date"
+ .. @ shift               : chr NA
+ .. @ compare             : chr NA
+ .. @ label               : logi FALSE
+ .. @ new_date_column_name: chr [1:3] "date" "year" "month"
+ .. @ lag_n               : int NA
+ @ action   : <fpaR::action>
+ .. @ value :List of 5
+ .. .. $ : chr [1:2] "✔" "Aggregate"
+ .. .. $ : chr [1:2] "✖" "Shift"
+ .. .. $ : chr [1:2] "✖" "Compare"
+ .. .. $ : chr [1:2] "✖" "Proportion Of Total"
+ .. .. $ : chr [1:2] "✖" "Count Distinct"
+ .. @ method: chr "This creates a daily {.code cumsum()} of the {cli::col_cyan('current month')}\n                             {.f"| __truncated__
 ```
 
 This prints a summary of the function’s actions,details the calendar’s
@@ -176,20 +242,20 @@ sales |>
 
 ``` R
 # Source:     SQL [?? x 7]
-# Database:   DuckDB v1.1.3 [hagan@Linux 6.12.10-76061203-generic:R 4.4.3//tmp/RtmpLBktPR/file4b8fe61bc9464]
+# Database:   DuckDB 1.4.2-dev189 [hagan@Linux 6.16.3-76061603-generic:R 4.5.1//tmp/RtmpBs78jg/file31ffc35b0b5ef]
 # Ordered by: date
     year month date       margin missing_date_indicator mtd_margin
    <dbl> <dbl> <date>      <dbl>                  <dbl>      <dbl>
- 1  2022     2 2022-02-26 17891.                      0    219599.
- 2  2022     2 2022-02-27     0                       1    219599.
- 3  2022     2 2022-02-28  7647.                      0    227246.
- 4  2021     7 2021-07-29     0                       1     48746.
- 5  2021     7 2021-07-30     0                       1     48746.
- 6  2021     7 2021-07-31  4070.                      0     52816.
- 7  2022     2 2022-02-01  7032.                      0      7032.
- 8  2022     2 2022-02-02  8778.                      0     15810.
- 9  2022     2 2022-02-03 10359.                      0     26169.
-10  2022     2 2022-02-04  7337.                      0     33506.
+ 1  2021    11 2021-11-01   310.                      0       310.
+ 2  2021    11 2021-11-02   605.                      0       916.
+ 3  2021    11 2021-11-03 15938.                      0     16854.
+ 4  2021    11 2021-11-04  1987.                      0     18840.
+ 5  2021    11 2021-11-05  1763.                      0     20603.
+ 6  2021    11 2021-11-06  7703.                      0     28306.
+ 7  2021    11 2021-11-07     0                       1     28306.
+ 8  2021    11 2021-11-08   325.                      0     28631.
+ 9  2021    11 2021-11-09  2309.                      0     30940.
+10  2021    11 2021-11-10  3476.                      0     34416.
 # ℹ more rows
 # ℹ 1 more variable: days_in_current_period <dbl>
 ```
@@ -216,16 +282,16 @@ sales |>
 # A tibble: 10 × 7
     year month date       margin missing_date_indicator mtd_margin
    <dbl> <dbl> <date>      <dbl>                  <dbl>      <dbl>
- 1  2023     7 2023-07-23     0                       1     69606.
- 2  2023     7 2023-07-24   107.                      0     69713.
- 3  2023     7 2023-07-25   566.                      0     70279.
- 4  2023     7 2023-07-26  1331.                      0     71610.
- 5  2023     7 2023-07-27  4201.                      0     75811.
- 6  2023     7 2023-07-28  4508.                      0     80319.
- 7  2023     7 2023-07-29  6999.                      0     87319.
- 8  2023     7 2023-07-30     0                       1     87319.
- 9  2023     7 2023-07-31     0                       1     87319.
-10  2023    12 2023-12-01  2158.                      0      2158.
+ 1  2022     4 2022-04-01      0                      1          0
+ 2  2022     4 2022-04-02      0                      1          0
+ 3  2022     4 2022-04-03      0                      1          0
+ 4  2022     4 2022-04-04      0                      1          0
+ 5  2022     4 2022-04-05      0                      1          0
+ 6  2022     4 2022-04-06      0                      1          0
+ 7  2022     4 2022-04-07      0                      1          0
+ 8  2022     4 2022-04-08      0                      1          0
+ 9  2022     4 2022-04-09      0                      1          0
+10  2022     4 2022-04-10      0                      1          0
 # ℹ 1 more variable: days_in_current_period <dbl>
 ```
 
@@ -246,43 +312,108 @@ sales |>
 ```
 
 ``` R
-── Year over year ──────────────────────────────────────────────────────────────
-
-Function: `yoy` was executed
-
-── Description: ──
-
-This creates a full year `sum()` of the previous year margin and compares it
-with the full year `sum()` current year margin from the start of the standard
-calendar year to the end of the year
-
-── Calendar: ──
-
-• The calendar aggregated order_date to the year time unit
-• A standard calendar is created with 2 groups
-• Calendar ranges from 2021-05-18 to 2024-04-20
-• 222 days were missing and replaced with 0
-• New date column date and year was created from order_date
-
-── Actions: ──
-
-✔Aggregate
-
-✔Shift 1 year
-
-✔Compare previous year
-
-✖Proportion Of Total
-
-✖Count Distinct
-
-customer_key and store_key groups are in the table
-
-── Next Steps: ──
-
-• Use `calculate()` to return the results
-
-────────────────────────────────────────────────────────────────────────────────
+<fpaR::ti>
+ @ data     : <fpaR::data>
+ .. @ data           :List of 2
+ .. .. $ src       :List of 2
+ .. ..  ..$ con  :Formal class 'duckdb_connection' [package "duckdb"] with 8 slots
+ .. ..  .. .. ..@ conn_ref      :<externalptr> 
+ .. ..  .. .. .. ..- attr(*, "_registered_df_x")='data.frame':  7794 obs. of  17 variables:
+ .. ..  .. .. .. .. ..$ order_key    : num [1:7794] 233000 233100 233100 233100 233200 ...
+ .. ..  .. .. .. .. ..$ line_number  : num [1:7794] 0 0 1 2 0 1 2 3 0 1 ...
+ .. ..  .. .. .. .. ..$ order_date   : Date[1:7794], format: "2021-05-18" ...
+ .. ..  .. .. .. .. ..$ delivery_date: Date[1:7794], format: "2021-05-18" ...
+ .. ..  .. .. .. .. ..$ customer_key : num [1:7794] 1855811 1345436 1345436 1345436 926315 ...
+ .. ..  .. .. .. .. ..$ store_key    : num [1:7794] 585 550 550 550 370 370 370 370 60 60 ...
+ .. ..  .. .. .. .. ..$ product_key  : num [1:7794] 1483 499 1512 1490 2512 ...
+ .. ..  .. .. .. .. ..$ quantity     : num [1:7794] 2 1 3 3 3 2 3 2 3 5 ...
+ .. ..  .. .. .. .. ..$ unit_price   : num [1:7794] 377 148 335 181 182 ...
+ .. ..  .. .. .. .. ..$ net_price    : num [1:7794] 377 131 288 177 173 ...
+ .. ..  .. .. .. .. ..$ unit_cost    : num [1:7794] 173.2 75.7 153.9 92.1 60.3 ...
+ .. ..  .. .. .. .. ..$ currency_code: chr [1:7794] "USD" "USD" "USD" "USD" ...
+ .. ..  .. .. .. .. ..$ exchange_rate: num [1:7794] 1 1 1 1 0.708 ...
+ .. ..  .. .. .. .. ..$ gross_revenue: num [1:7794] 753 148 1004 542 546 ...
+ .. ..  .. .. .. .. ..$ net_revenue  : num [1:7794] 753 131 863 531 519 ...
+ .. ..  .. .. .. .. ..$ cogs         : num [1:7794] 346.4 75.7 461.6 276.2 180.9 ...
+ .. ..  .. .. .. .. ..$ margin       : num [1:7794] 407 55 402 255 338 ...
+ .. ..  .. .. ..@ driver        :Formal class 'duckdb_driver' [package "duckdb"] with 6 slots
+ .. ..  .. .. .. .. ..@ database_ref:<externalptr> 
+ .. ..  .. .. .. .. ..@ config      :List of 2
+ .. ..  .. .. .. .. .. ..$ extension_directory: chr "/home/hagan/.local/share/R/duckdb/extensions"
+ .. ..  .. .. .. .. .. ..$ secret_directory   : chr "/home/hagan/.local/share/R/duckdb/stored_secrets"
+ .. ..  .. .. .. .. ..@ dbdir       : chr "/tmp/RtmpBs78jg/file31ffc15c77e80"
+ .. ..  .. .. .. .. ..@ read_only   : logi FALSE
+ .. ..  .. .. .. .. ..@ convert_opts:List of 7
+ .. ..  .. .. .. .. .. ..$ timezone_out     : chr "UTC"
+ .. ..  .. .. .. .. .. ..$ tz_out_convert   : chr "with"
+ .. ..  .. .. .. .. .. ..$ bigint           : chr "numeric"
+ .. ..  .. .. .. .. .. ..$ array            : chr "none"
+ .. ..  .. .. .. .. .. ..$ arrow            : logi FALSE
+ .. ..  .. .. .. .. .. ..$ experimental     : logi FALSE
+ .. ..  .. .. .. .. .. ..$ strict_relational: logi TRUE
+ .. ..  .. .. .. .. ..@ bigint      : chr "numeric"
+ .. ..  .. .. ..@ debug         : logi FALSE
+ .. ..  .. .. ..@ convert_opts  :List of 7
+ .. ..  .. .. .. ..$ timezone_out     : chr "UTC"
+ .. ..  .. .. .. ..$ tz_out_convert   : chr "with"
+ .. ..  .. .. .. ..$ bigint           : chr "numeric"
+ .. ..  .. .. .. ..$ array            : chr "none"
+ .. ..  .. .. .. ..$ arrow            : logi FALSE
+ .. ..  .. .. .. ..$ experimental     : logi FALSE
+ .. ..  .. .. .. ..$ strict_relational: logi TRUE
+ .. ..  .. .. ..@ reserved_words: chr [1:489] "abort" "absolute" "access" "action" ...
+ .. ..  .. .. ..@ timezone_out  : chr "UTC"
+ .. ..  .. .. ..@ tz_out_convert: chr "with"
+ .. ..  .. .. ..@ bigint        : chr "numeric"
+ .. ..  ..$ disco: NULL
+ .. ..  ..- attr(*, "class")= chr [1:4] "src_duckdb_connection" "src_dbi" "src_sql" "src"
+ .. .. $ lazy_query:List of 5
+ .. ..  ..$ x         : 'dbplyr_table_path' chr "x"
+ .. ..  ..$ vars      : chr [1:17] "order_key" "line_number" "order_date" "delivery_date" ...
+ .. ..  ..$ group_vars: chr [1:2] "customer_key" "store_key"
+ .. ..  ..$ order_vars: NULL
+ .. ..  ..$ frame     : NULL
+ .. ..  ..- attr(*, "class")= chr [1:3] "lazy_base_remote_query" "lazy_base_query" "lazy_query"
+ .. .. - attr(*, "class")= chr [1:5] "tbl_duckdb_connection" "tbl_dbi" "tbl_sql" "tbl_lazy" ...
+ .. @ class_name     : chr "dbi"
+ .. @ calendar_type  : chr "standard"
+ .. @ date_vec       : chr "order_date"
+ .. @ date_quo       : symbol order_date
+ .. @ min_date       : Date[1:1], format: "2021-05-18"
+ .. @ max_date       : Date[1:1], format: "2024-04-20"
+ .. @ date_range     : num 1068
+ .. @ date_count     : int 846
+ .. @ date_missing   : num 222
+ .. @ group_indicator: logi TRUE
+ .. @ group_quo      :List of 2
+ .. .. $ : symbol customer_key
+ .. .. $ : symbol store_key
+ .. @ group_vec      : chr [1:2] "customer_key" "store_key"
+ .. @ group_count    : int 2
+ @ time_unit: <fpaR::time_unit>
+ .. @ value: chr "year"
+ @ value    : <fpaR::value>
+ .. @ value_vec          : chr "margin"
+ .. @ value_quo          : symbol margin
+ .. @ new_column_name_vec: chr "yoy_margin"
+ .. @ new_column_name_quo: symbol yoy_margin
+ @ fn       : <fpaR::fn>
+ .. @ fn_exec             : function (x)  
+ .. @ fn_name             : chr "yoy"
+ .. @ fn_long_name        : chr "Year over year"
+ .. @ shift               : chr "year"
+ .. @ compare             : chr "previous year"
+ .. @ label               : logi FALSE
+ .. @ new_date_column_name: chr [1:2] "date" "year"
+ .. @ lag_n               : num 1
+ @ action   : <fpaR::action>
+ .. @ value :List of 5
+ .. .. $ : chr [1:2] "✔" "Aggregate"
+ .. .. $ : chr [1:2] "✔" "Shift"
+ .. .. $ : chr [1:2] "✔" "Compare"
+ .. .. $ : chr [1:2] "✖" "Proportion Of Total"
+ .. .. $ : chr [1:2] "✖" "Count Distinct"
+ .. @ method: chr "This creates a full year {.code sum()} of the {cli::col_br_cyan('previous year')}\n                            "| __truncated__
 ```
 
 The functions will work with your database even if you don’t have write
@@ -343,7 +474,7 @@ periods when calculating trends.
 ## Datasets
 
 - This package leverages the
-  [Contoso](https://github.com/alejandrohagan/contoso) package for its
+  [Contoso](https://usrbinr.github.io/contoso/) package for its
   analysis. The contoso datasets are fictional business transaction of
   Contoso toy company which are helpful for business intelligence
   related analysis
