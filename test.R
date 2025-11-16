@@ -1,3 +1,5 @@
+devtools::check(remote=TRUE)
+usethis::use_version()
 
 #'
 #' complete_calendar <- function(x){

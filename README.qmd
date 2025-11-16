@@ -315,7 +315,7 @@ sales |>
 ## Datasets
 
 -   This package leverages the
-    [Contoso](https://github.com/alejandrohagan/contoso) package for its
+    [Contoso](https://usrbinr.github.io/contoso/) package for its
     analysis. The contoso datasets are fictional business transaction of
     Contoso toy company which are helpful for business intelligence
     related analysis
