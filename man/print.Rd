@@ -8,13 +8,17 @@
 \method{print}{ti}(x, ...)
 }
 \arguments{
-\item{x}{ti object}
+\item{x}{A \code{ti} object.}
 
-\item{...}{unused. Please ignore.}
+\item{...}{Unused. Present for S3/S7 compatibility; additional arguments are ignored.}
 }
 \value{
 ti object
+
+segment object
 }
 \description{
 Print ti objects
+
+Print segment objects
 }

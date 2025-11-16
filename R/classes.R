@@ -63,8 +63,8 @@ action <- S7::new_class(
 
 # create data class to capture metadatae ---------------
 
-data <- S7::new_class(
-  name="data"
+datum <- S7::new_class(
+  name="datum"
   ,package = "fpaR"
   ,properties =
     list(
@@ -321,7 +321,7 @@ ti <- S7::new_class(
   ,properties = list(
 
     #see calendar class
-    data=data
+    datum=datum
     # see time unit class
     ,time_unit=time_unit
 
@@ -375,7 +375,7 @@ segment <- S7::new_class(
   ,name="segment"
   ,package = "fpaR"
   ,properties = list(
-    data=data
+    datum=datum
     ,category=category
     ,time_unit=time_unit
     ,fn=fn

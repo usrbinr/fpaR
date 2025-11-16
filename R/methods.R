@@ -30,30 +30,30 @@ complete_calendar <- S7::new_generic("complete_calendar","x")
 S7::method(create_calendar,ti) <- function(x){
 
   ## summarize data table
-  summary_dbi <- x@data@data |>
+  summary_dbi <- x@datum@data |>
     dplyr::ungroup() |>
     make_db_tbl() |>
     dplyr::mutate(
-      date = lubridate::floor_date(!!x@data@date_quo,unit = !!x@time_unit@value)
+      date = lubridate::floor_date(!!x@datum@date_quo,unit = !!x@time_unit@value)
       ,time_unit=!!x@time_unit@value
     ) |>
     dplyr::summarise(
       !!x@value@value_vec:= sum(!!x@value@value_quo,na.rm=TRUE)
-      ,.by=c(date,!!!x@data@group_quo)
+      ,.by=c(date,!!!x@datum@group_quo)
     )
 
   #create calendar table
 
-  calendar_dbi <- fpaR::seq_date_sql(start_date = x@data@min_date,end_date = x@data@max_date,time_unit = x@time_unit@value,con=dbplyr::remote_con(x@data@data))
+  calendar_dbi <- fpaR::seq_date_sql(start_date = x@datum@min_date,end_date = x@datum@max_date,time_unit = x@time_unit@value,con=dbplyr::remote_con(x@datum@data))
 
 
   # Expand calendar table with cross join of groups
-  if(x@data@group_indicator){
+  if(x@datum@group_indicator){
 
     calendar_dbi <- calendar_dbi |>
       dplyr::cross_join(
         summary_dbi |>
-          dplyr::distinct(!!!x@data@group_quo)
+          dplyr::distinct(!!!x@datum@group_quo)
       )
       # dplyr::mutate(
       #   missing_date_indicator=dplyr::if_else(is.na(!!x@value@value_quo),1,0)
@@ -66,7 +66,7 @@ S7::method(create_calendar,ti) <- function(x){
   full_dbi <- dplyr::full_join(
     calendar_dbi
     ,summary_dbi
-    ,by = dplyr::join_by(date,!!!x@data@group_quo)
+    ,by = dplyr::join_by(date,!!!x@datum@group_quo)
   ) |>
     dplyr::mutate(
       missing_date_indicator=dplyr::if_else(is.na(!!x@value@value_quo),1,0)
@@ -97,18 +97,18 @@ S7::method(create_calendar,ti) <- function(x){
 S7::method(create_calendar,segment) <- function(x){
 
   ## summarize data table
-  summary_dbi <- x@data@data |>
+  summary_dbi <- x@datum@data |>
     dplyr::mutate(
-      date = lubridate::floor_date(!!x@data@date_quo,unit = "day")
+      date = lubridate::floor_date(!!x@datum@date_quo,unit = "day")
     ) |>
     dplyr::summarise(
       !!x@value@value_vec:= sum(!!x@value@value_quo,na.rm=TRUE)
-      ,.by=c(date,!!!x@data@group_quo)
+      ,.by=c(date,!!!x@datum@group_quo)
     )
 
   #create calendar table
 
-  calendar_dbi <- fpaR::seq_date_sql(start_date = x@data@min_date,end_date = x@data@max_date,time_unit = x@time_unit@value,con=dbplyr::remote_con(x@data@data)) |>
+  calendar_dbi <- fpaR::seq_date_sql(start_date = x@datum@min_date,end_date = x@datum@max_date,time_unit = x@time_unit@value,con=dbplyr::remote_con(x@datum@data)) |>
       dplyr::cross_join(
         summary_dbi |>
           dplyr::distinct(!!!x@value@value_quo)
@@ -179,37 +179,37 @@ S7::method(calculate,segment) <- function(x){
 S7::method(complete_calendar,ti) <- function(x){
 
 
-  calendar_dbi<- x@data@data |>
-    count(!!x@data@date_quo) |>
+  calendar_dbi<- x@datum@data |>
+    count(!!x@datum@date_quo) |>
     select(-n)
 
 
-  date_vec <- x@data@date_vec
+  date_vec <- x@datum@date_vec
 
   out <- calendar_dbi |>
     dplyr::mutate(
-      year_start_date=lubridate::floor_date(!!x@data@date_quo,unit = "year")
+      year_start_date=lubridate::floor_date(!!x@datum@date_quo,unit = "year")
       ,year_end_date=sql(glue::glue("date_trunc('year', {date_vec}) + INTERVAL '1' YEAR"))
-      ,quarter_start_date=lubridate::floor_date(!!x@data@date_quo,unit = "quarter")
+      ,quarter_start_date=lubridate::floor_date(!!x@datum@date_quo,unit = "quarter")
       ,quarter_end_date=sql(glue::glue("date_trunc('quarter', {date_vec}) + INTERVAL '1' quarter"))
-      ,month_start_date=lubridate::floor_date(!!x@data@date_quo,unit = "month")
+      ,month_start_date=lubridate::floor_date(!!x@datum@date_quo,unit = "month")
       ,month_end_date=sql(glue::glue("date_trunc('month', {date_vec}) + INTERVAL '1' month"))
-      ,week_start_date=lubridate::floor_date(!!x@data@date_quo,unit = "week")
+      ,week_start_date=lubridate::floor_date(!!x@datum@date_quo,unit = "week")
       ,week_end_date=sql(glue::glue("date_trunc('month', {date_vec}) + INTERVAL '1' month"))
-      ,day_of_week=lubridate::wday(!!x@data@date_quo,label = FALSE)
-      ,day_of_week_label=lubridate::wday(!!x@data@date_quo,label = TRUE)
+      ,day_of_week=lubridate::wday(!!x@datum@date_quo,label = FALSE)
+      ,day_of_week_label=lubridate::wday(!!x@datum@date_quo,label = TRUE)
       ,days_in_year=year_end_date-year_start_date
       ,days_in_quarter=quarter_end_date-quarter_start_date
       ,days_in_month=sql(glue::glue("last_day({date_vec})"))
-      ,days_complete_in_week=!!x@data@date_quo-week_start_date
-      ,days_remaining_in_week=week_end_date-!!x@data@date_quo
-      ,days_remaining_in_quarter=quarter_end_date-!!x@data@date_quo
-      ,days_remaining_in_month=month_end_date-!!x@data@date_quo
-      ,days_remaining_in_year=year_end_date-!!x@data@date_quo
-      ,days_complete_in_year=!!x@data@date_quo-year_start_date
-      ,days_complete_in_quarter=!!x@data@date_quo-quarter_start_date
-      ,days_complete_in_month=!!x@data@date_quo-month_start_date
-      ,days_complete_in_year=!!x@data@date_quo-year_start_date
+      ,days_complete_in_week=!!x@datum@date_quo-week_start_date
+      ,days_remaining_in_week=week_end_date-!!x@datum@date_quo
+      ,days_remaining_in_quarter=quarter_end_date-!!x@datum@date_quo
+      ,days_remaining_in_month=month_end_date-!!x@datum@date_quo
+      ,days_remaining_in_year=year_end_date-!!x@datum@date_quo
+      ,days_complete_in_year=!!x@datum@date_quo-year_start_date
+      ,days_complete_in_quarter=!!x@datum@date_quo-quarter_start_date
+      ,days_complete_in_month=!!x@datum@date_quo-month_start_date
+      ,days_complete_in_year=!!x@datum@date_quo-year_start_date
       ,weekend_indicator=if_else(day_of_week_label %in% c("Saturday","Sunday"),1,0)
     ) |>
     mutate(
@@ -238,8 +238,8 @@ print.ti <- function(x,...){
 
 
   value_chr     <-   x@value@value_vec
-  group_count   <-   x@data@group_count
-  calendar_type <-   x@data@calendar_type
+  group_count   <-   x@datum@group_count
+  calendar_type <-   x@datum@calendar_type
 
 
 
@@ -261,11 +261,11 @@ print.ti <- function(x,...){
 
 
   cli::cli_h2("Calendar:")
-  cli::cat_bullet(paste("The calendar aggregated",cli::col_br_magenta(x@data@date_vec),"to the",cli::col_yellow(x@time_unit@value),"time unit"))
-  cli::cat_bullet("A ",cli::col_br_red(x@data@calendar_type)," calendar is created with ",cli::col_green(x@data@group_count," groups"))
-  cli::cat_bullet(paste("Calendar ranges from",cli::col_br_green(x@data@min_date),"to",cli::col_br_green(x@data@max_date)))
-  cli::cat_bullet(paste(cli::col_blue(x@data@date_missing),"days were missing and replaced with 0"))
-  cli::cat_bullet("New date column ",stringr::str_flatten_comma(cli::col_br_red(x@fn@new_date_column_name),last = " and ")," was created from ",cli::col_br_magenta(x@data@date_vec))
+  cli::cat_bullet(paste("The calendar aggregated",cli::col_br_magenta(x@datum@date_vec),"to the",cli::col_yellow(x@time_unit@value),"time unit"))
+  cli::cat_bullet("A ",cli::col_br_red(x@datum@calendar_type)," calendar is created with ",cli::col_green(x@datum@group_count," groups"))
+  cli::cat_bullet(paste("Calendar ranges from",cli::col_br_green(x@datum@min_date),"to",cli::col_br_green(x@datum@max_date)))
+  cli::cat_bullet(paste(cli::col_blue(x@datum@date_missing),"days were missing and replaced with 0"))
+  cli::cat_bullet("New date column ",stringr::str_flatten_comma(cli::col_br_red(x@fn@new_date_column_name),last = " and ")," was created from ",cli::col_br_magenta(x@datum@date_vec))
   cli::cat_line("")
 
   ## Action information
@@ -276,9 +276,9 @@ print.ti <- function(x,...){
   cli::cat_line("")
   ## print groups if groups exist
 
-  if(x@data@group_indicator){
+  if(x@datum@group_indicator){
 
-  cli::cli_text("{stringr::str_flatten_comma(x@data@group_vec,last = ' and ')} groups are in the table")
+  cli::cli_text("{stringr::str_flatten_comma(x@datum@group_vec,last = ' and ')} groups are in the table")
   cli::cat_line("")
   }
 
@@ -291,12 +291,12 @@ print_next_steps()
 
 
 #' Print segment objects
+#' @name print
 #' @param x A \code{ti} object.
 #' @param ... Unused. Present for S3/S7 compatibility; additional arguments are ignored.
 #
 #'
 #' @return segment object
-#' @rdname print.ti
 #' @exportS3Method print ti
 #'
 S7::method(print,segment) <- function(x,...){
@@ -317,7 +317,7 @@ S7::method(print,segment) <- function(x,...){
 
       paste(
         "The data set is summarized by"
-        ,cli::col_br_magenta(stringr::str_flatten_comma(x@data@group_vec))
+        ,cli::col_br_magenta(stringr::str_flatten_comma(x@datum@group_vec))
         ,"and then"
         ,cli::col_br_magenta("counts")
         ,"each group member's contribution of the total and then finally calculates the"
@@ -332,7 +332,7 @@ S7::method(print,segment) <- function(x,...){
     cli::cat_bullet(
       paste(
         "The data set is summarized by"
-        ,cli::col_br_magenta(stringr::str_flatten_comma(x@data@group_vec))
+        ,cli::col_br_magenta(stringr::str_flatten_comma(x@datum@group_vec))
         ,"and then sums each group member's"
         ,cli::col_br_magenta(x@value@value_vec)
         ,"contribution of the total"
@@ -361,7 +361,7 @@ S7::method(print,segment) <- function(x,...){
         "The data set is grouped by the"
         ,cli::col_br_magenta(x@value@value_vec)
         ,"and segments each group member by their first"
-        ,cli::col_br_magenta(x@data@date_vec)
+        ,cli::col_br_magenta(x@datum@date_vec)
         ,"entry to define their cohort"
         ,cli::col_br_magenta(x@value@value_vec)
       )
@@ -380,11 +380,11 @@ S7::method(print,segment) <- function(x,...){
 
   ## add if condition for abc vs. cohort
   cli::cli_h2("Calendar:")
-  cli::cat_bullet(paste("The calendar aggregated",cli::col_br_magenta(x@data@date_vec),"to the",cli::col_yellow(x@time_unit@value),"time unit"))
-  cli::cat_bullet("A ",cli::col_br_red(x@data@calendar_type)," calendar is created with ",cli::col_green(x@data@group_count," groups"))
-  cli::cat_bullet(paste("Calendar ranges from",cli::col_br_green(x@data@min_date),"to",cli::col_br_green(x@data@max_date)))
-  cli::cat_bullet(paste(cli::col_blue(x@data@date_missing),"days were missing and replaced with 0"))
-  cli::cat_bullet("New date column ",stringr::str_flatten_comma(cli::col_br_red(x@fn@new_date_column_name),last = " and ")," was created from ",cli::col_br_magenta(x@data@date_vec))
+  cli::cat_bullet(paste("The calendar aggregated",cli::col_br_magenta(x@datum@date_vec),"to the",cli::col_yellow(x@time_unit@value),"time unit"))
+  cli::cat_bullet("A ",cli::col_br_red(x@datum@calendar_type)," calendar is created with ",cli::col_green(x@datum@group_count," groups"))
+  cli::cat_bullet(paste("Calendar ranges from",cli::col_br_green(x@datum@min_date),"to",cli::col_br_green(x@datum@max_date)))
+  cli::cat_bullet(paste(cli::col_blue(x@datum@date_missing),"days were missing and replaced with 0"))
+  cli::cat_bullet("New date column ",stringr::str_flatten_comma(cli::col_br_red(x@fn@new_date_column_name),last = " and ")," was created from ",cli::col_br_magenta(x@datum@date_vec))
   cli::cat_line("")
 }
 

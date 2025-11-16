@@ -42,7 +42,7 @@ abc <- function(.data,category_values,.value){
 
 
   x <-   segment(
-    data                      = fpaR:::data(.data,date_vec = NA,calendar_type = NA)
+    datum                      = datum(.data,date_vec = NA,calendar_type = NA)
     ,value                    = value(value_vec = value_vec,new_column_name_vec = "abc")
     ,category                 = category(category_values=category_values)
     ,fn = fn(
@@ -62,7 +62,7 @@ abc <- function(.data,category_values,.value){
     )
 
   assertthat::assert_that(
-    x@data@group_indicator,msg=cli::format_error(message="{.fn abc} expects a grouped tibble or dbi object. Please use {.fn group_by} to pass a grouped objected")
+    x@datum@group_indicator,msg=cli::format_error(message="{.fn abc} expects a grouped tibble or dbi object. Please use {.fn group_by} to pass a grouped objected")
   )
 
 
@@ -95,7 +95,7 @@ abc_fn <- function(x){
 
   if(x@value@value_vec!="n"){
 
-  summary_dbi  <- x@data@data |>
+  summary_dbi  <- x@datum@data |>
       dplyr::summarize(
         !!x@value@new_column_name_vec:=sum(!!x@value@value_quo,na.rm=TRUE)
         ,.groups="drop"
@@ -104,7 +104,7 @@ abc_fn <- function(x){
 
   } else {
 
-  summary_dbi <- x@data@data |>
+  summary_dbi <- x@datum@data |>
     dplyr::summarize(
       !!x@value@new_column_name_vec:=dplyr::n()
       ,.groups="drop"
@@ -221,12 +221,13 @@ cohort <- function(.data,.date,.value,calendar_type,time_unit="month",period_lab
   # .data <- sales
   # .date <- "order_date"
   # .value <- "customer_key"
+  # calendar_type <- "standard"
 
 
   x <-  segment(
-    data=fpaR:::data(
+    datum= datum(
       .data
-      ,calendar_type = "standard"
+      ,calendar_type = calendar_type
       ,date_vec = rlang::as_label(rlang::enquo(.date))
     )
     ,category = category(category_values = 0)
@@ -275,8 +276,8 @@ cohort_fn <- function(x){
 
   ## summary table
 
-  summary_dbi <-   x@data@data  |>
-    dplyr::mutate(date = lubridate::floor_date(!!x@data@date_quo,unit=!!x@time_unit@value)) |>
+  summary_dbi <-   x@datum@data  |>
+    dplyr::mutate(date = lubridate::floor_date(!!x@datum@date_quo,unit=!!x@time_unit@value)) |>
     dplyr::group_by(!!x@value@value_quo) |>
     dplyr::mutate(cohort_date = min(date,na.rm=TRUE)) |>
     # dbplyr::window_order(date) |>
@@ -289,10 +290,10 @@ cohort_fn <- function(x){
 
 
   # complete_summary_dbi <- fpaR::seq_date_sql(
-  #   start_date = x@data@min_date
-  #   ,end_date = x@data@max_date
+  #   start_date = x@datum@min_date
+  #   ,end_date = x@datum@max_date
   #   ,time_unit = x@time_unit@value
-  #   ,con=dbplyr::remote_con(x@data@data)
+  #   ,con=dbplyr::remote_con(x@datum@data)
   #   ) |>
   #   dplyr::cross_join(
   #     summary_dbi |> select(-date)
@@ -323,7 +324,7 @@ cohort_fn <- function(x){
         ,cohort_id
         ,dplyr::any_of(
           as.character(
-            as.Date(x@data@min_date:x@data@max_date)
+            as.Date(x@datum@min_date:x@datum@max_date)
           )
         )
       ) |>
