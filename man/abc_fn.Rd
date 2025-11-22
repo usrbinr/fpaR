@@ -16,3 +16,4 @@ a dbi objection
 This returns a table that will segment your data into A,B or C segments based on custom
 thresholds
 }
+\keyword{internal}

@@ -3,7 +3,7 @@
 #' @param x date column
 #'
 #' @return logical
-#'
+#' @keywords internal
 is_yyyy_mm_dd <- function(x) {
 
 out <-   suppressWarnings(!is.na(lubridate::ymd(x)))
@@ -21,7 +21,7 @@ return(out)
 #' @param word the key word to validate
 #'
 #' @returns list
-#'
+#' @keywords internal
 generate_cli_action <- function(x,word){
 
 
@@ -48,7 +48,7 @@ generate_cli_action <- function(x,word){
 #' @param x action class
 #'
 #' @returns list
-#'
+#' @keywords internal
 make_action_cli <- function(x){
 
   out <- list()
@@ -83,7 +83,7 @@ make_action_cli <- function(x){
 #' @param x ti or segment obj
 #'
 #' @returns print
-#'
+#' @keywords internal
 print_fn_info <- function(x) {
 
   cli::cli_h1(x@fn@fn_long_name)
@@ -217,6 +217,7 @@ print_actions_steps <- function(x){
 #'
 #' @return A tibble containing the original data along with all generated
 #'   date-based attributes.
+#' @keywords internal
 
 augment_calendar_tbl <- function(.data,.date){
 
@@ -304,7 +305,7 @@ lubridate::days
 #'
 #' @return A dbi containing the original data along with all generated
 #'   date-based attributes.
-#'
+#' @keywords internal
 augment_calendar_dbi <- function(.data,.date){
 
 

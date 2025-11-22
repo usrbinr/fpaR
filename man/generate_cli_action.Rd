@@ -17,3 +17,4 @@ list
 \description{
 Generate CLI actions
 }
+\keyword{internal}

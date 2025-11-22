@@ -12,3 +12,4 @@ dbi object
 \description{
 complete_calendar
 }
+\keyword{internal}

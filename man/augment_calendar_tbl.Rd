@@ -64,3 +64,4 @@ The function creates the following groups of attributes:
 
 All date-derived fields ending in \verb{_date} are coerced to class \code{Date}.
 }
+\keyword{internal}

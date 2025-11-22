@@ -31,3 +31,4 @@ simplify the use of time intelligence functions downstream of the application.
 If you want to summarize to a particular group, simply pass the tibble through to the \code{\link[dplyr:group_by]{dplyr::group_by()}} argument
 prior to function and the function will make summarize and make a complete calendar for each group item.
 }
+\keyword{internal}

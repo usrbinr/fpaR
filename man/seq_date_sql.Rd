@@ -22,6 +22,9 @@ DBI object
 Create a calendar table in sql
 }
 \examples{
+\dontrun{
 con <- DBI::dbConnect(drv = duckdb::duckdb())
 seq_date_sql(start_date = "2015-01-01", end_date = "2024-04-20", time_unit = "day", con = con)
 }
+}
+\keyword{internal}

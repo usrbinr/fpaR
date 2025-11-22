@@ -80,7 +80,7 @@ return(x)
 #' thresholds
 #'
 #' @return a dbi objection
-#'
+#' @keywords internal
 abc_fn <- function(x){
 
   #example
@@ -265,7 +265,7 @@ cohort <- function(.data,.date,.value,calendar_type,time_unit="month",period_lab
 #' @param x segment object
 #'
 #' @returns function
-#'
+#' @keywords internal
 cohort_fn <- function(x){
 
   ## test data

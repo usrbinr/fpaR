@@ -10,10 +10,12 @@
 #' @param con database connection
 #' @export
 #' @return DBI object
-#'
+#' @keywords internal
 #' @examples
+#' \dontrun{
 #' con <- DBI::dbConnect(drv = duckdb::duckdb())
 #' seq_date_sql(start_date = "2015-01-01", end_date = "2024-04-20", time_unit = "day", con = con)
+#' }
 seq_date_sql <- function(start_date,end_date,time_unit,con){
 
   # start_date <- "2022-01-01"
@@ -84,7 +86,7 @@ seq_date_sql <- function(start_date,end_date,time_unit,con){
 #' @param x tibble or dbi object
 #' @export
 #' @returns dbi object
-#'
+#' @keywords internal
 make_db_tbl <- function(x){
 
 

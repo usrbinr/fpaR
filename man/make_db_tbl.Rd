@@ -15,3 +15,4 @@ dbi object
 \description{
 Make an in memory database from a table
 }
+\keyword{internal}

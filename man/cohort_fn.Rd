@@ -15,3 +15,4 @@ function
 \description{
 Internal function for the cohort segment object
 }
+\keyword{internal}

@@ -12,7 +12,7 @@
 #' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 ytd_fn <- function(x){
 
 
@@ -50,7 +50,7 @@ ytd_fn <- function(x){
 #' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 pytd_fn <- function(x){
 
 
@@ -108,7 +108,7 @@ pytd_fn <- function(x){
 #' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 yoytd_fn <- function(x){
 
 
@@ -154,7 +154,7 @@ yoytd_fn <- function(x){
 #' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 yoy_fn <- function(x){
 
   # create calendar
@@ -201,7 +201,7 @@ yoy_fn <- function(x){
 #' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with[dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 ytdopy_fn <- function(x){
 
   # year-to-date table
@@ -243,7 +243,7 @@ ytdopy_fn <- function(x){
 #' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 qtd_fn <- function(x){
 
 # x <- fpaR::qtd(.data,.date = order_date,.value = margin,calendar_type = "standard")
@@ -278,7 +278,7 @@ qtd_fn <- function(x){
 #' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 pqtd_fn <- function(x){
 
 
@@ -340,7 +340,7 @@ pqtd_fn <- function(x){
 #' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 qoqtd_fn <- function(x){
 
   # ytd table
@@ -387,7 +387,7 @@ qtd_dbi <- qtd(.data=x@datum@data,.date=!!x@datum@date_quo,.value = !!x@value@va
 #' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 qoq_fn <- function(x){
 
   # create calendar
@@ -431,7 +431,7 @@ qoq_fn <- function(x){
 #' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 qtdopq_fn <- function(x){
 
   # year-to-date table
@@ -466,7 +466,7 @@ qtdopq_fn <- function(x){
 #' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 mtd_fn <- function(x){
 
 
@@ -504,7 +504,7 @@ mtd_fn <- function(x){
 #' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 pmtd_fn <- function(x){
 
 
@@ -570,7 +570,7 @@ pmtd_fn <- function(x){
 #' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 momtd_fn <- function(x){
 
   # mtd table
@@ -610,7 +610,7 @@ momtd_fn <- function(x){
 #' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 mom_fn <- function(x){
 
   full_dbi <-  create_calendar(x)
@@ -657,7 +657,7 @@ mom_fn <- function(x){
 #' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 mtdopm_fn <- function(x){
 
 
@@ -705,7 +705,7 @@ mtdopm_fn <- function(x){
 #' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 wtd_fn <- function(x){
 
   full_dbi <-  create_calendar(x) |>
@@ -744,7 +744,7 @@ wtd_fn <- function(x){
 #' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 pwtd_fn <- function(x){
 
  lag_n_vec <-  x@fn@lag_n |> rlang::as_label()
@@ -807,7 +807,7 @@ pwtd_fn <- function(x){
 #' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 wowtd_fn <- function(x){
 
   # ytd table
@@ -845,7 +845,7 @@ wowtd_fn <- function(x){
 #' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 wow_fn <- function(x){
 
 
@@ -883,7 +883,7 @@ wow_fn <- function(x){
 #' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 wtdopw_fn <- function(x){
 
   # year-to-date table
@@ -927,7 +927,7 @@ wtdopw_fn <- function(x){
 #' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 atd_fn <- function(x){
 
   full_dbi <-  create_calendar(x)
@@ -955,7 +955,7 @@ atd_fn <- function(x){
 #'by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
-#'
+#' @keywords internal
 dod_fn <- function(x){
 
 

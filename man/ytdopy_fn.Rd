@@ -23,3 +23,4 @@ This will return a dbi object that can converted to a tibble object with\code{\l
 \seealso{
 \code{\link[=ytdopy]{ytdopy()}} for the function's intent
 }
+\keyword{internal}

@@ -23,3 +23,4 @@ This will return a dbi object that can converted to a tibble object with \code{\
 \seealso{
 \code{\link[=yoy]{yoy()}} for the function's intent
 }
+\keyword{internal}

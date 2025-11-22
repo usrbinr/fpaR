@@ -15,3 +15,4 @@ logical
 \description{
 Validate an input is YYYY-MM-DD format
 }
+\keyword{internal}

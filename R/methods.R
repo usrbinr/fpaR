@@ -26,7 +26,7 @@ complete_calendar <- S7::new_generic("complete_calendar","x")
 #'  simplify the use of time intelligence functions downstream of the application.
 #' If you want to summarize to a particular group, simply pass the tibble through to the [dplyr::group_by()] argument
 #' prior to function and the function will make summarize and make a complete calendar for each group item.
-#'
+#' @keywords internal
 S7::method(create_calendar,ti) <- function(x){
 
   ## summarize data table
@@ -93,7 +93,7 @@ S7::method(create_calendar,ti) <- function(x){
 #'  simplify the use of time intelligence functions downstream of the application.
 #' If you want to summarize to a particular group, simply pass the tibble through to the [dplyr::group_by()] argument
 #' prior to function and the function will make summarize and make a complete calendar for each group item.
-#'
+#' @keywords internal
 S7::method(create_calendar,segment) <- function(x){
 
   ## summarize data table
@@ -175,6 +175,7 @@ S7::method(calculate,segment) <- function(x){
 #' @name complete_calendar
 #' @param x ti object
 #' @returns dbi object
+#' @keywords internal
 S7::method(complete_calendar,ti) <- function(x){
 
 
