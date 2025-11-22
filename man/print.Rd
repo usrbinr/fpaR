@@ -2,11 +2,7 @@
 % Please edit documentation in R/methods.R
 \name{print}
 \alias{print}
-\alias{print.ti}
 \title{Print ti objects}
-\usage{
-\method{print}{ti}(x, ...)
-}
 \arguments{
 \item{x}{A \code{ti} object.}
 

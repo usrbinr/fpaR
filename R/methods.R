@@ -224,7 +224,6 @@ S7::method(complete_calendar,ti) <- function(x){
 
 #' @title Print ti objects
 #' @name print
-#'
 #' @param ... unused. Please ignore.
 #' @param x ti object
 #'
@@ -232,7 +231,7 @@ S7::method(complete_calendar,ti) <- function(x){
 #' @export
 #' @keywords internal
 #'
-print.ti <- function(x,...){
+S7::method(print, ti) <- function(x,...){
 
 
   ## subset function descriptions from table
@@ -298,7 +297,6 @@ print_next_steps()
 #
 #'
 #' @return segment object
-#' @exportS3Method print ti
 #' @keywords internal
 #'
 S7::method(print,segment) <- function(x,...){

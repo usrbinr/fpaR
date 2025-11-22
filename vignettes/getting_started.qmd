@@ -21,8 +21,6 @@ attributes.
 #| label: setup
 
 devtools::load_all()
-conflicted::conflicts_prefer(lubridate::date)
-
 
 ```
 
