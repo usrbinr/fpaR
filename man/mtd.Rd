@@ -44,6 +44,7 @@ Use \link{calculate} to return the results
 }
 }
 \examples{
+library(contoso)
 mtd(sales,.date=order_date,.value=quantity,calendar_type="standard")
 }
 \seealso{

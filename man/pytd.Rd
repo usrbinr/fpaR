@@ -48,6 +48,7 @@ ti object
 }
 }
 \examples{
+library(contoso)
 pytd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 }
 \seealso{

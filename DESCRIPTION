@@ -14,7 +14,7 @@ Imports:
     DBI,
     dbplyr,
     dplyr,
-    duckdb,
+    duckdb (>= 1.4.0),
     lubridate,
     rlang,
     S7,
@@ -23,10 +23,17 @@ Imports:
     janitor,
     stringr
 LazyData: true
+VignetteBuilder: quarto
 Suggests: 
     testthat (>= 3.0.0),
-    cohorts
+    cohorts,
+    quarto,
+    devtools,
+    tibble,
+    tinytable,
+    contoso
 Config/testthat/edition: 3
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5)
 URL: https://usrbinr.github.io/fpaR/
+

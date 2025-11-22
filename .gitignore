@@ -7,3 +7,4 @@ fpaR*.tar.gz
 fpaR*.tgz
 docs
 test
+inst/doc

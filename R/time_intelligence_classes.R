@@ -27,6 +27,7 @@
 #' @export
 #'
 #' @examples
+#' library(contoso)
 #' ytd(sales,.date=order_date,.value=quantity,calendar_type="standard")
 ytd <- function(.data,.date,.value,calendar_type){
 
@@ -80,6 +81,7 @@ ytd <- function(.data,.date,.value,calendar_type){
 #' @export
 #'
 #' @examples
+#' library(contoso)
 #' pytd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 pytd <- function(.data,.date,.value,calendar_type,lag_n){
 
@@ -129,6 +131,7 @@ pytd <- function(.data,.date,.value,calendar_type,lag_n){
 #' @export
 #'
 #' @examples
+#' library(contoso)
 #' yoytd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 yoytd <- function(.data,.date,.value,calendar_type,lag_n){
 
@@ -185,6 +188,7 @@ yoytd <- function(.data,.date,.value,calendar_type,lag_n){
 #' @export
 #'
 #' @examples
+#' library(contoso)
 #' yoy(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 yoy <- function(.data,.date,.value,calendar_type,lag_n=1){
 
@@ -235,6 +239,7 @@ yoy <- function(.data,.date,.value,calendar_type,lag_n=1){
 #' @returns ti object
 #' @export
 #' @examples
+#' library(contoso)
 #' ytdopy(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 ytdopy <- function(.data,.date,.value,calendar_type,lag_n=1){
 
@@ -290,6 +295,7 @@ ytdopy <- function(.data,.date,.value,calendar_type,lag_n=1){
 #' @export
 #'
 #' @examples
+#' library(contoso)
 #' qtd(sales,.date=order_date,.value=quantity,calendar_type="standard")
 qtd <- function(.data,.date,.value,calendar_type){
 
@@ -341,6 +347,7 @@ qtd <- function(.data,.date,.value,calendar_type){
 #' @export
 #'
 #' @examples
+#' library(contoso)
 #' pqtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 pqtd <- function(.data,.date,.value,calendar_type,lag_n){
 
@@ -392,6 +399,7 @@ pqtd <- function(.data,.date,.value,calendar_type,lag_n){
 #' @export
 #'
 #' @examples
+#' library(contoso)
 #' qoqtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 qoqtd <- function(.data,.date,.value,calendar_type,lag_n){
 
@@ -441,6 +449,7 @@ qoqtd <- function(.data,.date,.value,calendar_type,lag_n){
 #' @export
 #'
 #' @examples
+#' library(contoso)
 #' qtdopq(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 qtdopq <- function(.data,.date,.value,calendar_type,lag_n=1){
 
@@ -488,6 +497,7 @@ qtdopq <- function(.data,.date,.value,calendar_type,lag_n=1){
 #' @export
 #'
 #' @examples
+#' library(contoso)
 #' qoq(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 qoq <- function(.data,.date,.value,calendar_type,lag_n=1){
 
@@ -542,6 +552,7 @@ qoq <- function(.data,.date,.value,calendar_type,lag_n=1){
 #' @returns ti object
 #' @export
 #' @examples
+#' library(contoso)
 #' mtd(sales,.date=order_date,.value=quantity,calendar_type="standard")
 mtd <- function(.data,.date,.value,calendar_type){
 
@@ -590,6 +601,7 @@ mtd <- function(.data,.date,.value,calendar_type){
 #' @returns ti object
 #' @export
 #' @examples
+#' library(contoso)
 #' pmtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 pmtd <- function(.data,.date,.value,calendar_type,lag_n){
 
@@ -636,6 +648,7 @@ pmtd <- function(.data,.date,.value,calendar_type,lag_n){
 #' @returns ti object
 #' @export
 #' @examples
+#' library(contoso)
 #' momtd(sales,.date=order_date,.value=quantity,calendar_type="standard", lag_n=1)
 momtd <- function(.data,.date,.value,calendar_type,lag_n){
 
@@ -688,6 +701,7 @@ momtd <- function(.data,.date,.value,calendar_type,lag_n){
 #' @export
 #'
 #' @examples
+#' library(contoso)
 #' mtdopm(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 mtdopm <- function(.data,.date,.value,calendar_type,lag_n){
   out <- ti(
@@ -735,6 +749,7 @@ mtdopm <- function(.data,.date,.value,calendar_type,lag_n){
 #' @returns ti object
 #' @export
 #' @examples
+#' library(contoso)
 #' mom(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 mom <- function(.data,.date,.value,calendar_type,lag_n=1){
 
@@ -787,6 +802,7 @@ mom <- function(.data,.date,.value,calendar_type,lag_n=1){
 #' @returns ti object
 #' @export
 #' @examples
+#' library(contoso)
 #' wtd(sales,.date=order_date,.value=quantity,calendar_type="standard")
 wtd <- function(.data,.date,.value,calendar_type){
 
@@ -835,6 +851,7 @@ wtd <- function(.data,.date,.value,calendar_type){
 #' @returns ti object
 #' @export
 #' @examples
+#' library(contoso)
 #' pwtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 pwtd <- function(.data,.date,.value,calendar_type,lag_n){
 
@@ -886,6 +903,7 @@ pwtd <- function(.data,.date,.value,calendar_type,lag_n){
 #' @returns ti object
 #' @export
 #' @examples
+#' library(contoso)
 #' wowtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 wowtd <- function(.data,.date,.value,calendar_type,lag_n){
 
@@ -937,6 +955,7 @@ wowtd <- function(.data,.date,.value,calendar_type,lag_n){
 #' @returns ti object
 #' @export
 #' @examples
+#' library(contoso)
 #' wtdopw(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 wtdopw <- function(.data,.date,.value,calendar_type,lag_n){
 
@@ -987,6 +1006,7 @@ wtdopw <- function(.data,.date,.value,calendar_type,lag_n){
 #' @returns ti object
 #' @export
 #' @examples
+#' library(contoso)
 #' wow(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 wow <- function(.data,.date,.value,calendar_type,lag_n=1){
 
@@ -1039,7 +1059,10 @@ wow <- function(.data,.date,.value,calendar_type,lag_n=1){
 #' @returns ti object
 #' @export
 #' @examples
+#' \dontrun{
+#' library(contoso)
 #' atd(sales,.date=order_date,.value=quantity,calendar_type="standard")
+#' }
 atd <- function(.data,.date,.value,calendar_type){
 
   out <- ti(
@@ -1088,7 +1111,10 @@ atd <- function(.data,.date,.value,calendar_type){
 #' @returns ti object
 #' @export
 #' @examples
+#' \dontrun{
+#' library(contoso)
 #' dod(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
+#' }
 dod <- function(.data,.date,.value,calendar_type,lag_n=1){
 
   out <- ti(

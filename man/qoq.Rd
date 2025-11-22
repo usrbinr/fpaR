@@ -24,6 +24,7 @@ ti object
 A short description...
 }
 \examples{
+library(contoso)
 qoq(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 }
 \seealso{

@@ -45,6 +45,7 @@ ti object
 }
 }
 \examples{
+library(contoso)
 ytd(sales,.date=order_date,.value=quantity,calendar_type="standard")
 }
 \seealso{

@@ -174,7 +174,6 @@ S7::method(calculate,segment) <- function(x){
 #' @title complete_calendar
 #' @name complete_calendar
 #' @param x ti object
-#' @export
 #' @returns dbi object
 S7::method(complete_calendar,ti) <- function(x){
 

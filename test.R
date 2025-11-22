@@ -1,60 +1,63 @@
 devtools::check(remote=TRUE)
-usethis::use_version()
 devtools::document()
-devtools::test()
-
+  devtools::test()
+devtools::load_all()
+library(tidyverse)
 usethis::use_news_md()
 
 
 x <- ytd(sales,order_date,.value=revenue,calendar_type = "standard")
-complete_calendar <- function(x){
+
+sales |>
+  complete_calendar(order_date)
 
 
-  #validate date column
-  column_names <- colnames(x@datum@data)
+sales |>
+# x@datum@data |>
+  select(order_date) |>
+  # fpaR:::complete_calendar_tbl(order_date)
+  complete_calendar(.date = order_date)
 
 
-  assertthat::assert_that(
-    any(column_names %in% "date"),msg = cli::format_error("Please the rename the date column to {.field date}")
+
+## need to figureo ou thow to cumsum of quarters so that I can the sequentenalil quarter
+
+options(tibble.print_min=150)
+options(tibble.print_max = 250)
+
+getOption("tibble.print_min")
+create_non_standard_calendar <- function(start_date,end_date,days_in_week,weeks_in_quarter,quarters_in_year,pattern,irregular_years){
+
+  start_date="2021-01-01"
+  end_date="2022-01-01"
+  days_in_week=7
+  wday_start=6
+  weeks_in_quarter=13
+  quarters_in_year=4
+  pattern="5-5-4"
+  irregular_years=NA
+
+
+  date_tbl <- tibble(
+    date=seq.Date(from=start_date,to = end_date)
+  )
+
+  date_tbl |>
+    mutate(
+      date_id=row_number()
+    ) |>
+    mutate(
+      week=cumsum(if_else(date_id %% days_in_week==0,1,0))
+      ,quarter=if_else(week %%weeks_in_quarter==0,1,0)
+    )
+  mutate(
+    new_quarter_indicator=if_else(quarter==1&min(date_id)==date_id,1,0)
+    ,.by=quarter
   )
 
 
-  # summaryize calendar date
-  calendar_tbl<- x |>
-    count(date) |>
-    select(-n)
-
-  # create attibutes
-  out <- x |>
-    dplyr::mutate(
-      year_start_date=lubridate::floor_date(date,unit = "year")
-      ,year_end_date=lubridate::ceiling_date(date,unit = "year")-1
-      ,quarter_start_date=lubridate::floor_date(date,unit = "quarter")
-      ,quarter_end_date=lubridate::ceiling_date(date,unit = "quarter")-1
-      ,month_start_date=lubridate::floor_date(date,unit = "month")
-      ,month_end_date=lubridate::ceiling_date(date,unit = "month")-1
-      ,week_start_date=lubridate::floor_date(date,unit = "week")
-      ,week_end_date=lubridate::ceiling_date(date,unit = "week")-1
-      ,day_of_week=lubridate::wday(date,label = FALSE)
-      ,day_of_week_label=lubridate::wday(date,label = TRUE)
-      ,days_in_year=year_end_date-year_start_date
-      ,days_in_quarter=quarter_end_date-quarter_start_date
-      ,days_in_month=days_in_month(date)
-      ,days_complete_in_week=date-week_start_date
-      ,days_remaining_in_week=week_end_date-date
-      ,days_remaining_in_quarter=quarter_end_date-date
-      ,days_remaining_in_month=month_end_date-date
-      ,days_remaining_in_year=year_end_date-date
-      ,days_complete_in_year=date-year_start_date
-      ,days_complete_in_quarter=date-quarter_start_date
-      ,days_complete_in_month=date-month_start_date
-      ,days_complete_in_year=date-year_start_date
-      ,weekend_indicator=if_else(day_of_week_label %in% c("Saturday","Sunday"),1,0)
-    ) |>
-    mutate(
-      across(contains("date"),\(x) as.Date(x))
-    )
-
-  return(out)
-
 }
+
+
+
+

@@ -8,5 +8,6 @@
 
 library(testthat)
 library(fpaR)
+library(contoso)
 
 test_check("fpaR")

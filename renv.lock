@@ -250,42 +250,6 @@
       "Maintainer": "Hadley Wickham <hadley@posit.co>",
       "Repository": "CRAN"
     },
-    "archive": {
-      "Package": "archive",
-      "Version": "1.1.12",
-      "Source": "Repository",
-      "Title": "Multi-Format Archive and Compression Support",
-      "Authors@R": "c( person(\"Jim\", \"Hester\", role = \"aut\", comment = c(ORCID = \"0000-0002-2739-7082\")), person(\"Gábor\", \"Csárdi\", , \"csardi.gabor@gmail.com\", role = c(\"aut\", \"cre\")), person(\"Ondrej\", \"Holy\", role = \"cph\", comment = \"archive_write_add_filter implementation\"), person(\"RStudio\", role = c(\"cph\", \"fnd\")) )",
-      "Description": "Bindings to 'libarchive' <http://www.libarchive.org> the Multi-format archive and compression library. Offers R connections and direct extraction for many archive formats including 'tar', 'ZIP', '7-zip', 'RAR', 'CAB' and compression formats including 'gzip', 'bzip2', 'compress', 'lzma' and 'xz'.",
-      "License": "MIT + file LICENSE",
-      "URL": "https://archive.r-lib.org/, https://github.com/r-lib/archive",
-      "BugReports": "https://github.com/r-lib/archive/issues",
-      "Depends": [
-        "R (>= 3.6.0)"
-      ],
-      "Imports": [
-        "cli",
-        "glue",
-        "rlang",
-        "tibble"
-      ],
-      "Suggests": [
-        "covr",
-        "testthat"
-      ],
-      "LinkingTo": [
-        "cli"
-      ],
-      "ByteCompile": "true",
-      "Encoding": "UTF-8",
-      "RoxygenNote": "7.2.1.9000",
-      "SystemRequirements": "libarchive: libarchive-dev (deb), libarchive-devel (rpm), libarchive (homebrew), libarchive_dev (csw)",
-      "Biarch": "true",
-      "NeedsCompilation": "yes",
-      "Author": "Jim Hester [aut] (<https://orcid.org/0000-0002-2739-7082>), Gábor Csárdi [aut, cre], Ondrej Holy [cph] (archive_write_add_filter implementation), RStudio [cph, fnd]",
-      "Maintainer": "Gábor Csárdi <csardi.gabor@gmail.com>",
-      "Repository": "CRAN"
-    },
     "askpass": {
       "Package": "askpass",
       "Version": "1.2.1",
@@ -966,6 +930,38 @@
       "NeedsCompilation": "no",
       "Author": "Hadley Wickham [aut, cre], RStudio [cph, fnd]",
       "Maintainer": "Hadley Wickham <hadley@rstudio.com>",
+      "Repository": "CRAN"
+    },
+    "contoso": {
+      "Package": "contoso",
+      "Version": "1.1.1",
+      "Source": "Repository",
+      "Type": "Package",
+      "Title": "Dataset of the 'Contoso' Company",
+      "Authors@R": "c( person( \"Alejandro\", \"Hagan\", email = \"alejandro.hagan@outlook.com\", role = c(\"aut\", \"cre\") ) )",
+      "Description": "A collection of synthetic datasets simulating sales transactions from a fictional company. The dataset includes various related tables that contain essential business and operational data, useful for analyzing sales performance and other business insights. Key tables included in the package are: - \"sales\": Contains data on individual sales transactions, including order details, pricing, quantities, and customer information. - \"customer\": Stores customer-specific details such as demographics, geographic location, occupation, and birthday. - \"store\": Provides information about stores, including location, size, status, and operational dates. - \"orders\": Contains details about customer orders, including order and delivery dates, store, and customer data. - \"product\": Contains data on products, including attributes such as product name, category, price, cost, and weight. - \"date\": A time-based table that includes date-related attributes like year, month, quarter, day, and working day indicators. This dataset is ideal for practicing data analysis, performing time-series analysis, creating reports, or simulating business intelligence scenarios.",
+      "License": "MIT + file LICENSE",
+      "Imports": [
+        "DBI",
+        "dplyr",
+        "cli",
+        "duckdb (>= 1.4.0)"
+      ],
+      "Suggests": [
+        "testthat (>= 3.0.0)"
+      ],
+      "Encoding": "UTF-8",
+      "LazyData": "true",
+      "RoxygenNote": "7.3.2",
+      "Depends": [
+        "R (>= 4.1.0)"
+      ],
+      "URL": "https://usrbinr.github.io/contoso/, https://github.com/usrbinr/contoso",
+      "Config/testthat/edition": "3",
+      "BugReports": "https://github.com/usrbinr/contoso/issues",
+      "NeedsCompilation": "no",
+      "Author": "Alejandro Hagan [aut, cre]",
+      "Maintainer": "Alejandro Hagan <alejandro.hagan@outlook.com>",
       "Repository": "CRAN"
     },
     "cpp11": {
@@ -2333,44 +2329,6 @@
       "Maintainer": "Hadley Wickham <hadley@posit.co>",
       "Repository": "CRAN"
     },
-    "here": {
-      "Package": "here",
-      "Version": "1.0.1",
-      "Source": "Repository",
-      "Title": "A Simpler Way to Find Your Files",
-      "Date": "2020-12-13",
-      "Authors@R": "c(person(given = \"Kirill\", family = \"M\\u00fcller\", role = c(\"aut\", \"cre\"), email = \"krlmlr+r@mailbox.org\", comment = c(ORCID = \"0000-0002-1416-3412\")), person(given = \"Jennifer\", family = \"Bryan\", role = \"ctb\", email = \"jenny@rstudio.com\", comment = c(ORCID = \"0000-0002-6983-2759\")))",
-      "Description": "Constructs paths to your project's files. Declare the relative path of a file within your project with 'i_am()'. Use the 'here()' function as a drop-in replacement for 'file.path()', it will always locate the files relative to your project root.",
-      "License": "MIT + file LICENSE",
-      "URL": "https://here.r-lib.org/, https://github.com/r-lib/here",
-      "BugReports": "https://github.com/r-lib/here/issues",
-      "Imports": [
-        "rprojroot (>= 2.0.2)"
-      ],
-      "Suggests": [
-        "conflicted",
-        "covr",
-        "fs",
-        "knitr",
-        "palmerpenguins",
-        "plyr",
-        "readr",
-        "rlang",
-        "rmarkdown",
-        "testthat",
-        "uuid",
-        "withr"
-      ],
-      "VignetteBuilder": "knitr",
-      "Encoding": "UTF-8",
-      "LazyData": "true",
-      "RoxygenNote": "7.1.1.9000",
-      "Config/testthat/edition": "3",
-      "NeedsCompilation": "no",
-      "Author": "Kirill Müller [aut, cre] (<https://orcid.org/0000-0002-1416-3412>), Jennifer Bryan [ctb] (<https://orcid.org/0000-0002-6983-2759>)",
-      "Maintainer": "Kirill Müller <krlmlr+r@mailbox.org>",
-      "Repository": "CRAN"
-    },
     "highr": {
       "Package": "highr",
       "Version": "0.11",
@@ -3315,6 +3273,39 @@
       "NeedsCompilation": "yes",
       "Author": "Jeroen Ooms [aut, cre] (ORCID: <https://orcid.org/0000-0002-4035-0289>), Oliver Keyes [ctb]",
       "Maintainer": "Jeroen Ooms <jeroenooms@gmail.com>",
+      "Repository": "CRAN"
+    },
+    "pacman": {
+      "Package": "pacman",
+      "Version": "0.5.1",
+      "Source": "Repository",
+      "Type": "Package",
+      "Title": "Package Management Tool",
+      "Authors@R": "c(person(\"Tyler\", \"Rinker\", role = c(\"aut\", \"cre\", \"ctb\"), email = \"tyler.rinker@gmail.com\"), person(\"Dason\", \"Kurkiewicz\", role = c(\"aut\", \"ctb\"), email = \"dasonk@gmail.com\"), person(\"Keith\", \"Hughitt\", role = c(\"ctb\")), person(\"Albert\", \"Wang\", role = c(\"ctb\")), person(\"Garrick\", \"Aden-Buie\", role = c(\"ctb\")), person(\"Albert\", \"Wang\", role = c(\"ctb\")), person(\"Lukas\", \"Burk\", role = c(\"ctb\")))",
+      "Depends": [
+        "R (>= 3.5.0)"
+      ],
+      "Imports": [
+        "remotes",
+        "methods",
+        "stats",
+        "utils"
+      ],
+      "Suggests": [
+        "BiocManager",
+        "knitr",
+        "lattice",
+        "testthat (>= 0.9.0)",
+        "XML"
+      ],
+      "BugReports": "https://github.com/trinker/pacman/issues?state=open",
+      "Description": "Tools to more conveniently perform tasks associated with add-on packages. pacman conveniently wraps library and package related functions and names them in an intuitive and consistent fashion.  It seeks to combine functionality from lower level functions which can speed up workflow.",
+      "License": "GPL-2",
+      "URL": "https://github.com/trinker/pacman",
+      "RoxygenNote": "6.1.1",
+      "NeedsCompilation": "no",
+      "Author": "Tyler Rinker [aut, cre, ctb], Dason Kurkiewicz [aut, ctb], Keith Hughitt [ctb], Albert Wang [ctb], Garrick Aden-Buie [ctb], Albert Wang [ctb], Lukas Burk [ctb]",
+      "Maintainer": "Tyler Rinker <tyler.rinker@gmail.com>",
       "Repository": "CRAN"
     },
     "pillar": {
