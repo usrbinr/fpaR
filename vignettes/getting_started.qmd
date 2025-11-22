@@ -1,9 +1,9 @@
 ---
-title: "getting_started"
+title: "Getting started"
 format: html
 eval: false
 vignette: >
-  %\VignetteIndexEntry{getting_started}
+  %\VignetteIndexEntry{Getting started}
   %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
 ---

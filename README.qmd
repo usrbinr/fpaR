@@ -1,9 +1,6 @@
 ---
 title: "README"
 format: gfm
-editor: 
-  markdown: 
-    wrap: 72
 ---
 
 ```{r}
@@ -167,21 +164,19 @@ contributions are welcome!
 
 ## Future capabilities
 
+Is there a future capability that you want to see here? please open up a [discussion](https://github.com/usrbinr/fpaR/discussions) on our github site
+
+
 ### **Segmentation Strategies**
 
 Provides functions to segment and categorize your data into meaningful
 business categories.
 
 #### **Example Segmentation Methods:**
-
--   **ABC Classification** – Categorizing products/customers based on
-    revenue contribution
--   **Cohort Analysis** - Categorize your data by a shared time based
-    attribute to track over time
--   **New vs. Returning** – Distinguishing first-time buyers from repeat
+-   **New vs. Returning** Distinguishing first-time buyers from repeat
     customers
--   **K-means Clustering** – Grouping data points based on patterns
--   **UMAP (Uniform Manifold Approximation and Projection)** –
+-   **K-means Clustering** Grouping data points based on patterns
+-   **UMAP (Uniform Manifold Approximation and Projection)**
     Dimensionaltiy reduction for clustering
 
 ------------------------------------------------------------------------

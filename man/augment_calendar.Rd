@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils-misc.R
 \name{augment_calendar}
 \alias{augment_calendar}
-\title{Add Comprehensive Date-Based Attributes to a DBI lazy frame}
+\title{Add Comprehensive Date-Based Attributes to a DBI  lazy frame or tibble object}
 \usage{
 augment_calendar(.data, .date)
 }
@@ -13,7 +13,7 @@ augment_calendar(.data, .date)
 (e.g., \code{{{ date_col }}}).}
 }
 \value{
-A dbi object or tibble containing the original data along with all generated
+A dbi or  tibble containing the original data along with all generated
 date-based attributes.
 }
 \description{

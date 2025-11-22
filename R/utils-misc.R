@@ -96,7 +96,7 @@ print_fn_info <- function(x) {
 #' Prints functions next steps
 #'
 #' @returns print
-#'
+#' @keywords internal
 print_next_steps <- function(){
 
   cli::cli_h2("Next Steps:")
@@ -112,7 +112,7 @@ print_next_steps <- function(){
 #' @param x an S7 class
 #'
 #' @returns cli messages
-#'
+#' @keywords internal
 print_actions_steps <- function(x){
 
   cli::cli_h2("Actions:")
@@ -351,7 +351,7 @@ augment_calendar_dbi <- function(.data,.date){
 
 
 
-#' @title Add Comprehensive Date-Based Attributes to a DBI lazy frame
+#' @title Add Comprehensive Date-Based Attributes to a DBI  lazy frame or tibble object
 #' @name augment_calendar
 #' @description
 #' This function takes a data frame and a date column and generates a wide set of
@@ -395,7 +395,7 @@ augment_calendar_dbi <- function(.data,.date){
 #'
 #' All date-derived fields ending in `_date` are coerced to class `Date`.
 #' @export
-#' @return A dbi object or tibble containing the original data along with all generated
+#' @return A dbi or  tibble containing the original data along with all generated
 #'   date-based attributes.
 #'
 augment_calendar <- function(.data,.date){

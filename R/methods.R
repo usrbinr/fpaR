@@ -126,7 +126,7 @@ S7::method(create_calendar,segment) <- function(x){
   return(full_dbi)
 }
 
-#' @title Calculate
+#' @title Execute time-intelligence or segments class objects to return the underlying transformed table
 #' @name calculate
 #' @param x ti object
 #'
@@ -148,7 +148,7 @@ S7::method(calculate,ti) <- function(x){
 }
 
 
-#' @title Calculate
+#' @title Execute time-intelligence or segments class objects to return the underlying transformed table
 #' @name calculate
 #' @param x segment object
 #'
@@ -230,6 +230,7 @@ S7::method(complete_calendar,ti) <- function(x){
 #'
 #' @returns ti object
 #' @export
+#' @keywords internal
 #'
 print.ti <- function(x,...){
 
@@ -298,6 +299,7 @@ print_next_steps()
 #'
 #' @return segment object
 #' @exportS3Method print ti
+#' @keywords internal
 #'
 S7::method(print,segment) <- function(x,...){
 

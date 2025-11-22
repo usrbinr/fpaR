@@ -2,7 +2,7 @@
 % Please edit documentation in R/methods.R
 \name{calculate}
 \alias{calculate}
-\title{Calculate}
+\title{Execute time-intelligence or segments class objects to return the underlying transformed table}
 \arguments{
 \item{x}{segment object}
 }
@@ -12,9 +12,9 @@ dbi object
 dbi object
 }
 \description{
-Calculate
+Execute time-intelligence or segments class objects to return the underlying transformed table
 
-Calculate
+Execute time-intelligence or segments class objects to return the underlying transformed table
 }
 \examples{
 \dontrun{

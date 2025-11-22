@@ -2,6 +2,56 @@ url: https://usrbinr.github.io/fpaR/
 template:
   bootstrap: 5
 
-sidebar:
-  contents:
-    - "{getting_started}"
+reference:
+  - title: "Classification"
+    contents:
+      - abc
+      - cohort
+
+  - title: "Calendar / Date Augmentation"
+    contents:
+      - augment_calendar
+
+  - title: "Calculation Utilities"
+    contents:
+      - calculate
+
+  - title: "All Periods Metrics"
+    contents:
+      - atd
+
+  - title: "Year-based Metrics"
+    contents:
+      - ytd
+      - yoy
+      - yoytd
+      - ytdopy
+      - pytd
+
+  - title: "Quarter-based Metrics"
+    contents:
+      - qtd
+      - qoq
+      - qoqtd
+      - qtdopq
+      - pqtd
+
+  - title: "Month-based Metrics"
+    contents:
+      - mtd
+      - mom
+      - momtd
+      - mtdopm
+      - pmtd
+
+  - title: "Week-based Metrics"
+    contents:
+      - wtd
+      - wow
+      - wowtd
+      - wtdopw
+      - pwtd
+
+  - title: "Day-based Metrics"
+    contents:
+      - dod
