@@ -220,7 +220,7 @@ print_actions_steps <- function(x){
 
 augment_calendar_tbl <- function(.data,.date){
 
-
+lubridate::days
   # create attibutes
   out <- .data |>
     dplyr::mutate(
@@ -236,7 +236,7 @@ augment_calendar_tbl <- function(.data,.date){
       ,day_of_week_label=lubridate::wday({{.date}},label = TRUE)
       ,days_in_year=year_end_date-year_start_date
       ,days_in_quarter=quarter_end_date-quarter_start_date
-      ,days_in_month=days_in_month({{.date}})
+      ,days_in_month=lubridate::days_in_month({{.date}})
       ,days_complete_in_week={{.date}}-week_start_date
       ,days_remaining_in_week=week_end_date-{{.date}}
       ,days_remaining_in_quarter=quarter_end_date-{{.date}}
@@ -393,7 +393,7 @@ augment_calendar_dbi <- function(.data,.date){
 #'   - `weekend_indicator` – equals 1 if Saturday or Sunday; otherwise 0
 #'
 #' All date-derived fields ending in `_date` are coerced to class `Date`.
-#'
+#' @export
 #' @return A dbi object or tibble containing the original data along with all generated
 #'   date-based attributes.
 #'

@@ -3,6 +3,7 @@
 S3method(print,ti)
 export(abc)
 export(atd)
+export(augment_calendar)
 export(calculate)
 export(cohort)
 export(create_calendar)

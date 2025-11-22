@@ -2,3 +2,6 @@ url: https://usrbinr.github.io/fpaR/
 template:
   bootstrap: 5
 
+sidebar:
+  contents:
+    - "{getting_started}"

@@ -1,8 +1,9 @@
 ---
-title: "Getting Standard"
+title: "getting_started"
 format: html
+eval: false
 vignette: >
-  %\VignetteIndexEntry{Getting Standard}
+  %\VignetteIndexEntry{getting_started}
   %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
 ---
@@ -17,10 +18,10 @@ attributes.
 
 ```{r}
 #| echo: false
-#| eval: true
 #| label: setup
 
 devtools::load_all()
+conflicted::conflicts_prefer(lubridate::date)
 
 
 ```
@@ -28,10 +29,8 @@ devtools::load_all()
 
 ```{r}
 #| echo: true
-#| eval: true
 #| label: print-example-not-run
 
-library(contoso)
 
 contoso::sales |> 
    mtd(.date=order_date,.value = margin,calendar_type = "standard") 
@@ -45,7 +44,6 @@ To return a tibble of results, pass the ti object through to
 
 ```{r}
 #| echo: true
-#| eval: true
 #| warning: false
 #| error: false
 #| message: false
@@ -69,7 +67,6 @@ tibble.
 
 ```{r}
 #| echo: true
-#| eval: true
 #| warning: false
 #| error: false
 #| label: collect-example
@@ -91,7 +88,6 @@ This will calculate a complete calendar ensuring each group has a complete calen
 
 ```{r}
 #| echo: true
-#| eval: true
 #| label: group_by-example
 #| code-line-numbers: true
 
@@ -155,7 +151,6 @@ calculating trends.
 
 ```{r}
 #| echo: false
-#| eval: false
 #| warning: false
 #| message: false
 #| error: false
@@ -166,10 +161,10 @@ contoso::sales |>
    calculate() |> 
     filter(
       TRUE
-      ,month(date) %in% c(2)
-      ,year(date) %in% c(2022)
+      ,month %in% c(2)
+      ,year %in% c(2022)
    ) |> 
-   arrange(desc(date))  |> 
+   arrange(month,year)  |> 
    collect() |> 
    head(10)
    
