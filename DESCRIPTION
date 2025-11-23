@@ -23,7 +23,7 @@ Imports:
     janitor,
     stringr
 LazyData: true
-VignetteBuilder: quarto
+VignetteBuilder: quarto, knitr
 Suggests: 
     testthat (>= 3.0.0),
     cohorts,
@@ -34,9 +34,9 @@ Suggests:
     fansi,
     crayon,
     knitr,
-    contoso
+    contoso,
+    rmarkdown
 Config/testthat/edition: 3
 Depends: 
     R (>= 3.5)
 URL: https://usrbinr.github.io/fpaR/
-

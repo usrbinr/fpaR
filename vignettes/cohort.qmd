@@ -1,0 +1,71 @@
+---
+title: "Cohort"
+vignette: >
+  %\VignetteIndexEntry{Cohort}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+# Introduction
+
+Cohort analysis is a common method for tracking groups of users, customers, or entities over time to understand retention, behavior, or trends.  
+
+The `cohort()` function in **fpaR** provides a **database-friendly implementation** of cohort analysis that is compatible with `duckdb` and `snowflake` backends. It combines the functionality of multiple traditional cohort tables into a single streamlined workflow.
+
+# Function Purpose
+
+`cohort()`:
+
+- Assigns each member in your dataset to a **time-based cohort** based on the first occurrence in the `.date` column.
+- Aggregates distinct counts of cohort members over time.
+- Supports multiple calendar types (`"standard"` or `"554"`).
+- Can summarize cohorts by various `time_unit`s (`day`, `week`, `month`, `quarter`, `year`).
+- Returns a **segment object**, which can be processed using `calculate()` to generate the cohort table.
+
+# Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | A `tibble` or DBI object containing your dataset. |
+| `.date` | The date column to base the cohort assignment on. |
+| `.value` | The column representing members to track (e.g., customer ID). |
+| `calendar_type` | Type of calendar to use for aggregation: `"standard"` or `"554"`. |
+| `time_unit` | Time unit to summarize the cohort table by (`day`, `week`, `month`, `quarter`, `year`). Default is `"month"`. |
+| `period_label` | Whether to use numeric period labels (`TRUE`) or actual dates (`FALSE`). Default is `FALSE`. |
+
+# How It Works
+
+1. **Assign Cohorts**  
+   Each member in `.value` is assigned to a **cohort date**, which is the first date they appear in `.date`.  
+
+2. **Aggregate Over Time**  
+   The function counts distinct members per cohort across time periods defined by `time_unit`.
+
+3. **Database Efficiency**  
+   The function is optimized for DBI objects, generating SQL-compatible operations using `dbplyr`.  
+
+4. **Internal Execution**  
+   The internal function `cohort_fn()`:
+   - Floors dates to the chosen `time_unit`.
+   - Groups members by cohort and date.
+   - Computes distinct counts and period IDs.
+   - Reshapes the table into a **wide format** for analysis.
+
+# Output
+
+The function returns a **segment object**. Use `calculate()` to retrieve the cohort table:
+
+```r
+library(dplyr)
+
+# Example cohort analysis
+seg_obj <- cohort(.data = contoso::sales,
+                  .date = order_date,
+                  .value = customer_key,
+                  calendar_type = "standard",
+                  time_unit = "month",
+                  period_label = FALSE)
+
+# Calculate the cohort table
+cohort_tbl <- calculate(seg_obj)
+cohort_tbl <- dplyr::collect(cohort_tbl)  # if using a DBI objec
+```

@@ -1,0 +1,61 @@
+---
+title: "ABC Segmentation"
+vignette: >
+  %\VignetteIndexEntry{ABC Segmentation}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+# Introduction
+
+In business and financial analytics, the **ABC classification** method is widely used to categorize items, customers, or other groups according to their contribution to a total metric.  
+
+The `abc()` function provides a flexible and robust way to perform ABC segmentation, either based on **transaction counts** or a **numeric variable** such as sales margin or revenue.
+
+# Function Purpose
+
+`abc()`:
+
+- Segments a dataset into categories (A, B, C, etc.) based on cumulative contribution.
+- Allows for **custom break points** (e.g., top 10% = A, next 40% = B, etc.).
+- Works on both **grouped tibbles** and **database-backed objects**.
+- Returns a **segment object**, which is processed by `calculate()` to produce a table of results.
+
+# Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | A tibble or DBI object, either grouped or ungrouped. Must be grouped to categorize properly. |
+| `category_values` | A numeric vector of breakpoints between 0 and 1, representing cumulative proportions for ABC categories. |
+| `.value` | Optional. A column to sum for categorization. If not provided, the function counts the number of rows per group. |
+
+# How It Works
+
+1. **Value Capture**  
+   If `.value` is provided, the function sums it per group; otherwise, it counts rows.
+
+2. **Segment Object Creation**  
+   The function creates a `segment` object which stores all the necessary metadata for later computation.
+
+3. **Execution (Internal)**  
+   The internal function `abc_fn()`:
+   - Summarizes the data per group.
+   - Computes cumulative sums and cumulative proportions.
+   - Matches each group to the nearest category breakpoint.
+   - Returns a DBI object representing the ABC classification.
+
+# Output
+
+The function returns a **segment object**. Use `calculate()` to generate the ABC classification table:
+
+```r
+library(dplyr)
+
+# Example
+seg_obj <- abc(.data = contoso::sales, 
+               category_values = c(0.1, 0.5, 0.7, 0.96, 1), 
+               .value = margin)
+
+# Calculate the final table
+abc_table <- calculate(seg_obj)
+abc_table <- dplyr::collect(abc_table)  # if using DBI object
+```

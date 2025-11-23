@@ -1,0 +1,80 @@
+---
+title: "Standard vs. 5-5-4 Calendar"
+date: "`r Sys.Date()`"
+format: html
+author: "Alejandro Hagan"
+vignette: >
+  %\VignetteIndexEntry{Standard vs. 5-5-4 Calendar}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+
+Calendars are essential tools for organizing, tracking, and reporting business activities. In financial planning, reporting, and retail analytics, two common calendar systems are widely used:
+
+1. **Standard Calendar**  
+2. **5-5-4 Calendar**  
+
+This vignette explains the differences between these calendars and their typical use cases.
+
+# Standard Calendar
+
+A **standard calendar** follows the conventional Gregorian calendar:
+
+- 12 months of varying lengths (28–31 days)
+- 52 weeks per year (sometimes 53 in leap years)
+- Months are uneven in length, which can cause challenges in period-over-period comparisons.
+
+**Example:**
+
+| Month | Days |
+|-------|------|
+| January | 31 |
+| February | 28 (29 in leap year) |
+| March | 31 |
+| ... | ... |
+| December | 31 |
+
+**Use Cases:**
+
+- General business reporting
+- Financial statements based on actual months
+- Year-over-year or month-over-month analysis
+
+# 5-5-4 Calendar
+
+The **5-5-4 calendar** is a retail accounting calendar designed to simplify period-over-period comparisons:
+
+- Each quarter has **13 weeks**, divided into three periods: 5 weeks, 5 weeks, 4 weeks
+- Each month in the quarter has a fixed number of weeks (rather than days)
+- Some years include a **53rd week** to align with the solar calendar
+
+**Example of a Quarter in 5-5-4 Calendar:**
+
+| Period | Weeks |
+|--------|------|
+| Month 1 | 5 |
+| Month 2 | 5 |
+| Month 3 | 4 |
+
+**Use Cases:**
+
+- Retail businesses where consistent weekly reporting is crucial
+- Comparing performance across periods without being affected by uneven month lengths
+- Planning promotions, inventory, and sales cycles aligned with weeks rather than calendar months
+
+# Comparison
+
+| Feature | Standard Calendar | 5-5-4 Calendar |
+|---------|-----------------|----------------|
+| Basis | Days in month | Weeks in period |
+| Month Length | Varies (28–31 days) | Fixed (4 or 5 weeks) |
+| Year Alignment | Calendar year | Usually aligned to fiscal year starting on a specific day (e.g., Sunday) |
+| Best for | General reporting, financial statements | Retail, period-over-period sales and inventory analysis |
+
+# Conclusion
+
+Understanding the difference between standard and 5-5-4 calendars helps organizations choose the right system for their reporting needs. While standard calendars are common for financial statements and general business operations, the 5-5-4 calendar is preferred in retail for more consistent period comparisons and operational planning.
+
+
