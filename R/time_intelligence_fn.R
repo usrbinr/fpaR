@@ -958,9 +958,7 @@ atd_fn <- function(x){
 #' @keywords internal
 dod_fn <- function(x){
 
-
   full_dbi <-  create_calendar(x)
-
 
   lag_dbi <- full_dbi |>
     dbplyr::window_order(date) |>

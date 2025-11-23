@@ -44,7 +44,7 @@ S7::method(create_calendar,ti) <- function(x){
 
   #create calendar table
 
-  calendar_dbi <- fpaR::seq_date_sql(start_date = x@datum@min_date,end_date = x@datum@max_date,time_unit = x@time_unit@value,con=dbplyr::remote_con(x@datum@data))
+  calendar_dbi <- seq_date_sql(start_date = x@datum@min_date,end_date = x@datum@max_date,time_unit = x@time_unit@value,con=dbplyr::remote_con(x@datum@data))
 
 
   # Expand calendar table with cross join of groups
@@ -108,7 +108,7 @@ S7::method(create_calendar,segment) <- function(x){
 
   #create calendar table
 
-  calendar_dbi <- fpaR::seq_date_sql(start_date = x@datum@min_date,end_date = x@datum@max_date,time_unit = x@time_unit@value,con=dbplyr::remote_con(x@datum@data)) |>
+  calendar_dbi <- seq_date_sql(start_date = x@datum@min_date,end_date = x@datum@max_date,time_unit = x@time_unit@value,con=dbplyr::remote_con(x@datum@data)) |>
       dplyr::cross_join(
         summary_dbi |>
           dplyr::distinct(!!!x@value@value_quo)
@@ -180,8 +180,8 @@ S7::method(complete_calendar,ti) <- function(x){
 
 
   calendar_dbi<- x@datum@data |>
-    count(!!x@datum@date_quo) |>
-    select(-n)
+    dplyr::count(!!x@datum@date_quo) |>
+    dplyr::select(-n)
 
 
   date_vec <- x@datum@date_vec
@@ -189,18 +189,18 @@ S7::method(complete_calendar,ti) <- function(x){
   out <- calendar_dbi |>
     dplyr::mutate(
       year_start_date=lubridate::floor_date(!!x@datum@date_quo,unit = "year")
-      ,year_end_date=sql(glue::glue("date_trunc('year', {date_vec}) + INTERVAL '1' YEAR"))
+      ,year_end_date=dplyr::sql(glue::glue("date_trunc('year', {date_vec}) + INTERVAL '1' YEAR"))
       ,quarter_start_date=lubridate::floor_date(!!x@datum@date_quo,unit = "quarter")
-      ,quarter_end_date=sql(glue::glue("date_trunc('quarter', {date_vec}) + INTERVAL '1' quarter"))
+      ,quarter_end_date=dplyr::sql(glue::glue("date_trunc('quarter', {date_vec}) + INTERVAL '1' quarter"))
       ,month_start_date=lubridate::floor_date(!!x@datum@date_quo,unit = "month")
-      ,month_end_date=sql(glue::glue("date_trunc('month', {date_vec}) + INTERVAL '1' month"))
+      ,month_end_date=dplyr::sql(glue::glue("date_trunc('month', {date_vec}) + INTERVAL '1' month"))
       ,week_start_date=lubridate::floor_date(!!x@datum@date_quo,unit = "week")
-      ,week_end_date=sql(glue::glue("date_trunc('month', {date_vec}) + INTERVAL '1' month"))
+      ,week_end_date=dplyr::sql(glue::glue("date_trunc('month', {date_vec}) + INTERVAL '1' month"))
       ,day_of_week=lubridate::wday(!!x@datum@date_quo,label = FALSE)
       ,day_of_week_label=lubridate::wday(!!x@datum@date_quo,label = TRUE)
       ,days_in_year=year_end_date-year_start_date
       ,days_in_quarter=quarter_end_date-quarter_start_date
-      ,days_in_month=sql(glue::glue("last_day({date_vec})"))
+      ,days_in_month=dplyr::sql(glue::glue("last_day({date_vec})"))
       ,days_complete_in_week=!!x@datum@date_quo-week_start_date
       ,days_remaining_in_week=week_end_date-!!x@datum@date_quo
       ,days_remaining_in_quarter=quarter_end_date-!!x@datum@date_quo
@@ -210,10 +210,10 @@ S7::method(complete_calendar,ti) <- function(x){
       ,days_complete_in_quarter=!!x@datum@date_quo-quarter_start_date
       ,days_complete_in_month=!!x@datum@date_quo-month_start_date
       ,days_complete_in_year=!!x@datum@date_quo-year_start_date
-      ,weekend_indicator=if_else(day_of_week_label %in% c("Saturday","Sunday"),1,0)
+      ,weekend_indicator=dplyr::if_else(day_of_week_label %in% c("Saturday","Sunday"),1,0)
     ) |>
-    mutate(
-      across(contains("date"),\(x) as.Date(x))
+    dplyr::mutate(
+      dplyr::across(dplyr::contains("date"),\(x) as.Date(x))
     )
 
   return(out)
