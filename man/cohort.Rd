@@ -22,23 +22,24 @@ cohort(
 
 \item{calendar_type}{clarify the calendar type; 'standard' or '554'}
 
-\item{time_unit}{do you want summarize the date column to 'day', 'week','month','quarter' or 'year'}
+\item{time_unit}{do you want summarize the date column to 'day', 'week', 'month','quarter' or 'year'}
 
-\item{period_label}{do you want period labels or the dates c(TRUE,FALSE)}
+\item{period_label}{do you want period labels or the dates c(TRUE , FALSE)}
 }
 \value{
 segment object
 }
 \description{
-A database is remake of 'https://github.com/PeerChristensen/cohorts' excellent cohort package combining
-chort_table_month, cohort_table_year, cohort_table_day into a single package.
-Re-written to be database friendly tested against snowflake and duckdb databases
+Database-friendly cohort analysis function.
+A remake of \url{https://github.com/PeerChristensen/cohorts}, combining
+\code{cohort_table_month}, \code{cohort_table_year}, and \code{cohort_table_day} into a single package.
+Rewritten for database compatibility and tested with Snowflake and DuckDB.
 }
 \details{
 \itemize{
-\item This will group your \code{.value} column by shared time attributes from the \code{.date} column
-\item It will assign to each member a time base cohort based on the member's first entry in the \code{.date} column
-\item The cohort will be generalized by the time_unit argument you selected
-\item Then the distinct count of each cohort member over time is calculated
+\item Groups your \code{.value} column by shared time attributes from the \code{.date} column.
+\item Assigns each member to a cohort based on their first entry in \code{.date}.
+\item Aggregates the cohort by the \code{time_unit} argument (\code{day}, \code{week}, \code{month}, \code{quarter}, or \code{year}).
+\item Computes the distinct count of each cohort member over time.
 }
 }

@@ -64,8 +64,9 @@ There are 3 main categories of functions:
 ### Time intelligence
 
 `fpaR` provides readily available functions for most time intelligence
-analysis such as **Year-over-Year (YoY)**, **Month-to-Date (MTD)**, and
-**Current Year-to-Date over Previous Year-to-Date (YoYTD)** analysis.
+analysis such as **Year-over-Year**(`yoy()`),
+**Month-to-Date**(`mtd()`), and **Current Year-to-Date over Previous
+Year-to-Date** (`ytdopy()`) analysis.
 
 These functions are designed to quickly answer most common time
 intelligence related analysis in a consistent, fast and transparent way.
@@ -123,6 +124,10 @@ contributions are welcome!
 
 ## Future capabilities
 
+Is there a future capability that you want to see here? please open up a
+[discussion](https://github.com/usrbinr/fpaR/discussions) on our github
+site
+
 ### **Segmentation Strategies**
 
 Provides functions to segment and categorize your data into meaningful
@@ -130,14 +135,10 @@ business categories.
 
 #### **Example Segmentation Methods:**
 
-- **ABC Classification** – Categorizing products/customers based on
-  revenue contribution
-- **Cohort Analysis** - Categorize your data by a shared time based
-  attribute to track over time
-- **New vs. Returning** – Distinguishing first-time buyers from repeat
+- **New vs. Returning** Distinguishing first-time buyers from repeat
   customers
-- **K-means Clustering** – Grouping data points based on patterns
-- **UMAP (Uniform Manifold Approximation and Projection)** –
+- **K-means Clustering** Grouping data points based on patterns
+- **UMAP (Uniform Manifold Approximation and Projection)**
   Dimensionaltiy reduction for clustering
 
 ------------------------------------------------------------------------

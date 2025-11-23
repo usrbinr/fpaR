@@ -83,11 +83,11 @@ There are 3 main categories of functions:
 -   Segmentation strategies (work in progress)
 -   Factor Analysis (work in progress)
 
-### Time intelligence
+### Time intelligence   
 
 `fpaR` provides readily available functions for most time intelligence
-analysis such as **Year-over-Year (YoY)**, **Month-to-Date (MTD)**, and
-**Current Year-to-Date over Previous Year-to-Date (YoYTD)** analysis.
+analysis such as **Year-over-Year**(`yoy()`), **Month-to-Date**(`mtd()`), and
+**Current Year-to-Date over Previous Year-to-Date** (`ytdopy()`) analysis.
 
 These functions are designed to quickly answer most common time
 intelligence related analysis in a consistent, fast and transparent way.
