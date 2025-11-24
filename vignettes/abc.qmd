@@ -1,17 +1,29 @@
 ---
 title: "ABC Segmentation"
+subtitle: "How to use segmentation strategies to simplify your analysis "
+
+
 vignette: >
   %\VignetteIndexEntry{ABC Segmentation}
   %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
 ---
-# Introduction
+
+```{r}
+#| echo: false
+quarto::write_yaml_metadata_block(
+   date=format(Sys.Date())
+   )
+```
+
+
+### Introduction
 
 In business and financial analytics, the **ABC classification** method is widely used to categorize items, customers, or other groups according to their contribution to a total metric.  
 
-The `abc()` function provides a flexible and robust way to perform ABC segmentation, either based on **transaction counts** or a **numeric variable** such as sales margin or revenue.
+The `abc()` function provides a flexible and robust way to perform ABC segmentation, either based on **transaction counts** or the sum of a **numeric variable** such as sales margin or revenue.
 
-# Function Purpose
+### Function Purpose
 
 `abc()`:
 
@@ -20,42 +32,96 @@ The `abc()` function provides a flexible and robust way to perform ABC segmentat
 - Works on both **grouped tibbles** and **database-backed objects**.
 - Returns a **segment object**, which is processed by `calculate()` to produce a table of results.
 
-# Arguments
+### How It Works
 
-| Argument | Description |
-|----------|-------------|
-| `.data` | A tibble or DBI object, either grouped or ungrouped. Must be grouped to categorize properly. |
-| `category_values` | A numeric vector of breakpoints between 0 and 1, representing cumulative proportions for ABC categories. |
-| `.value` | Optional. A column to sum for categorization. If not provided, the function counts the number of rows per group. |
+> `fpaR::abc()` requires a grouped tibble or lazy DBI object using `dplyr::group_by()` to specific the groups that drive the contribution
 
-# How It Works
+**Value Capture**  
 
-1. **Value Capture**  
-   If `.value` is provided, the function sums it per group; otherwise, it counts rows.
+-  If `.value` is provided, the function sums it per group; otherwise, it counts rows.
 
-2. **Segment Object Creation**  
-   The function creates a `segment` object which stores all the necessary metadata for later computation.
+**Segment Object Creation**  
 
-3. **Execution (Internal)**  
-   The internal function `abc_fn()`:
-   - Summarizes the data per group.
-   - Computes cumulative sums and cumulative proportions.
-   - Matches each group to the nearest category breakpoint.
-   - Returns a DBI object representing the ABC classification.
+-  The function creates a `segment` object which stores all the necessary metadata for later computation.
+**Category Values**
 
-# Output
+-  @tbl-abc-args explains the break points should be cumulative so if you want to see the stores that make up the top 40% of revenue follow by top 70% and then 90% you should put in `c(0.4,.7,.9,1)`
+
+
+```{r}
+#| label: tbl-abc-args
+#| echo: false
+#| eval: true
+
+tibble::tibble(
+  Argument = c(".data", "category_values", ".value"),
+  Description = c(
+    "A grouped tibble or DBI object (using dplyr::group_by())",
+    "A numeric vector of breakpoints between 0 and 1, representing cumulative proportions for ABC categories.",
+    "Optional. A column to sum for categorization. If not provided, the function counts the number of rows per group."
+  )
+) |> tinytable::tt()
+
+```
+
+
+
+### Output
 
 The function returns a **segment object**. Use `calculate()` to generate the ABC classification table:
 
-```r
-library(dplyr)
+
+If we wanted to 
+
+```{r}
+#| label: abc-example
+#| echo: true
+#| eval: true
 
 # Example
-seg_obj <- abc(.data = contoso::sales, 
-               category_values = c(0.1, 0.5, 0.7, 0.96, 1), 
-               .value = margin)
 
-# Calculate the final table
-abc_table <- calculate(seg_obj)
-abc_table <- dplyr::collect(abc_table)  # if using DBI object
+contoso::sales |> 
+   dplyr::group_by(store_key) |> 
+   fpaR::abc(
+      category_values = c(0.4,.7,.9,1), 
+      .value = margin
+      )
+```
+   
+To return the results, use `fpaR::calculate()` 
+
+```{r}
+#| label: var
+#| echo: true
+#| eval: false
+#| warning: false
+#| message: false
+#| include: true
+contoso::sales |> 
+   dplyr::group_by(store_key) |> 
+   fpaR::abc(
+      category_values = c(0.4,.7,.9,1), 
+      .value = margin
+      ) |> 
+   fpaR::calculate()
+```
+
+```{r}
+#| label: tbl-output-no-echo
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| include: true
+contoso::sales |> 
+   dplyr::group_by(store_key) |> 
+   fpaR::abc(
+      category_values = c( 0.4,.7,.9,1), 
+      .value = margin
+      ) |> 
+   fpaR::calculate() |> 
+   dplyr::collect() |> 
+   dplyr::arrange(category_name) |> 
+   head(10) |> 
+   tinytable::tt()
 ```

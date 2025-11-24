@@ -1,5 +1,6 @@
 ---
 title: "Getting started"
+subtitle: "How to use time-intilligence functions"
 format: html
 vignette: >
   %\VignetteIndexEntry{Getting started}

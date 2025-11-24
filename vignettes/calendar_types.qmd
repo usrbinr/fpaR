@@ -1,6 +1,6 @@
 ---
 title: "Standard vs. 5-5-4 Calendar"
-date: "`r Sys.Date()`"
+subtitle: "What do we mean by standard and non-standard calendar?"
 format: html
 author: "Alejandro Hagan"
 vignette: >
@@ -8,6 +8,13 @@ vignette: >
   %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
 ---
+
+```{r}
+#| echo: false
+quarto::write_yaml_metadata_block(
+   date=format(Sys.Date())
+   )
+```
 
 # Introduction
 

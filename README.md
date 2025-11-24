@@ -1,22 +1,27 @@
-# README
 
 
-# fpaR: A Business Intelligence Toolkit for Financial Planning & Analysis (FP&A)
+<!-- badges: start -->
 
-## Introduction
+[![CRAN
+status](https://www.r-pkg.org/badges/version/fpaR?svg=1.png)](https://CRAN.R-project.org/package=fpaR)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/usrbinr/fpaR/HEAD)
+[![](https://cranlogs.r-pkg.org/badges/fpaR.png)](https://cran.r-project.org/package=fpaR)
+<!-- badges: end -->
+
+## A Business Intelligence Toolkit for Financial Planning & Analysis (FP&A)
 
 `fpaR` is a collection of business intelligence tools designed to
 simplify common **financial planning and analysis (FP&A)** tasks such as
 time intelligence calculations, customer, vendor or product
-segmentation, and factor/variance analysis.
+segmentation, and factor/variance analysis
 
 The package is inspired by best practices from a collection of blogs,
 books, industry research, and hands-on work experience, consolidating
 frequently performed business analyses into a fast, efficient, and
-reusable framework.
+reusable framework
 
 In particular, the time intelligence functions are heavily inspired by
-[PowerBI DAX](https://www.sqlbi.com/) functions.
+[PowerBI DAX](https://www.sqlbi.com/) functions
 
 Under the hood, these functions are built upon the great foundations of:
 
@@ -25,7 +30,7 @@ Under the hood, these functions are built upon the great foundations of:
 - [lubridate](https://lubridate.tidyverse.org/)
 
 `fpaR` is designed to seamlessly work with either tibbles or modern
-databases (DuckDB, Snowflake, SQLite, etc) with a unified syntax.
+databases (DuckDB, Snowflake, SQLite, etc) with a unified syntax
 
 Even if you are working with tibbles, most functions are optimized to
 leverage [DuckDB](https://github.com/duckdb/duckdb-r) for superior speed
@@ -57,19 +62,26 @@ pak::pak("usrbinr/fpaR")
 
 There are 3 main categories of functions:
 
-- Time intelligence (Ready for testing and feedback)
-- Segmentation strategies (work in progress)
-- Factor Analysis (work in progress)
+- Time intelligence
+- Segmentation strategies
+- Factor analysis (work in progress)
+
+### Datasets
+
+> We recommend using the [Contoso](https://usrbinr.github.io/contoso/)
+> package for any practice analysis. The contoso datasets are fictional
+> business transaction of Contoso toy company which are helpful for
+> business intelligence related analysis
 
 ### Time intelligence
 
 `fpaR` provides readily available functions for most time intelligence
 analysis such as **Year-over-Year**(`yoy()`),
 **Month-to-Date**(`mtd()`), and **Current Year-to-Date over Previous
-Year-to-Date** (`ytdopy()`) analysis.
+Year-to-Date** (`ytdopy()`) analysis
 
 These functions are designed to quickly answer most common time
-intelligence related analysis in a consistent, fast and transparent way.
+intelligence related analysis in a consistent, fast and transparent way
 
 **Key benefits:**
 
@@ -87,7 +99,7 @@ intelligence related analysis in a consistent, fast and transparent way.
 
 Below is the full list of time intelligence functions:
 
-| short_name | description | shift | aggregate | compare |
+| Function | Description | Shift | Aggregate | Compare |
 |----|----|----|----|----|
 | YoY | Full Year over Year |  |  | X |
 | YTD | Year-to-Date |  | X |  |
@@ -111,35 +123,34 @@ Below is the full list of time intelligence functions:
 | ATD | cumlaitve total from inception to date |  | x |  |
 | DoD | Full Day over Full Day |  |  | X |
 
-## Datasets
-
-- This package leverages the
-  [Contoso](https://usrbinr.github.io/contoso/) package for its
-  analysis. The contoso datasets are fictional business transaction of
-  Contoso toy company which are helpful for business intelligence
-  related analysis
-
-This is an **active work-in-progress**, and feedback, testing, and
-contributions are welcome!
-
-## Future capabilities
-
-Is there a future capability that you want to see here? please open up a
-[discussion](https://github.com/usrbinr/fpaR/discussions) on our github
-site
-
 ### **Segmentation Strategies**
 
-Provides functions to segment and categorize your data into meaningful
-business categories.
+#### ABC Classification
 
-#### **Example Segmentation Methods:**
+ABC classification is an business analysis technique that categorizes
+items (like products, customers, or suppliers) based on their relative
+contribution of a value. It facilities the Pareto Principle (the 80/20
+rule), suggesting that a small percentage of items contribute to the
+largest percentage of the total value
 
-- **New vs. Returning** Distinguishing first-time buyers from repeat
-  customers
-- **K-means Clustering** Grouping data points based on patterns
-- **UMAP (Uniform Manifold Approximation and Projection)**
-  Dimensionaltiy reduction for clustering
+The analysis will assign a letter category to each break point so that
+you can further focus your analysis
+
+#### Cohort
+
+Cohort analysis is a type of behavioral analytics that takes data from a
+given group of users (a cohort) and tracks their activity over time. A
+cohort is typically defined by a shared starting characteristic, most
+commonly the time period in which the entities first interacted with the
+product or service
+
+This allows you to understand retention, turnover and other attributes
+more clearly
+
+| Function | Description | Categorizes | Time-Based | Tracks Over Time |
+|----|----|----|----|----|
+| abc() | ABC Classification groups items by relative contribution (Pareto analysis). | X |  |  |
+| cohort() | Cohort analysis groups entities by a shared start point and analyzes behavior over time. |  | X | X |
 
 ------------------------------------------------------------------------
 
@@ -148,18 +159,19 @@ business categories.
 Breaks down revenue or cost changes into **price, volume, and mix
 effects**.
 
-#### **Use Cases:**
-
-- Analyzing revenue growth **due to price increases vs. increased sales
-  volume**
-- Measuring the impact of **product mix changes on profitability**.
-
 ------------------------------------------------------------------------
+
+## Future capabilities
+
+Is there a future capability that you want to see here? please open up a
+[discussion](https://github.com/usrbinr/fpaR/discussions) on our github
+site
 
 ## Additional references and inspirations
 
 - [PeerChristensen’s Cohort
   Package](https://github.com/PeerChristensen/cohorts)
 
-[^1]: I plan use [duckplyr](https://duckplyr.tidyverse.org/index.html)
-    once it expands support for lubricate functions
+[^1]: I plan to use
+    [duckplyr](https://duckplyr.tidyverse.org/index.html) once it
+    expands support for lubricate functions
