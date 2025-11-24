@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">fpaR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,8 +16,16 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-      </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
- <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/abc.html">ABC Segmentation</a></li>
+    <li><a class="dropdown-item" href="../articles/calendar_types.html">Standard vs. 5-5-4 Calendar</a></li>
+    <li><a class="dropdown-item" href="../articles/cohort.html">Cohort</a></li>
+    <li><a class="dropdown-item" href="../articles/getting_started.html">Getting started</a></li>
+  </ul></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
+      </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://github.com/usrbinr"><span class="fa fab fa-github"></span> GitHub</a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://bsky.app/profile/usrbinr.bsky.social"><span class="fa fab fa-bluesky"></span> Bluesky</a></li>
       </ul></div>
 
 
@@ -30,7 +38,53 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="utilities">Utilities<a class="anchor" aria-label="anchor" href="#utilities"></a></h2>
+
+      <div class="section-desc"><p>General helper and execution utilities.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="augment_calendar.html">augment_calendar()</a></code>
+
+        </dt>
+        <dd>Add Comprehensive Date-Based Attributes to a DBI lazy frame or tibble object</dd>
+
+        <dt>
+
+          <code><a href="calculate.html">calculate</a></code>
+
+        </dt>
+        <dd>Execute time-intelligence or segments class objects to return the underlying transformed table</dd>
+      </dl></div><div class="section level2">
+      <h2 id="cohort-classification">Cohort &amp; Classification<a class="anchor" aria-label="anchor" href="#cohort-classification"></a></h2>
+
+      <div class="section-desc"><p>Functions for segmentation and cohort analysis.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="cohort.html">cohort()</a></code>
+
+        </dt>
+        <dd>Cohort Analysis</dd>
+
+        <dt>
+
+          <code><a href="abc.html">abc()</a></code>
+
+        </dt>
+        <dd>ABC classification function</dd>
+      </dl></div><div class="section level2">
+      <h2 id="monthly-functions">Monthly Functions<a class="anchor" aria-label="anchor" href="#monthly-functions"></a></h2>
 
 
 
@@ -41,185 +95,10 @@
 
       <dl><dt>
 
-          <code><a href="abc.html">abc()</a></code>
-
-        </dt>
-        <dd>ABC classification function</dd>
-
-        <dt>
-
-          <code><a href="abc_fn.html">abc_fn()</a></code>
-
-        </dt>
-        <dd>Classify a group by proportion of a variable (A,B,C,...)</dd>
-
-        <dt>
-
-          <code><a href="atd.html">atd()</a></code>
-
-        </dt>
-        <dd>All period-to-date</dd>
-
-        <dt>
-
-          <code><a href="atd_fn.html">atd_fn()</a></code>
-
-        </dt>
-        <dd>All-to-date execution function</dd>
-
-        <dt>
-
-          <code><a href="calculate.html">calculate</a></code>
-
-        </dt>
-        <dd>Calculate</dd>
-
-        <dt>
-
-          <code><a href="cohort.html">cohort()</a></code>
-
-        </dt>
-        <dd>Cohort Analysis</dd>
-
-        <dt>
-
-          <code><a href="cohort_fn.html">cohort_fn()</a></code>
-
-        </dt>
-        <dd>Internal function for the cohort segment object</dd>
-
-        <dt>
-
-          <code><a href="complete_calendar.html">complete_calendar</a></code>
-
-        </dt>
-        <dd>complete_calendar</dd>
-
-        <dt>
-
-          <code><a href="create_calendar.html">create_calendar</a></code>
-
-        </dt>
-        <dd>Create Calendar Table</dd>
-
-        <dt>
-
-          <code><a href="customer.html">customer</a></code>
-
-        </dt>
-        <dd>Customer dataset</dd>
-
-        <dt>
-
-          <code><a href="date.html">date</a></code>
-
-        </dt>
-        <dd>Date Dimension Table</dd>
-
-        <dt>
-
-          <code><a href="dod.html">dod()</a></code>
-
-        </dt>
-        <dd>Current period day over previous period day</dd>
-
-        <dt>
-
-          <code><a href="dod_fn.html">dod_fn()</a></code>
-
-        </dt>
-        <dd>Day-over-day execution function</dd>
-
-        <dt>
-
-          <code><a href="fx.html">fx</a></code>
-
-        </dt>
-        <dd>Foreign Exchange Rates Dataset</dd>
-
-        <dt>
-
-          <code><a href="generate_cli_action.html">generate_cli_action()</a></code>
-
-        </dt>
-        <dd>Generate CLI actions</dd>
-
-        <dt>
-
-          <code><a href="is_yyyy_mm_dd.html">is_yyyy_mm_dd()</a></code>
-
-        </dt>
-        <dd>Validate an input is YYYY-MM-DD format</dd>
-
-        <dt>
-
-          <code><a href="make_action_cli.html">make_action_cli()</a></code>
-
-        </dt>
-        <dd>Make Action field CLI args</dd>
-
-        <dt>
-
-          <code><a href="make_db_tbl.html">make_db_tbl()</a></code>
-
-        </dt>
-        <dd>Make an in memory database from a table</dd>
-
-        <dt>
-
-          <code><a href="mom.html">mom()</a></code>
-
-        </dt>
-        <dd>Current full period month over previous full period month</dd>
-
-        <dt>
-
-          <code><a href="mom_fn.html">mom_fn()</a></code>
-
-        </dt>
-        <dd>month-over-month execution function</dd>
-
-        <dt>
-
-          <code><a href="momtd.html">momtd()</a></code>
-
-        </dt>
-        <dd>Current period month to date compared to previous period month-to-date</dd>
-
-        <dt>
-
-          <code><a href="momtd_fn.html">momtd_fn()</a></code>
-
-        </dt>
-        <dd>Current year to date over previous year-to-date for tibble objects</dd>
-
-        <dt>
-
           <code><a href="mtd.html">mtd()</a></code>
 
         </dt>
         <dd>Current period month-to-date</dd>
-
-        <dt>
-
-          <code><a href="mtd_fn.html">mtd_fn()</a></code>
-
-        </dt>
-        <dd>Month-to-date execution function</dd>
-
-        <dt>
-
-          <code><a href="mtdopm.html">mtdopm()</a></code>
-
-        </dt>
-        <dd>Current month-to-date over full previous period month</dd>
-
-        <dt>
-
-          <code><a href="mtdopm_fn.html">mtdopm_fn()</a></code>
-
-        </dt>
-        <dd>Month-over-month vs. prior full momth execution function</dd>
 
         <dt>
 
@@ -230,10 +109,40 @@
 
         <dt>
 
-          <code><a href="pmtd_fn.html">pmtd_fn()</a></code>
+          <code><a href="mom.html">mom()</a></code>
 
         </dt>
-        <dd>Previous month-to-date execution function</dd>
+        <dd>Current full period month over previous full period month</dd>
+
+        <dt>
+
+          <code><a href="momtd.html">momtd()</a></code>
+
+        </dt>
+        <dd>Current period month to date compared to previous period month-to-date</dd>
+
+        <dt>
+
+          <code><a href="mtdopm.html">mtdopm()</a></code>
+
+        </dt>
+        <dd>Current month-to-date over full previous period month</dd>
+      </dl></div><div class="section level2">
+      <h2 id="quarterly-functions">Quarterly Functions<a class="anchor" aria-label="anchor" href="#quarterly-functions"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="qtd.html">qtd()</a></code>
+
+        </dt>
+        <dd>Current period quarter-to-date</dd>
 
         <dt>
 
@@ -244,87 +153,10 @@
 
         <dt>
 
-          <code><a href="pqtd_fn.html">pqtd_fn()</a></code>
-
-        </dt>
-        <dd>Previous quarter-to-date for tibble objects</dd>
-
-        <dt>
-
-          <code><a href="print.html">print(<i>&lt;ti&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Print ti objects</dd>
-
-        <dt>
-
-          <code><a href="print_actions_steps.html">print_actions_steps()</a></code>
-
-        </dt>
-        <dd>Print action steps</dd>
-
-        <dt>
-
-          <code><a href="print_fn_info.html">print_fn_info()</a></code>
-
-        </dt>
-        <dd>Prints function header info</dd>
-
-        <dt>
-
-          <code><a href="print_next_steps.html">print_next_steps()</a></code>
-
-        </dt>
-        <dd>Prints functions next steps</dd>
-
-        <dt>
-
-          <code><a href="product.html">product</a></code>
-
-        </dt>
-        <dd>Product Master Dataset</dd>
-
-        <dt>
-
-          <code><a href="pwtd.html">pwtd()</a></code>
-
-        </dt>
-        <dd>Previous period week-to-date</dd>
-
-        <dt>
-
-          <code><a href="pwtd_fn.html">pwtd_fn()</a></code>
-
-        </dt>
-        <dd>Previous month-to-date for tibble objects</dd>
-
-        <dt>
-
-          <code><a href="pytd.html">pytd()</a></code>
-
-        </dt>
-        <dd>Previous period year-to-date</dd>
-
-        <dt>
-
-          <code><a href="pytd_fn.html">pytd_fn()</a></code>
-
-        </dt>
-        <dd>Previous year-to-date execution function</dd>
-
-        <dt>
-
           <code><a href="qoq.html">qoq()</a></code>
 
         </dt>
         <dd>Current full period quarter over previous full period quarter</dd>
-
-        <dt>
-
-          <code><a href="qoq_fn.html">qoq_fn()</a></code>
-
-        </dt>
-        <dd>Quarter-over-quarter execution function</dd>
 
         <dt>
 
@@ -335,59 +167,33 @@
 
         <dt>
 
-          <code><a href="qoqtd_fn.html">qoqtd_fn()</a></code>
-
-        </dt>
-        <dd>Current quarter to date over previous quarter-to-date for tibble objects</dd>
-
-        <dt>
-
-          <code><a href="qtd.html">qtd()</a></code>
-
-        </dt>
-        <dd>Current period quarter-to-date</dd>
-
-        <dt>
-
-          <code><a href="qtd_fn.html">qtd_fn()</a></code>
-
-        </dt>
-        <dd>Quarter-to-date execution function</dd>
-
-        <dt>
-
           <code><a href="qtdopq.html">qtdopq()</a></code>
 
         </dt>
         <dd>Current period quarter-to-date over previous period quarter</dd>
+      </dl></div><div class="section level2">
+      <h2 id="weekly-functions">Weekly Functions<a class="anchor" aria-label="anchor" href="#weekly-functions"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="wtd.html">wtd()</a></code>
+
+        </dt>
+        <dd>Current period week-to-date</dd>
 
         <dt>
 
-          <code><a href="qtdopq_fn.html">qtdopq_fn()</a></code>
+          <code><a href="pwtd.html">pwtd()</a></code>
 
         </dt>
-        <dd>quarter-to-date over previous quarter execution function</dd>
-
-        <dt>
-
-          <code><a href="sales.html">sales</a></code>
-
-        </dt>
-        <dd>Sales Transactions Dataset</dd>
-
-        <dt>
-
-          <code><a href="seq_date_sql.html">seq_date_sql()</a></code>
-
-        </dt>
-        <dd>Create a calendar table in sql</dd>
-
-        <dt>
-
-          <code><a href="store.html">store</a></code>
-
-        </dt>
-        <dd>Store Master Dataset</dd>
+        <dd>Previous period week-to-date</dd>
 
         <dt>
 
@@ -398,38 +204,10 @@
 
         <dt>
 
-          <code><a href="wow_fn.html">wow_fn()</a></code>
-
-        </dt>
-        <dd>Week-over-week execution function</dd>
-
-        <dt>
-
           <code><a href="wowtd.html">wowtd()</a></code>
 
         </dt>
         <dd>Current period Wwek-to-date over previous period week-to-date</dd>
-
-        <dt>
-
-          <code><a href="wowtd_fn.html">wowtd_fn()</a></code>
-
-        </dt>
-        <dd>Current year to date over previous year-to-date for tibble objects</dd>
-
-        <dt>
-
-          <code><a href="wtd.html">wtd()</a></code>
-
-        </dt>
-        <dd>Current period week-to-date</dd>
-
-        <dt>
-
-          <code><a href="wtd_fn.html">wtd_fn()</a></code>
-
-        </dt>
-        <dd>Week-to-date execution fucntion</dd>
 
         <dt>
 
@@ -440,38 +218,26 @@
 
         <dt>
 
-          <code><a href="wtdopw_fn.html">wtdopw_fn()</a></code>
+          <code><a href="dod.html">dod()</a></code>
 
         </dt>
-        <dd>Year-over-year</dd>
+        <dd>Current period day over previous period day</dd>
+      </dl></div><div class="section level2">
+      <h2 id="yearly-all-of-time-functions">Yearly &amp; All of time Functions<a class="anchor" aria-label="anchor" href="#yearly-all-of-time-functions"></a></h2>
 
-        <dt>
 
-          <code><a href="yoy.html">yoy()</a></code>
 
-        </dt>
-        <dd>Current full period year over previous full period year</dd>
+      <dl></dl></div><div class="section level2">
 
-        <dt>
 
-          <code><a href="yoy_fn.html">yoy_fn()</a></code>
 
-        </dt>
-        <dd>Current year-to-date over previous period year-to-date eeecution function</dd>
 
-        <dt>
+      <dl><dt>
 
-          <code><a href="yoytd.html">yoytd()</a></code>
+          <code><a href="atd.html">atd()</a></code>
 
         </dt>
-        <dd>Current period year-to-date compared to previous period year-to-date</dd>
-
-        <dt>
-
-          <code><a href="yoytd_fn.html">yoytd_fn()</a></code>
-
-        </dt>
-        <dd>Current year to date over previous year-to-date exection function</dd>
+        <dd>All period-to-date</dd>
 
         <dt>
 
@@ -482,10 +248,24 @@
 
         <dt>
 
-          <code><a href="ytd_fn.html">ytd_fn()</a></code>
+          <code><a href="pytd.html">pytd()</a></code>
 
         </dt>
-        <dd>Year-to-date execution function</dd>
+        <dd>Previous period year-to-date</dd>
+
+        <dt>
+
+          <code><a href="yoy.html">yoy()</a></code>
+
+        </dt>
+        <dd>Current full period year over previous full period year</dd>
+
+        <dt>
+
+          <code><a href="yoytd.html">yoytd()</a></code>
+
+        </dt>
+        <dd>Current period year-to-date compared to previous period year-to-date</dd>
 
         <dt>
 
@@ -493,15 +273,9 @@
 
         </dt>
         <dd>Current period year-to-date compared to full previous period</dd>
-
-        <dt>
-
-          <code><a href="ytdopy_fn.html">ytdopy_fn()</a></code>
-
-        </dt>
-        <dd>Year-to-date over full prior period year</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

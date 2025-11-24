@@ -33,21 +33,8 @@ DBI object
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 con <- DBI::dbConnect(drv = duckdb::duckdb())
 seq_date_sql(start_date = "2015-01-01", end_date = "2024-04-20", time_unit = "day", con = con)
-#> # Source:   SQL [?? x 1]
-#> # Database: DuckDB 1.4.1 [unknown@Linux 6.11.0-1018-azure:R 4.5.2/:memory:]
-#>    date      
-#>    <date>    
-#>  1 2015-01-01
-#>  2 2015-01-02
-#>  3 2015-01-03
-#>  4 2015-01-04
-#>  5 2015-01-05
-#>  6 2015-01-06
-#>  7 2015-01-07
-#>  8 2015-01-08
-#>  9 2015-01-09
-#> 10 2015-01-10
-#> # ℹ more rows
+} # }
 ```

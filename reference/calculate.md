@@ -1,8 +1,10 @@
-# Calculate
+# Execute time-intelligence or segments class objects to return the underlying transformed table
 
-Calculate
+Execute time-intelligence or segments class objects to return the
+underlying transformed table
 
-Calculate
+Execute time-intelligence or segments class objects to return the
+underlying transformed table
 
 ## Arguments
 

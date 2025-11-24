@@ -2,23 +2,21 @@
 
 Print ti objects
 
-## Usage
-
-``` r
-# S3 method for class 'ti'
-print(x, ...)
-```
+Print segment objects
 
 ## Arguments
 
 - x:
 
-  ti object
+  A `ti` object.
 
 - ...:
 
-  unused. Please ignore.
+  Unused. Present for S3/S7 compatibility; additional arguments are
+  ignored.
 
 ## Value
 
 ti object
+
+segment object

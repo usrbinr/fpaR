@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">fpaR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,11 +32,20 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="articles/abc.html">ABC Segmentation</a></li>
+    <li><a class="dropdown-item" href="articles/calendar_types.html">Standard vs. 5-5-4 Calendar</a></li>
+    <li><a class="dropdown-item" href="articles/cohort.html">Cohort</a></li>
+    <li><a class="dropdown-item" href="articles/getting_started.html">Getting started</a></li>
+  </ul>
+</li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
-<li class="nav-item"><form class="form-inline" role="search">
- <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
-</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/usrbinr"><span class="fa fab fa-github"></span> GitHub</a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://bsky.app/profile/usrbinr.bsky.social"><span class="fa fab fa-bluesky"></span> Bluesky</a></li>
       </ul>
 </div>
 
@@ -44,19 +53,13 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="readme">README<a class="anchor" aria-label="anchor" href="#readme"></a>
-</h1></div>
-</div>
-<div class="section level1">
-<h1 id="fpar-a-business-intelligence-toolkit-for-financial-planning--analysis-fpa">fpaR: A Business Intelligence Toolkit for Financial Planning &amp; Analysis (FP&amp;A)<a class="anchor" aria-label="anchor" href="#fpar-a-business-intelligence-toolkit-for-financial-planning--analysis-fpa"></a>
-</h1>
+  <main id="main" class="col-md-9">
 <div class="section level2">
-<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+<h2 id="a-business-intelligence-toolkit-for-financial-planning--analysis-fpa">A Business Intelligence Toolkit for Financial Planning &amp; Analysis (FP&amp;A)<a class="anchor" aria-label="anchor" href="#a-business-intelligence-toolkit-for-financial-planning--analysis-fpa"></a>
 </h2>
-<p><code>fpaR</code> is a collection of business intelligence tools designed to simplify common <strong>financial planning and analysis (FP&amp;A)</strong> tasks such as time intelligence calculations, customer, vendor or product segmentation, and factor/variance analysis.</p>
-<p>The package is inspired by best practices from a collection of blogs, books, industry research, and hands-on work experience, consolidating frequently performed business analyses into a fast, efficient, and reusable framework.</p>
-<p>In particular, the time intelligence functions are heavily inspired by <a href="https://www.sqlbi.com/" class="external-link">PowerBI DAX</a> functions.</p>
+<p><code>fpaR</code> is a collection of business intelligence tools designed to simplify common <strong>financial planning and analysis (FP&amp;A)</strong> tasks such as time intelligence calculations, customer, vendor or product segmentation, and factor/variance analysis</p>
+<p>The package is inspired by best practices from a collection of blogs, books, industry research, and hands-on work experience, consolidating frequently performed business analyses into a fast, efficient, and reusable framework</p>
+<p>In particular, the time intelligence functions are heavily inspired by <a href="https://www.sqlbi.com/" class="external-link">PowerBI DAX</a> functions</p>
 <p>Under the hood, these functions are built upon the great foundations of:</p>
 <ul>
 <li>
@@ -65,8 +68,8 @@
 <li><a href="https://github.com/duckdb/duckdb-r" class="external-link">duckdb</a></li>
 <li><a href="https://lubridate.tidyverse.org/" class="external-link">lubridate</a></li>
 </ul>
-<p><code>fpaR</code> is designed to seamlessly work with either tibbles or modern databases (DuckDB, Snowflake, SQLite, etc) with a unified syntax.</p>
-<p>Even if you are working with tibbles, most functions are optimized to leverage <a href="https://github.com/duckdb/duckdb-r" class="external-link">DuckDB</a> for superior speed and performance.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;I plan use &lt;a href="https://duckplyr.tidyverse.org/index.html" class="external-link"&gt;duckplyr&lt;/a&gt; once it expands support for lubricate functions&lt;/p&gt;'><sup>1</sup></a></p>
+<p><code>fpaR</code> is designed to seamlessly work with either tibbles or modern databases (DuckDB, Snowflake, SQLite, etc) with a unified syntax</p>
+<p>Even if you are working with tibbles, most functions are optimized to leverage <a href="https://github.com/duckdb/duckdb-r" class="external-link">DuckDB</a> for superior speed and performance.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;I plan to use &lt;a href="https://duckplyr.tidyverse.org/index.html" class="external-link"&gt;duckplyr&lt;/a&gt; once it expands support for lubricate functions&lt;/p&gt;'><sup>1</sup></a></p>
 <p>By default most <code>fpaR</code> function returns a lazy DBI object which you can return as a tibble with <code><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">dplyr::collect()</a></code></p>
 </div>
 <div class="section level2">
@@ -88,22 +91,29 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install using pak or install.package()</span></span>
 <span></span>
-<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"alejandrohagan/fpaR"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"usrbinr/fpaR"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="what-is-in-fpar">What is in fpaR?<a class="anchor" aria-label="anchor" href="#what-is-in-fpar"></a>
 </h2>
 <p>There are 3 main categories of functions:</p>
 <ul>
-<li>Time intelligence (Ready for testing and feedback)</li>
-<li>Segmentation strategies (work in progress)</li>
-<li>Factor Analysis (work in progress)</li>
+<li>Time intelligence</li>
+<li>Segmentation strategies</li>
+<li>Factor analysis (work in progress)</li>
 </ul>
+<div class="section level3">
+<h3 id="datasets">Datasets<a class="anchor" aria-label="anchor" href="#datasets"></a>
+</h3>
+<blockquote>
+<p>We recommend using the <a href="https://usrbinr.github.io/contoso/" class="external-link">Contoso</a> package for any practice analysis. The contoso datasets are fictional business transaction of Contoso toy company which are helpful for business intelligence related analysis</p>
+</blockquote>
+</div>
 <div class="section level3">
 <h3 id="time-intelligence">Time intelligence<a class="anchor" aria-label="anchor" href="#time-intelligence"></a>
 </h3>
-<p><code>fpaR</code> provides readily available functions for most time intelligence analysis such as <strong>Year-over-Year (YoY)</strong>, <strong>Month-to-Date (MTD)</strong>, and <strong>Current Year-to-Date over Previous Year-to-Date (YoYTD)</strong> analysis.</p>
-<p>These functions are designed to quickly answer most common time intelligence related analysis in a consistent, fast and transparent way.</p>
+<p><code>fpaR</code> provides readily available functions for most time intelligence analysis such as <strong>Year-over-Year</strong>(<code><a href="reference/yoy.html">yoy()</a></code>), <strong>Month-to-Date</strong>(<code><a href="reference/mtd.html">mtd()</a></code>), and <strong>Current Year-to-Date over Previous Year-to-Date</strong> (<code><a href="reference/ytdopy.html">ytdopy()</a></code>) analysis</p>
+<p>These functions are designed to quickly answer most common time intelligence related analysis in a consistent, fast and transparent way</p>
 <p><strong>Key benefits:</strong></p>
 <ul>
 <li><p><strong>Auto-fill missing dates</strong>: Ensures no missing periods in your datasets so that right period comparisons are performed</p></li>
@@ -113,11 +123,11 @@
 <p>Below is the full list of time intelligence functions:</p>
 <table class="table">
 <thead><tr class="header">
-<th>short_name</th>
-<th>description</th>
-<th>shift</th>
-<th>aggregate</th>
-<th>compare</th>
+<th>Function</th>
+<th>Description</th>
+<th>Shift</th>
+<th>Aggregate</th>
+<th>Compare</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -270,378 +280,53 @@
 </tbody>
 </table>
 </div>
-</div>
-<div class="section level2">
-<h2 id="how-to-use-fpar">How to use fpaR?<a class="anchor" aria-label="anchor" href="#how-to-use-fpar"></a>
-</h2>
-<div class="section level3">
-<h3 id="time-intelligence-1">Time Intelligence<a class="anchor" aria-label="anchor" href="#time-intelligence-1"></a>
-</h3>
-<p>When you execute a time intelligence function, it will return a <code>ti</code> class object with a custom print method that explains what the function is doing and a summary of transformation steps and the calendar attributes.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sales</span> <span class="op">|&gt;</span> </span>
-<span>   <span class="fu"><a href="reference/mtd.html">mtd</a></span><span class="op">(</span>.date<span class="op">=</span><span class="va">order_date</span>,.value <span class="op">=</span> <span class="va">margin</span>,calendar_type <span class="op">=</span> <span class="st">"standard"</span><span class="op">)</span> </span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="sc">&lt;</span>fpaR<span class="sc">::</span>ti<span class="sc">&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a> <span class="er">@</span> data     <span class="sc">:</span> <span class="er">&lt;</span>fpaR<span class="sc">::</span>data<span class="sc">&gt;</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a> .. <span class="sc">@</span> data           <span class="sc">:</span>List of <span class="dv">2</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a> .. .. <span class="sc">$</span> src       <span class="sc">:</span>List of <span class="dv">2</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a> .. ..  ..<span class="sc">$</span> con  <span class="sc">:</span>Formal class <span class="st">'duckdb_connection'</span> [package <span class="st">"duckdb"</span>] with <span class="dv">8</span> slots</span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a> .. ..  .. .. ..<span class="sc">@</span> conn_ref      <span class="sc">:</span><span class="er">&lt;</span>externalptr<span class="sc">&gt;</span> </span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a> .. ..  .. .. .. ..<span class="sc">-</span> <span class="fu">attr</span>(<span class="sc">*</span>, <span class="st">"_registered_df_x"</span>)<span class="ot">=</span><span class="st">'data.frame'</span><span class="sc">:</span>  <span class="dv">7794</span> obs. of  <span class="dv">17</span> variables<span class="sc">:</span></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> order_key    <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">233000</span> <span class="dv">233100</span> <span class="dv">233100</span> <span class="dv">233100</span> <span class="dv">233200</span> ...</span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> line_number  <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">0</span> <span class="dv">1</span> ...</span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> order_date   <span class="sc">:</span> Date[<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>], format<span class="sc">:</span> <span class="st">"2021-05-18"</span> ...</span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> delivery_date<span class="sc">:</span> Date[<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>], format<span class="sc">:</span> <span class="st">"2021-05-18"</span> ...</span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> customer_key <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">1855811</span> <span class="dv">1345436</span> <span class="dv">1345436</span> <span class="dv">1345436</span> <span class="dv">926315</span> ...</span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> store_key    <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">585</span> <span class="dv">550</span> <span class="dv">550</span> <span class="dv">550</span> <span class="dv">370</span> <span class="dv">370</span> <span class="dv">370</span> <span class="dv">370</span> <span class="dv">60</span> <span class="dv">60</span> ...</span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> product_key  <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">1483</span> <span class="dv">499</span> <span class="dv">1512</span> <span class="dv">1490</span> <span class="dv">2512</span> ...</span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> quantity     <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">2</span> <span class="dv">1</span> <span class="dv">3</span> <span class="dv">3</span> <span class="dv">3</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">5</span> ...</span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> unit_price   <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">377</span> <span class="dv">148</span> <span class="dv">335</span> <span class="dv">181</span> <span class="dv">182</span> ...</span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> net_price    <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">377</span> <span class="dv">131</span> <span class="dv">288</span> <span class="dv">177</span> <span class="dv">173</span> ...</span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> unit_cost    <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="fl">173.2</span> <span class="fl">75.7</span> <span class="fl">153.9</span> <span class="fl">92.1</span> <span class="fl">60.3</span> ...</span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> currency_code<span class="sc">:</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="st">"USD"</span> <span class="st">"USD"</span> <span class="st">"USD"</span> <span class="st">"USD"</span> ...</span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> exchange_rate<span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="fl">0.708</span> ...</span>
-<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> gross_revenue<span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">753</span> <span class="dv">148</span> <span class="dv">1004</span> <span class="dv">542</span> <span class="dv">546</span> ...</span>
-<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> net_revenue  <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">753</span> <span class="dv">131</span> <span class="dv">863</span> <span class="dv">531</span> <span class="dv">519</span> ...</span>
-<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> cogs         <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="fl">346.4</span> <span class="fl">75.7</span> <span class="fl">461.6</span> <span class="fl">276.2</span> <span class="fl">180.9</span> ...</span>
-<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> margin       <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">407</span> <span class="dv">55</span> <span class="dv">402</span> <span class="dv">255</span> <span class="dv">338</span> ...</span>
-<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a> .. ..  .. .. ..<span class="sc">@</span> driver        <span class="sc">:</span>Formal class <span class="st">'duckdb_driver'</span> [package <span class="st">"duckdb"</span>] with <span class="dv">6</span> slots</span>
-<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">@</span> database_ref<span class="sc">:</span><span class="er">&lt;</span>externalptr<span class="sc">&gt;</span> </span>
-<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">@</span> config      <span class="sc">:</span>List of <span class="dv">2</span></span>
-<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a> .. ..  .. .. .. .. .. ..<span class="sc">$</span> extension_directory<span class="sc">:</span> chr <span class="st">"/home/hagan/.local/share/R/duckdb/extensions"</span></span>
-<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a> .. ..  .. .. .. .. .. ..<span class="sc">$</span> secret_directory   <span class="sc">:</span> chr <span class="st">"/home/hagan/.local/share/R/duckdb/stored_secrets"</span></span>
-<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">@</span> dbdir       <span class="sc">:</span> chr <span class="st">"/tmp/RtmpBs78jg/file31ffc564e9f89"</span></span>
-<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">@</span> read_only   <span class="sc">:</span> logi <span class="cn">FALSE</span></span>
-<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">@</span> convert_opts<span class="sc">:</span>List of <span class="dv">7</span></span>
-<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a> .. ..  .. .. .. .. .. ..<span class="sc">$</span> timezone_out     <span class="sc">:</span> chr <span class="st">"UTC"</span></span>
-<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a> .. ..  .. .. .. .. .. ..<span class="sc">$</span> tz_out_convert   <span class="sc">:</span> chr <span class="st">"with"</span></span>
-<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a> .. ..  .. .. .. .. .. ..<span class="sc">$</span> bigint           <span class="sc">:</span> chr <span class="st">"numeric"</span></span>
-<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a> .. ..  .. .. .. .. .. ..<span class="sc">$</span> array            <span class="sc">:</span> chr <span class="st">"none"</span></span>
-<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a> .. ..  .. .. .. .. .. ..<span class="sc">$</span> arrow            <span class="sc">:</span> logi <span class="cn">FALSE</span></span>
-<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a> .. ..  .. .. .. .. .. ..<span class="sc">$</span> experimental     <span class="sc">:</span> logi <span class="cn">FALSE</span></span>
-<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a> .. ..  .. .. .. .. .. ..<span class="sc">$</span> strict_relational<span class="sc">:</span> logi <span class="cn">TRUE</span></span>
-<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">@</span> bigint      <span class="sc">:</span> chr <span class="st">"numeric"</span></span>
-<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a> .. ..  .. .. ..<span class="sc">@</span> debug         <span class="sc">:</span> logi <span class="cn">FALSE</span></span>
-<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a> .. ..  .. .. ..<span class="sc">@</span> convert_opts  <span class="sc">:</span>List of <span class="dv">7</span></span>
-<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a> .. ..  .. .. .. ..<span class="sc">$</span> timezone_out     <span class="sc">:</span> chr <span class="st">"UTC"</span></span>
-<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a> .. ..  .. .. .. ..<span class="sc">$</span> tz_out_convert   <span class="sc">:</span> chr <span class="st">"with"</span></span>
-<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a> .. ..  .. .. .. ..<span class="sc">$</span> bigint           <span class="sc">:</span> chr <span class="st">"numeric"</span></span>
-<span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a> .. ..  .. .. .. ..<span class="sc">$</span> array            <span class="sc">:</span> chr <span class="st">"none"</span></span>
-<span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a> .. ..  .. .. .. ..<span class="sc">$</span> arrow            <span class="sc">:</span> logi <span class="cn">FALSE</span></span>
-<span id="cb3-48"><a href="#cb3-48" tabindex="-1"></a> .. ..  .. .. .. ..<span class="sc">$</span> experimental     <span class="sc">:</span> logi <span class="cn">FALSE</span></span>
-<span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a> .. ..  .. .. .. ..<span class="sc">$</span> strict_relational<span class="sc">:</span> logi <span class="cn">TRUE</span></span>
-<span id="cb3-50"><a href="#cb3-50" tabindex="-1"></a> .. ..  .. .. ..<span class="sc">@</span> reserved_words<span class="sc">:</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">489</span>] <span class="st">"abort"</span> <span class="st">"absolute"</span> <span class="st">"access"</span> <span class="st">"action"</span> ...</span>
-<span id="cb3-51"><a href="#cb3-51" tabindex="-1"></a> .. ..  .. .. ..<span class="sc">@</span> timezone_out  <span class="sc">:</span> chr <span class="st">"UTC"</span></span>
-<span id="cb3-52"><a href="#cb3-52" tabindex="-1"></a> .. ..  .. .. ..<span class="sc">@</span> tz_out_convert<span class="sc">:</span> chr <span class="st">"with"</span></span>
-<span id="cb3-53"><a href="#cb3-53" tabindex="-1"></a> .. ..  .. .. ..<span class="sc">@</span> bigint        <span class="sc">:</span> chr <span class="st">"numeric"</span></span>
-<span id="cb3-54"><a href="#cb3-54" tabindex="-1"></a> .. ..  ..<span class="sc">$</span> disco<span class="sc">:</span> <span class="cn">NULL</span></span>
-<span id="cb3-55"><a href="#cb3-55" tabindex="-1"></a> .. ..  ..<span class="sc">-</span> <span class="fu">attr</span>(<span class="sc">*</span>, <span class="st">"class"</span>)<span class="ot">=</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>] <span class="st">"src_duckdb_connection"</span> <span class="st">"src_dbi"</span> <span class="st">"src_sql"</span> <span class="st">"src"</span></span>
-<span id="cb3-56"><a href="#cb3-56" tabindex="-1"></a> .. .. <span class="sc">$</span> lazy_query<span class="sc">:</span>List of <span class="dv">5</span></span>
-<span id="cb3-57"><a href="#cb3-57" tabindex="-1"></a> .. ..  ..<span class="sc">$</span> x         <span class="sc">:</span> <span class="st">'dbplyr_table_path'</span> chr <span class="st">"x"</span></span>
-<span id="cb3-58"><a href="#cb3-58" tabindex="-1"></a> .. ..  ..<span class="sc">$</span> vars      <span class="sc">:</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">17</span>] <span class="st">"order_key"</span> <span class="st">"line_number"</span> <span class="st">"order_date"</span> <span class="st">"delivery_date"</span> ...</span>
-<span id="cb3-59"><a href="#cb3-59" tabindex="-1"></a> .. ..  ..<span class="sc">$</span> group_vars<span class="sc">:</span> <span class="fu">chr</span>(<span class="dv">0</span>) </span>
-<span id="cb3-60"><a href="#cb3-60" tabindex="-1"></a> .. ..  ..<span class="sc">$</span> order_vars<span class="sc">:</span> <span class="cn">NULL</span></span>
-<span id="cb3-61"><a href="#cb3-61" tabindex="-1"></a> .. ..  ..<span class="sc">$</span> frame     <span class="sc">:</span> <span class="cn">NULL</span></span>
-<span id="cb3-62"><a href="#cb3-62" tabindex="-1"></a> .. ..  ..<span class="sc">-</span> <span class="fu">attr</span>(<span class="sc">*</span>, <span class="st">"class"</span>)<span class="ot">=</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>] <span class="st">"lazy_base_remote_query"</span> <span class="st">"lazy_base_query"</span> <span class="st">"lazy_query"</span></span>
-<span id="cb3-63"><a href="#cb3-63" tabindex="-1"></a> .. .. <span class="sc">-</span> <span class="fu">attr</span>(<span class="sc">*</span>, <span class="st">"class"</span>)<span class="ot">=</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>] <span class="st">"tbl_duckdb_connection"</span> <span class="st">"tbl_dbi"</span> <span class="st">"tbl_sql"</span> <span class="st">"tbl_lazy"</span> ...</span>
-<span id="cb3-64"><a href="#cb3-64" tabindex="-1"></a> .. <span class="sc">@</span> class_name     <span class="sc">:</span> chr <span class="st">"dbi"</span></span>
-<span id="cb3-65"><a href="#cb3-65" tabindex="-1"></a> .. <span class="sc">@</span> calendar_type  <span class="sc">:</span> chr <span class="st">"standard"</span></span>
-<span id="cb3-66"><a href="#cb3-66" tabindex="-1"></a> .. <span class="sc">@</span> date_vec       <span class="sc">:</span> chr <span class="st">"order_date"</span></span>
-<span id="cb3-67"><a href="#cb3-67" tabindex="-1"></a> .. <span class="sc">@</span> date_quo       <span class="sc">:</span> symbol order_date</span>
-<span id="cb3-68"><a href="#cb3-68" tabindex="-1"></a> .. <span class="sc">@</span> min_date       <span class="sc">:</span> Date[<span class="dv">1</span><span class="sc">:</span><span class="dv">1</span>], format<span class="sc">:</span> <span class="st">"2021-05-18"</span></span>
-<span id="cb3-69"><a href="#cb3-69" tabindex="-1"></a> .. <span class="sc">@</span> max_date       <span class="sc">:</span> Date[<span class="dv">1</span><span class="sc">:</span><span class="dv">1</span>], format<span class="sc">:</span> <span class="st">"2024-04-20"</span></span>
-<span id="cb3-70"><a href="#cb3-70" tabindex="-1"></a> .. <span class="sc">@</span> date_range     <span class="sc">:</span> num <span class="dv">1068</span></span>
-<span id="cb3-71"><a href="#cb3-71" tabindex="-1"></a> .. <span class="sc">@</span> date_count     <span class="sc">:</span> int <span class="dv">846</span></span>
-<span id="cb3-72"><a href="#cb3-72" tabindex="-1"></a> .. <span class="sc">@</span> date_missing   <span class="sc">:</span> num <span class="dv">222</span></span>
-<span id="cb3-73"><a href="#cb3-73" tabindex="-1"></a> .. <span class="sc">@</span> group_indicator<span class="sc">:</span> logi <span class="cn">FALSE</span></span>
-<span id="cb3-74"><a href="#cb3-74" tabindex="-1"></a> .. <span class="sc">@</span> group_quo      <span class="sc">:</span> <span class="fu">list</span>()</span>
-<span id="cb3-75"><a href="#cb3-75" tabindex="-1"></a> .. <span class="sc">@</span> group_vec      <span class="sc">:</span> <span class="fu">chr</span>(<span class="dv">0</span>) </span>
-<span id="cb3-76"><a href="#cb3-76" tabindex="-1"></a> .. <span class="sc">@</span> group_count    <span class="sc">:</span> num <span class="dv">0</span></span>
-<span id="cb3-77"><a href="#cb3-77" tabindex="-1"></a> <span class="sc">@</span> time_unit<span class="sc">:</span> <span class="er">&lt;</span>fpaR<span class="sc">::</span>time_unit<span class="sc">&gt;</span></span>
-<span id="cb3-78"><a href="#cb3-78" tabindex="-1"></a> .. <span class="sc">@</span> value<span class="sc">:</span> chr <span class="st">"day"</span></span>
-<span id="cb3-79"><a href="#cb3-79" tabindex="-1"></a> <span class="sc">@</span> value    <span class="sc">:</span> <span class="er">&lt;</span>fpaR<span class="sc">::</span>value<span class="sc">&gt;</span></span>
-<span id="cb3-80"><a href="#cb3-80" tabindex="-1"></a> .. <span class="sc">@</span> value_vec          <span class="sc">:</span> chr <span class="st">"margin"</span></span>
-<span id="cb3-81"><a href="#cb3-81" tabindex="-1"></a> .. <span class="sc">@</span> value_quo          <span class="sc">:</span> symbol margin</span>
-<span id="cb3-82"><a href="#cb3-82" tabindex="-1"></a> .. <span class="sc">@</span> new_column_name_vec<span class="sc">:</span> chr <span class="st">"mtd_margin"</span></span>
-<span id="cb3-83"><a href="#cb3-83" tabindex="-1"></a> .. <span class="sc">@</span> new_column_name_quo<span class="sc">:</span> symbol mtd_margin</span>
-<span id="cb3-84"><a href="#cb3-84" tabindex="-1"></a> <span class="sc">@</span> fn       <span class="sc">:</span> <span class="er">&lt;</span>fpaR<span class="sc">::</span>fn<span class="sc">&gt;</span></span>
-<span id="cb3-85"><a href="#cb3-85" tabindex="-1"></a> .. <span class="sc">@</span> fn_exec             <span class="sc">:</span> <span class="cf">function</span> (x)  </span>
-<span id="cb3-86"><a href="#cb3-86" tabindex="-1"></a> .. <span class="sc">@</span> fn_name             <span class="sc">:</span> chr <span class="st">"mtd"</span></span>
-<span id="cb3-87"><a href="#cb3-87" tabindex="-1"></a> .. <span class="sc">@</span> fn_long_name        <span class="sc">:</span> chr <span class="st">"Month-to-date"</span></span>
-<span id="cb3-88"><a href="#cb3-88" tabindex="-1"></a> .. <span class="sc">@</span> shift               <span class="sc">:</span> chr <span class="cn">NA</span></span>
-<span id="cb3-89"><a href="#cb3-89" tabindex="-1"></a> .. <span class="sc">@</span> compare             <span class="sc">:</span> chr <span class="cn">NA</span></span>
-<span id="cb3-90"><a href="#cb3-90" tabindex="-1"></a> .. <span class="sc">@</span> label               <span class="sc">:</span> logi <span class="cn">FALSE</span></span>
-<span id="cb3-91"><a href="#cb3-91" tabindex="-1"></a> .. <span class="sc">@</span> new_date_column_name<span class="sc">:</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>] <span class="st">"date"</span> <span class="st">"year"</span> <span class="st">"month"</span></span>
-<span id="cb3-92"><a href="#cb3-92" tabindex="-1"></a> .. <span class="sc">@</span> lag_n               <span class="sc">:</span> int <span class="cn">NA</span></span>
-<span id="cb3-93"><a href="#cb3-93" tabindex="-1"></a> <span class="sc">@</span> action   <span class="sc">:</span> <span class="er">&lt;</span>fpaR<span class="sc">::</span>action<span class="sc">&gt;</span></span>
-<span id="cb3-94"><a href="#cb3-94" tabindex="-1"></a> .. <span class="sc">@</span> value <span class="sc">:</span>List of <span class="dv">5</span></span>
-<span id="cb3-95"><a href="#cb3-95" tabindex="-1"></a> .. .. <span class="sc">$</span> <span class="er">:</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="st">"✔"</span> <span class="st">"Aggregate"</span></span>
-<span id="cb3-96"><a href="#cb3-96" tabindex="-1"></a> .. .. <span class="sc">$</span> <span class="er">:</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="st">"✖"</span> <span class="st">"Shift"</span></span>
-<span id="cb3-97"><a href="#cb3-97" tabindex="-1"></a> .. .. <span class="sc">$</span> <span class="er">:</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="st">"✖"</span> <span class="st">"Compare"</span></span>
-<span id="cb3-98"><a href="#cb3-98" tabindex="-1"></a> .. .. <span class="sc">$</span> <span class="er">:</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="st">"✖"</span> <span class="st">"Proportion Of Total"</span></span>
-<span id="cb3-99"><a href="#cb3-99" tabindex="-1"></a> .. .. <span class="sc">$</span> <span class="er">:</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="st">"✖"</span> <span class="st">"Count Distinct"</span></span>
-<span id="cb3-100"><a href="#cb3-100" tabindex="-1"></a> .. <span class="sc">@</span> method<span class="sc">:</span> chr <span class="st">"This creates a daily {.code cumsum()} of the {cli::col_cyan('current month')}</span><span class="sc">\n</span><span class="st">                             {.f"</span><span class="sc">|</span> __truncated__</span></code></pre></div>
-<p>This prints a summary of the function’s actions,details the calendar’s attributes, summarizes the main transformation steps and lists out possible next actions.</p>
-<p>To return a tibble of results, pass the ti object through to <code><a href="reference/calculate.html">calculate()</a></code>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sales</span> <span class="op">|&gt;</span>                                                                </span>
-<span>   <span class="fu"><a href="reference/mtd.html">mtd</a></span><span class="op">(</span>.date<span class="op">=</span><span class="va">order_date</span>,.value <span class="op">=</span> <span class="va">margin</span>,calendar_type <span class="op">=</span> <span class="st">"standard"</span><span class="op">)</span> <span class="op">|&gt;</span>  </span>
-<span>   <span class="fu"><a href="reference/calculate.html">calculate</a></span><span class="op">(</span><span class="op">)</span>                                                          </span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Source:     SQL [?? x 7]</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co"># Database:   DuckDB 1.4.2-dev189 [hagan@Linux 6.16.3-76061603-generic:R 4.5.1//tmp/RtmpBs78jg/file31ffc35b0b5ef]</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co"># Ordered by: date</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    year month date       margin missing_date_indicator mtd_margin</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>   <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>date<span class="sc">&gt;</span>      <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>                  <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>      <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a> <span class="dv">1</span>  <span class="dv">2021</span>    <span class="dv">11</span> <span class="dv">2021-11-01</span>   <span class="fl">310.</span>                      <span class="dv">0</span>       <span class="fl">310.</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a> <span class="dv">2</span>  <span class="dv">2021</span>    <span class="dv">11</span> <span class="dv">2021-11-02</span>   <span class="fl">605.</span>                      <span class="dv">0</span>       <span class="fl">916.</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a> <span class="dv">3</span>  <span class="dv">2021</span>    <span class="dv">11</span> <span class="dv">2021-11-03</span> <span class="fl">15938.</span>                      <span class="dv">0</span>     <span class="fl">16854.</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a> <span class="dv">4</span>  <span class="dv">2021</span>    <span class="dv">11</span> <span class="dv">2021-11-04</span>  <span class="fl">1987.</span>                      <span class="dv">0</span>     <span class="fl">18840.</span></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a> <span class="dv">5</span>  <span class="dv">2021</span>    <span class="dv">11</span> <span class="dv">2021-11-05</span>  <span class="fl">1763.</span>                      <span class="dv">0</span>     <span class="fl">20603.</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a> <span class="dv">6</span>  <span class="dv">2021</span>    <span class="dv">11</span> <span class="dv">2021-11-06</span>  <span class="fl">7703.</span>                      <span class="dv">0</span>     <span class="fl">28306.</span></span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a> <span class="dv">7</span>  <span class="dv">2021</span>    <span class="dv">11</span> <span class="dv">2021-11-07</span>     <span class="dv">0</span>                       <span class="dv">1</span>     <span class="fl">28306.</span></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a> <span class="dv">8</span>  <span class="dv">2021</span>    <span class="dv">11</span> <span class="dv">2021-11-08</span>   <span class="fl">325.</span>                      <span class="dv">0</span>     <span class="fl">28631.</span></span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a> <span class="dv">9</span>  <span class="dv">2021</span>    <span class="dv">11</span> <span class="dv">2021-11-09</span>  <span class="fl">2309.</span>                      <span class="dv">0</span>     <span class="fl">30940.</span></span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="dv">10</span>  <span class="dv">2021</span>    <span class="dv">11</span> <span class="dv">2021-11-10</span>  <span class="fl">3476.</span>                      <span class="dv">0</span>     <span class="fl">34416.</span></span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co"># ℹ more rows</span></span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co"># ℹ 1 more variable: days_in_current_period &lt;dbl&gt;</span></span></code></pre></div>
-<p>If you using a tibble, under the hood, <code>fpaR</code> is converting your data to a <a href="https://github.com/duckdb/duckdb-r" class="external-link">duckdb</a> database.</p>
-<p>If your data is in a database, the package will leverage <a href="https://dbplyr.tidyverse.org/" class="external-link">dbplyr</a> to execute all the calculations.</p>
-<p>Either case use <code><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">dplyr::collect()</a></code> to return your results to a local tibble.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sales</span> <span class="op">|&gt;</span>                                                                </span>
-<span>   <span class="fu"><a href="reference/mtd.html">mtd</a></span><span class="op">(</span>.date<span class="op">=</span><span class="va">order_date</span>,.value <span class="op">=</span> <span class="va">margin</span>,calendar_type <span class="op">=</span> <span class="st">"standard"</span><span class="op">)</span> <span class="op">|&gt;</span>  </span>
-<span>   <span class="fu"><a href="reference/calculate.html">calculate</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span>                                                       </span>
-<span>   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">collect</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span>                                               </span>
-<span>   <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># A tibble: 10 × 7</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>    year month date       margin missing_date_indicator mtd_margin</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>   <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>date<span class="sc">&gt;</span>      <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>                  <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>      <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a> <span class="dv">1</span>  <span class="dv">2022</span>     <span class="dv">4</span> <span class="dv">2022-04-01</span>      <span class="dv">0</span>                      <span class="dv">1</span>          <span class="dv">0</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a> <span class="dv">2</span>  <span class="dv">2022</span>     <span class="dv">4</span> <span class="dv">2022-04-02</span>      <span class="dv">0</span>                      <span class="dv">1</span>          <span class="dv">0</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a> <span class="dv">3</span>  <span class="dv">2022</span>     <span class="dv">4</span> <span class="dv">2022-04-03</span>      <span class="dv">0</span>                      <span class="dv">1</span>          <span class="dv">0</span></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a> <span class="dv">4</span>  <span class="dv">2022</span>     <span class="dv">4</span> <span class="dv">2022-04-04</span>      <span class="dv">0</span>                      <span class="dv">1</span>          <span class="dv">0</span></span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a> <span class="dv">5</span>  <span class="dv">2022</span>     <span class="dv">4</span> <span class="dv">2022-04-05</span>      <span class="dv">0</span>                      <span class="dv">1</span>          <span class="dv">0</span></span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a> <span class="dv">6</span>  <span class="dv">2022</span>     <span class="dv">4</span> <span class="dv">2022-04-06</span>      <span class="dv">0</span>                      <span class="dv">1</span>          <span class="dv">0</span></span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a> <span class="dv">7</span>  <span class="dv">2022</span>     <span class="dv">4</span> <span class="dv">2022-04-07</span>      <span class="dv">0</span>                      <span class="dv">1</span>          <span class="dv">0</span></span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a> <span class="dv">8</span>  <span class="dv">2022</span>     <span class="dv">4</span> <span class="dv">2022-04-08</span>      <span class="dv">0</span>                      <span class="dv">1</span>          <span class="dv">0</span></span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a> <span class="dv">9</span>  <span class="dv">2022</span>     <span class="dv">4</span> <span class="dv">2022-04-09</span>      <span class="dv">0</span>                      <span class="dv">1</span>          <span class="dv">0</span></span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="dv">10</span>  <span class="dv">2022</span>     <span class="dv">4</span> <span class="dv">2022-04-10</span>      <span class="dv">0</span>                      <span class="dv">1</span>          <span class="dv">0</span></span>
-<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co"># ℹ 1 more variable: days_in_current_period &lt;dbl&gt;</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="what-if-you-need-the-analysis-at-the-group-level">What if you need the analysis at the group level?<a class="anchor" aria-label="anchor" href="#what-if-you-need-the-analysis-at-the-group-level"></a>
-</h3>
-<p>Simply pass through the groups that you want with <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">dplyr::group_by()</a></code> and time intelligence function will create a custom calendar for each group level.</p>
-<p>This will calculate a complete calendar ensuring each group has a complete calendar with no missing dates.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sales</span> <span class="op">|&gt;</span>   </span>
-<span>   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">customer_key</span>,<span class="va">store_key</span><span class="op">)</span> <span class="op">|&gt;</span>  </span>
-<span>   <span class="fu"><a href="reference/yoy.html">yoy</a></span><span class="op">(</span>.date<span class="op">=</span><span class="va">order_date</span>,.value <span class="op">=</span> <span class="va">margin</span>,calendar_type <span class="op">=</span> <span class="st">"standard"</span><span class="op">)</span> </span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="sc">&lt;</span>fpaR<span class="sc">::</span>ti<span class="sc">&gt;</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a> <span class="er">@</span> data     <span class="sc">:</span> <span class="er">&lt;</span>fpaR<span class="sc">::</span>data<span class="sc">&gt;</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a> .. <span class="sc">@</span> data           <span class="sc">:</span>List of <span class="dv">2</span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a> .. .. <span class="sc">$</span> src       <span class="sc">:</span>List of <span class="dv">2</span></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a> .. ..  ..<span class="sc">$</span> con  <span class="sc">:</span>Formal class <span class="st">'duckdb_connection'</span> [package <span class="st">"duckdb"</span>] with <span class="dv">8</span> slots</span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a> .. ..  .. .. ..<span class="sc">@</span> conn_ref      <span class="sc">:</span><span class="er">&lt;</span>externalptr<span class="sc">&gt;</span> </span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a> .. ..  .. .. .. ..<span class="sc">-</span> <span class="fu">attr</span>(<span class="sc">*</span>, <span class="st">"_registered_df_x"</span>)<span class="ot">=</span><span class="st">'data.frame'</span><span class="sc">:</span>  <span class="dv">7794</span> obs. of  <span class="dv">17</span> variables<span class="sc">:</span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> order_key    <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">233000</span> <span class="dv">233100</span> <span class="dv">233100</span> <span class="dv">233100</span> <span class="dv">233200</span> ...</span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> line_number  <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">0</span> <span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">0</span> <span class="dv">1</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">0</span> <span class="dv">1</span> ...</span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> order_date   <span class="sc">:</span> Date[<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>], format<span class="sc">:</span> <span class="st">"2021-05-18"</span> ...</span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> delivery_date<span class="sc">:</span> Date[<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>], format<span class="sc">:</span> <span class="st">"2021-05-18"</span> ...</span>
-<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> customer_key <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">1855811</span> <span class="dv">1345436</span> <span class="dv">1345436</span> <span class="dv">1345436</span> <span class="dv">926315</span> ...</span>
-<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> store_key    <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">585</span> <span class="dv">550</span> <span class="dv">550</span> <span class="dv">550</span> <span class="dv">370</span> <span class="dv">370</span> <span class="dv">370</span> <span class="dv">370</span> <span class="dv">60</span> <span class="dv">60</span> ...</span>
-<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> product_key  <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">1483</span> <span class="dv">499</span> <span class="dv">1512</span> <span class="dv">1490</span> <span class="dv">2512</span> ...</span>
-<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> quantity     <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">2</span> <span class="dv">1</span> <span class="dv">3</span> <span class="dv">3</span> <span class="dv">3</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">2</span> <span class="dv">3</span> <span class="dv">5</span> ...</span>
-<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> unit_price   <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">377</span> <span class="dv">148</span> <span class="dv">335</span> <span class="dv">181</span> <span class="dv">182</span> ...</span>
-<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> net_price    <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">377</span> <span class="dv">131</span> <span class="dv">288</span> <span class="dv">177</span> <span class="dv">173</span> ...</span>
-<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> unit_cost    <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="fl">173.2</span> <span class="fl">75.7</span> <span class="fl">153.9</span> <span class="fl">92.1</span> <span class="fl">60.3</span> ...</span>
-<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> currency_code<span class="sc">:</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="st">"USD"</span> <span class="st">"USD"</span> <span class="st">"USD"</span> <span class="st">"USD"</span> ...</span>
-<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> exchange_rate<span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="dv">1</span> <span class="fl">0.708</span> ...</span>
-<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> gross_revenue<span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">753</span> <span class="dv">148</span> <span class="dv">1004</span> <span class="dv">542</span> <span class="dv">546</span> ...</span>
-<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> net_revenue  <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">753</span> <span class="dv">131</span> <span class="dv">863</span> <span class="dv">531</span> <span class="dv">519</span> ...</span>
-<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> cogs         <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="fl">346.4</span> <span class="fl">75.7</span> <span class="fl">461.6</span> <span class="fl">276.2</span> <span class="fl">180.9</span> ...</span>
-<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">$</span> margin       <span class="sc">:</span> num [<span class="dv">1</span><span class="sc">:</span><span class="dv">7794</span>] <span class="dv">407</span> <span class="dv">55</span> <span class="dv">402</span> <span class="dv">255</span> <span class="dv">338</span> ...</span>
-<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a> .. ..  .. .. ..<span class="sc">@</span> driver        <span class="sc">:</span>Formal class <span class="st">'duckdb_driver'</span> [package <span class="st">"duckdb"</span>] with <span class="dv">6</span> slots</span>
-<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">@</span> database_ref<span class="sc">:</span><span class="er">&lt;</span>externalptr<span class="sc">&gt;</span> </span>
-<span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">@</span> config      <span class="sc">:</span>List of <span class="dv">2</span></span>
-<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a> .. ..  .. .. .. .. .. ..<span class="sc">$</span> extension_directory<span class="sc">:</span> chr <span class="st">"/home/hagan/.local/share/R/duckdb/extensions"</span></span>
-<span id="cb9-29"><a href="#cb9-29" tabindex="-1"></a> .. ..  .. .. .. .. .. ..<span class="sc">$</span> secret_directory   <span class="sc">:</span> chr <span class="st">"/home/hagan/.local/share/R/duckdb/stored_secrets"</span></span>
-<span id="cb9-30"><a href="#cb9-30" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">@</span> dbdir       <span class="sc">:</span> chr <span class="st">"/tmp/RtmpBs78jg/file31ffc15c77e80"</span></span>
-<span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">@</span> read_only   <span class="sc">:</span> logi <span class="cn">FALSE</span></span>
-<span id="cb9-32"><a href="#cb9-32" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">@</span> convert_opts<span class="sc">:</span>List of <span class="dv">7</span></span>
-<span id="cb9-33"><a href="#cb9-33" tabindex="-1"></a> .. ..  .. .. .. .. .. ..<span class="sc">$</span> timezone_out     <span class="sc">:</span> chr <span class="st">"UTC"</span></span>
-<span id="cb9-34"><a href="#cb9-34" tabindex="-1"></a> .. ..  .. .. .. .. .. ..<span class="sc">$</span> tz_out_convert   <span class="sc">:</span> chr <span class="st">"with"</span></span>
-<span id="cb9-35"><a href="#cb9-35" tabindex="-1"></a> .. ..  .. .. .. .. .. ..<span class="sc">$</span> bigint           <span class="sc">:</span> chr <span class="st">"numeric"</span></span>
-<span id="cb9-36"><a href="#cb9-36" tabindex="-1"></a> .. ..  .. .. .. .. .. ..<span class="sc">$</span> array            <span class="sc">:</span> chr <span class="st">"none"</span></span>
-<span id="cb9-37"><a href="#cb9-37" tabindex="-1"></a> .. ..  .. .. .. .. .. ..<span class="sc">$</span> arrow            <span class="sc">:</span> logi <span class="cn">FALSE</span></span>
-<span id="cb9-38"><a href="#cb9-38" tabindex="-1"></a> .. ..  .. .. .. .. .. ..<span class="sc">$</span> experimental     <span class="sc">:</span> logi <span class="cn">FALSE</span></span>
-<span id="cb9-39"><a href="#cb9-39" tabindex="-1"></a> .. ..  .. .. .. .. .. ..<span class="sc">$</span> strict_relational<span class="sc">:</span> logi <span class="cn">TRUE</span></span>
-<span id="cb9-40"><a href="#cb9-40" tabindex="-1"></a> .. ..  .. .. .. .. ..<span class="sc">@</span> bigint      <span class="sc">:</span> chr <span class="st">"numeric"</span></span>
-<span id="cb9-41"><a href="#cb9-41" tabindex="-1"></a> .. ..  .. .. ..<span class="sc">@</span> debug         <span class="sc">:</span> logi <span class="cn">FALSE</span></span>
-<span id="cb9-42"><a href="#cb9-42" tabindex="-1"></a> .. ..  .. .. ..<span class="sc">@</span> convert_opts  <span class="sc">:</span>List of <span class="dv">7</span></span>
-<span id="cb9-43"><a href="#cb9-43" tabindex="-1"></a> .. ..  .. .. .. ..<span class="sc">$</span> timezone_out     <span class="sc">:</span> chr <span class="st">"UTC"</span></span>
-<span id="cb9-44"><a href="#cb9-44" tabindex="-1"></a> .. ..  .. .. .. ..<span class="sc">$</span> tz_out_convert   <span class="sc">:</span> chr <span class="st">"with"</span></span>
-<span id="cb9-45"><a href="#cb9-45" tabindex="-1"></a> .. ..  .. .. .. ..<span class="sc">$</span> bigint           <span class="sc">:</span> chr <span class="st">"numeric"</span></span>
-<span id="cb9-46"><a href="#cb9-46" tabindex="-1"></a> .. ..  .. .. .. ..<span class="sc">$</span> array            <span class="sc">:</span> chr <span class="st">"none"</span></span>
-<span id="cb9-47"><a href="#cb9-47" tabindex="-1"></a> .. ..  .. .. .. ..<span class="sc">$</span> arrow            <span class="sc">:</span> logi <span class="cn">FALSE</span></span>
-<span id="cb9-48"><a href="#cb9-48" tabindex="-1"></a> .. ..  .. .. .. ..<span class="sc">$</span> experimental     <span class="sc">:</span> logi <span class="cn">FALSE</span></span>
-<span id="cb9-49"><a href="#cb9-49" tabindex="-1"></a> .. ..  .. .. .. ..<span class="sc">$</span> strict_relational<span class="sc">:</span> logi <span class="cn">TRUE</span></span>
-<span id="cb9-50"><a href="#cb9-50" tabindex="-1"></a> .. ..  .. .. ..<span class="sc">@</span> reserved_words<span class="sc">:</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">489</span>] <span class="st">"abort"</span> <span class="st">"absolute"</span> <span class="st">"access"</span> <span class="st">"action"</span> ...</span>
-<span id="cb9-51"><a href="#cb9-51" tabindex="-1"></a> .. ..  .. .. ..<span class="sc">@</span> timezone_out  <span class="sc">:</span> chr <span class="st">"UTC"</span></span>
-<span id="cb9-52"><a href="#cb9-52" tabindex="-1"></a> .. ..  .. .. ..<span class="sc">@</span> tz_out_convert<span class="sc">:</span> chr <span class="st">"with"</span></span>
-<span id="cb9-53"><a href="#cb9-53" tabindex="-1"></a> .. ..  .. .. ..<span class="sc">@</span> bigint        <span class="sc">:</span> chr <span class="st">"numeric"</span></span>
-<span id="cb9-54"><a href="#cb9-54" tabindex="-1"></a> .. ..  ..<span class="sc">$</span> disco<span class="sc">:</span> <span class="cn">NULL</span></span>
-<span id="cb9-55"><a href="#cb9-55" tabindex="-1"></a> .. ..  ..<span class="sc">-</span> <span class="fu">attr</span>(<span class="sc">*</span>, <span class="st">"class"</span>)<span class="ot">=</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>] <span class="st">"src_duckdb_connection"</span> <span class="st">"src_dbi"</span> <span class="st">"src_sql"</span> <span class="st">"src"</span></span>
-<span id="cb9-56"><a href="#cb9-56" tabindex="-1"></a> .. .. <span class="sc">$</span> lazy_query<span class="sc">:</span>List of <span class="dv">5</span></span>
-<span id="cb9-57"><a href="#cb9-57" tabindex="-1"></a> .. ..  ..<span class="sc">$</span> x         <span class="sc">:</span> <span class="st">'dbplyr_table_path'</span> chr <span class="st">"x"</span></span>
-<span id="cb9-58"><a href="#cb9-58" tabindex="-1"></a> .. ..  ..<span class="sc">$</span> vars      <span class="sc">:</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">17</span>] <span class="st">"order_key"</span> <span class="st">"line_number"</span> <span class="st">"order_date"</span> <span class="st">"delivery_date"</span> ...</span>
-<span id="cb9-59"><a href="#cb9-59" tabindex="-1"></a> .. ..  ..<span class="sc">$</span> group_vars<span class="sc">:</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="st">"customer_key"</span> <span class="st">"store_key"</span></span>
-<span id="cb9-60"><a href="#cb9-60" tabindex="-1"></a> .. ..  ..<span class="sc">$</span> order_vars<span class="sc">:</span> <span class="cn">NULL</span></span>
-<span id="cb9-61"><a href="#cb9-61" tabindex="-1"></a> .. ..  ..<span class="sc">$</span> frame     <span class="sc">:</span> <span class="cn">NULL</span></span>
-<span id="cb9-62"><a href="#cb9-62" tabindex="-1"></a> .. ..  ..<span class="sc">-</span> <span class="fu">attr</span>(<span class="sc">*</span>, <span class="st">"class"</span>)<span class="ot">=</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>] <span class="st">"lazy_base_remote_query"</span> <span class="st">"lazy_base_query"</span> <span class="st">"lazy_query"</span></span>
-<span id="cb9-63"><a href="#cb9-63" tabindex="-1"></a> .. .. <span class="sc">-</span> <span class="fu">attr</span>(<span class="sc">*</span>, <span class="st">"class"</span>)<span class="ot">=</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>] <span class="st">"tbl_duckdb_connection"</span> <span class="st">"tbl_dbi"</span> <span class="st">"tbl_sql"</span> <span class="st">"tbl_lazy"</span> ...</span>
-<span id="cb9-64"><a href="#cb9-64" tabindex="-1"></a> .. <span class="sc">@</span> class_name     <span class="sc">:</span> chr <span class="st">"dbi"</span></span>
-<span id="cb9-65"><a href="#cb9-65" tabindex="-1"></a> .. <span class="sc">@</span> calendar_type  <span class="sc">:</span> chr <span class="st">"standard"</span></span>
-<span id="cb9-66"><a href="#cb9-66" tabindex="-1"></a> .. <span class="sc">@</span> date_vec       <span class="sc">:</span> chr <span class="st">"order_date"</span></span>
-<span id="cb9-67"><a href="#cb9-67" tabindex="-1"></a> .. <span class="sc">@</span> date_quo       <span class="sc">:</span> symbol order_date</span>
-<span id="cb9-68"><a href="#cb9-68" tabindex="-1"></a> .. <span class="sc">@</span> min_date       <span class="sc">:</span> Date[<span class="dv">1</span><span class="sc">:</span><span class="dv">1</span>], format<span class="sc">:</span> <span class="st">"2021-05-18"</span></span>
-<span id="cb9-69"><a href="#cb9-69" tabindex="-1"></a> .. <span class="sc">@</span> max_date       <span class="sc">:</span> Date[<span class="dv">1</span><span class="sc">:</span><span class="dv">1</span>], format<span class="sc">:</span> <span class="st">"2024-04-20"</span></span>
-<span id="cb9-70"><a href="#cb9-70" tabindex="-1"></a> .. <span class="sc">@</span> date_range     <span class="sc">:</span> num <span class="dv">1068</span></span>
-<span id="cb9-71"><a href="#cb9-71" tabindex="-1"></a> .. <span class="sc">@</span> date_count     <span class="sc">:</span> int <span class="dv">846</span></span>
-<span id="cb9-72"><a href="#cb9-72" tabindex="-1"></a> .. <span class="sc">@</span> date_missing   <span class="sc">:</span> num <span class="dv">222</span></span>
-<span id="cb9-73"><a href="#cb9-73" tabindex="-1"></a> .. <span class="sc">@</span> group_indicator<span class="sc">:</span> logi <span class="cn">TRUE</span></span>
-<span id="cb9-74"><a href="#cb9-74" tabindex="-1"></a> .. <span class="sc">@</span> group_quo      <span class="sc">:</span>List of <span class="dv">2</span></span>
-<span id="cb9-75"><a href="#cb9-75" tabindex="-1"></a> .. .. <span class="sc">$</span> <span class="er">:</span> symbol customer_key</span>
-<span id="cb9-76"><a href="#cb9-76" tabindex="-1"></a> .. .. <span class="sc">$</span> <span class="er">:</span> symbol store_key</span>
-<span id="cb9-77"><a href="#cb9-77" tabindex="-1"></a> .. <span class="sc">@</span> group_vec      <span class="sc">:</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="st">"customer_key"</span> <span class="st">"store_key"</span></span>
-<span id="cb9-78"><a href="#cb9-78" tabindex="-1"></a> .. <span class="sc">@</span> group_count    <span class="sc">:</span> int <span class="dv">2</span></span>
-<span id="cb9-79"><a href="#cb9-79" tabindex="-1"></a> <span class="sc">@</span> time_unit<span class="sc">:</span> <span class="er">&lt;</span>fpaR<span class="sc">::</span>time_unit<span class="sc">&gt;</span></span>
-<span id="cb9-80"><a href="#cb9-80" tabindex="-1"></a> .. <span class="sc">@</span> value<span class="sc">:</span> chr <span class="st">"year"</span></span>
-<span id="cb9-81"><a href="#cb9-81" tabindex="-1"></a> <span class="sc">@</span> value    <span class="sc">:</span> <span class="er">&lt;</span>fpaR<span class="sc">::</span>value<span class="sc">&gt;</span></span>
-<span id="cb9-82"><a href="#cb9-82" tabindex="-1"></a> .. <span class="sc">@</span> value_vec          <span class="sc">:</span> chr <span class="st">"margin"</span></span>
-<span id="cb9-83"><a href="#cb9-83" tabindex="-1"></a> .. <span class="sc">@</span> value_quo          <span class="sc">:</span> symbol margin</span>
-<span id="cb9-84"><a href="#cb9-84" tabindex="-1"></a> .. <span class="sc">@</span> new_column_name_vec<span class="sc">:</span> chr <span class="st">"yoy_margin"</span></span>
-<span id="cb9-85"><a href="#cb9-85" tabindex="-1"></a> .. <span class="sc">@</span> new_column_name_quo<span class="sc">:</span> symbol yoy_margin</span>
-<span id="cb9-86"><a href="#cb9-86" tabindex="-1"></a> <span class="sc">@</span> fn       <span class="sc">:</span> <span class="er">&lt;</span>fpaR<span class="sc">::</span>fn<span class="sc">&gt;</span></span>
-<span id="cb9-87"><a href="#cb9-87" tabindex="-1"></a> .. <span class="sc">@</span> fn_exec             <span class="sc">:</span> <span class="cf">function</span> (x)  </span>
-<span id="cb9-88"><a href="#cb9-88" tabindex="-1"></a> .. <span class="sc">@</span> fn_name             <span class="sc">:</span> chr <span class="st">"yoy"</span></span>
-<span id="cb9-89"><a href="#cb9-89" tabindex="-1"></a> .. <span class="sc">@</span> fn_long_name        <span class="sc">:</span> chr <span class="st">"Year over year"</span></span>
-<span id="cb9-90"><a href="#cb9-90" tabindex="-1"></a> .. <span class="sc">@</span> shift               <span class="sc">:</span> chr <span class="st">"year"</span></span>
-<span id="cb9-91"><a href="#cb9-91" tabindex="-1"></a> .. <span class="sc">@</span> compare             <span class="sc">:</span> chr <span class="st">"previous year"</span></span>
-<span id="cb9-92"><a href="#cb9-92" tabindex="-1"></a> .. <span class="sc">@</span> label               <span class="sc">:</span> logi <span class="cn">FALSE</span></span>
-<span id="cb9-93"><a href="#cb9-93" tabindex="-1"></a> .. <span class="sc">@</span> new_date_column_name<span class="sc">:</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="st">"date"</span> <span class="st">"year"</span></span>
-<span id="cb9-94"><a href="#cb9-94" tabindex="-1"></a> .. <span class="sc">@</span> lag_n               <span class="sc">:</span> num <span class="dv">1</span></span>
-<span id="cb9-95"><a href="#cb9-95" tabindex="-1"></a> <span class="sc">@</span> action   <span class="sc">:</span> <span class="er">&lt;</span>fpaR<span class="sc">::</span>action<span class="sc">&gt;</span></span>
-<span id="cb9-96"><a href="#cb9-96" tabindex="-1"></a> .. <span class="sc">@</span> value <span class="sc">:</span>List of <span class="dv">5</span></span>
-<span id="cb9-97"><a href="#cb9-97" tabindex="-1"></a> .. .. <span class="sc">$</span> <span class="er">:</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="st">"✔"</span> <span class="st">"Aggregate"</span></span>
-<span id="cb9-98"><a href="#cb9-98" tabindex="-1"></a> .. .. <span class="sc">$</span> <span class="er">:</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="st">"✔"</span> <span class="st">"Shift"</span></span>
-<span id="cb9-99"><a href="#cb9-99" tabindex="-1"></a> .. .. <span class="sc">$</span> <span class="er">:</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="st">"✔"</span> <span class="st">"Compare"</span></span>
-<span id="cb9-100"><a href="#cb9-100" tabindex="-1"></a> .. .. <span class="sc">$</span> <span class="er">:</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="st">"✖"</span> <span class="st">"Proportion Of Total"</span></span>
-<span id="cb9-101"><a href="#cb9-101" tabindex="-1"></a> .. .. <span class="sc">$</span> <span class="er">:</span> chr [<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="st">"✖"</span> <span class="st">"Count Distinct"</span></span>
-<span id="cb9-102"><a href="#cb9-102" tabindex="-1"></a> .. <span class="sc">@</span> method<span class="sc">:</span> chr <span class="st">"This creates a full year {.code sum()} of the {cli::col_br_cyan('previous year')}</span><span class="sc">\n</span><span class="st">                            "</span><span class="sc">|</span> __truncated__</span></code></pre></div>
-<p>The functions will work with your database even if you don’t have write permission by creatively leveraging CTEs to create interim tables.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="why-do-we-need-this-package-when-we-have-lubridate">Why do we need this package when we have lubridate?<a class="anchor" aria-label="anchor" href="#why-do-we-need-this-package-when-we-have-lubridate"></a>
-</h2>
-<p><a href="https://lubridate.tidyverse.org/" class="external-link">Lubridate</a> is an excellent package and is heavily used by the package. The issue isn’t lubridate but rather issues you may not be aware of in your package.</p>
-<p>Time-based comparisons, such as Year-over-Year (YoY), Quarter-over-Quarter (QoQ), and Month-to-Date (MTD), are common for tracking business performance. However, they come with challenges:</p>
-<ul>
-<li><p>Many datasets <strong>do not have continuous dates</strong>, especially if data is recorded only on business days or for active transactions</p></li>
-<li><p>Period imbalances between periods (Eg. the different number of days between February vs. January) can create misleading analysis or trends</p></li>
-<li><p>Your analysis may need to reference a non-standard calendar such as a 5-5-4, 4-4-5, or 13 month calendar</p></li>
-<li><p>Your data may be in excel sheets, csv or databases and you need to inter-operable framework to switch between all your data types</p></li>
-</ul>
-<div class="section level3">
-<h3 id="issue-1-continuous-dates">Issue 1: Continuous Dates<a class="anchor" aria-label="anchor" href="#issue-1-continuous-dates"></a>
-</h3>
-<p>Referencing the table below, if we use <code><a href="https://dplyr.tidyverse.org/reference/lead-lag.html" class="external-link">dplyr::lag()</a></code> to compare <strong>Day-over-Day (DoD)</strong> revenue, we would be missing <code>2024-01-02</code>, <code>2024-01-04</code>, and <code>2024-01-05</code> which will lead to incorrect answers or trends.</p>
-<table class="table">
-<thead><tr class="header">
-<th>order_date</th>
-<th>margin</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>2024-01-01</td>
-<td>1200</td>
-</tr>
-<tr class="even">
-<td>2024-01-03</td>
-<td>1100</td>
-</tr>
-<tr class="odd">
-<td>2024-01-06</td>
-<td>1300</td>
-</tr>
-<tr class="even">
-<td>2024-01-07</td>
-<td>900</td>
-</tr>
-<tr class="odd">
-<td>2024-01-08</td>
-<td>1200</td>
-</tr>
-<tr class="even">
-<td>2024-01-09</td>
-<td>850</td>
-</tr>
-<tr class="odd">
-<td>2024-01-11</td>
-<td>1450</td>
-</tr>
-</tbody>
-</table>
-<p>To correct this, <code>fpaR</code> will automatically complete your calendar for each group for the missing periods to ensure there are no missing periods when calculating trends.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="issue-2">Issue 2<a class="anchor" aria-label="anchor" href="#issue-2"></a>
-</h2>
-<ul>
-<li>TBD</li>
-</ul>
-</div>
-<div class="section level2">
-<h2 id="issue-3">Issue 3<a class="anchor" aria-label="anchor" href="#issue-3"></a>
-</h2>
-<ul>
-<li>TBD</li>
-</ul>
-</div>
-<div class="section level2">
-<h2 id="datasets">Datasets<a class="anchor" aria-label="anchor" href="#datasets"></a>
-</h2>
-<ul>
-<li>This package leverages the <a href="https://usrbinr.github.io/contoso/" class="external-link">Contoso</a> package for its analysis. The contoso datasets are fictional business transaction of Contoso toy company which are helpful for business intelligence related analysis</li>
-</ul>
-<p>This is an <strong>active work-in-progress</strong>, and feedback, testing, and contributions are welcome!</p>
-</div>
-<div class="section level2">
-<h2 id="future-capabilities">Future capabilities<a class="anchor" aria-label="anchor" href="#future-capabilities"></a>
-</h2>
 <div class="section level3">
 <h3 id="segmentation-strategies">
 <strong>Segmentation Strategies</strong><a class="anchor" aria-label="anchor" href="#segmentation-strategies"></a>
 </h3>
-<p>Provides functions to segment and categorize your data into meaningful business categories.</p>
 <div class="section level4">
-<h4 id="example-segmentation-methods">
-<strong>Example Segmentation Methods:</strong><a class="anchor" aria-label="anchor" href="#example-segmentation-methods"></a>
+<h4 id="abc-classification">ABC Classification<a class="anchor" aria-label="anchor" href="#abc-classification"></a>
 </h4>
-<ul>
-<li>
-<strong>ABC Classification</strong> – Categorizing products/customers based on revenue contribution</li>
-<li>
-<strong>Cohort Analysis</strong> - Categorize your data by a shared time based attribute to track over time</li>
-<li>
-<strong>New vs. Returning</strong> – Distinguishing first-time buyers from repeat customers</li>
-<li>
-<strong>K-means Clustering</strong> – Grouping data points based on patterns</li>
-<li>
-<strong>UMAP (Uniform Manifold Approximation and Projection)</strong> – Dimensionaltiy reduction for clustering</li>
-</ul>
+<p>ABC classification is an business analysis technique that categorizes items (like products, customers, or suppliers) based on their relative contribution of a value. It facilities the Pareto Principle (the 80/20 rule), suggesting that a small percentage of items contribute to the largest percentage of the total value</p>
+<p>The analysis will assign a letter category to each break point so that you can further focus your analysis</p>
+</div>
+<div class="section level4">
+<h4 id="cohort">Cohort<a class="anchor" aria-label="anchor" href="#cohort"></a>
+</h4>
+<p>Cohort analysis is a type of behavioral analytics that takes data from a given group of users (a cohort) and tracks their activity over time. A cohort is typically defined by a shared starting characteristic, most commonly the time period in which the entities first interacted with the product or service</p>
+<p>This allows you to understand retention, turnover and other attributes more clearly</p>
+<table class="table">
+<colgroup>
+<col width="20%">
+<col width="20%">
+<col width="20%">
+<col width="20%">
+<col width="20%">
+</colgroup>
+<thead><tr class="header">
+<th>Function</th>
+<th>Description</th>
+<th>Categorizes</th>
+<th>Time-Based</th>
+<th>Tracks Over Time</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>abc()</td>
+<td>ABC Classification groups items by relative contribution (Pareto analysis).</td>
+<td>X</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>cohort()</td>
+<td>Cohort analysis groups entities by a shared start point and analyzes behavior over time.</td>
+<td></td>
+<td>X</td>
+<td>X</td>
+</tr>
+</tbody>
+</table>
 <hr>
 </div>
 </div>
@@ -650,18 +335,13 @@
 <strong>Factor / Variation Analysis</strong><a class="anchor" aria-label="anchor" href="#factor--variation-analysis"></a>
 </h3>
 <p>Breaks down revenue or cost changes into <strong>price, volume, and mix effects</strong>.</p>
-<div class="section level4">
-<h4 id="use-cases">
-<strong>Use Cases:</strong><a class="anchor" aria-label="anchor" href="#use-cases"></a>
-</h4>
-<ul>
-<li>Analyzing revenue growth <strong>due to price increases vs. increased sales volume</strong>
-</li>
-<li>Measuring the impact of <strong>product mix changes on profitability</strong>.</li>
-</ul>
 <hr>
 </div>
 </div>
+<div class="section level2">
+<h2 id="future-capabilities">Future capabilities<a class="anchor" aria-label="anchor" href="#future-capabilities"></a>
+</h2>
+<p>Is there a future capability that you want to see here? please open up a <a href="https://github.com/usrbinr/fpaR/discussions" class="external-link">discussion</a> on our github site</p>
 </div>
 <div class="section level2">
 <h2 id="additional-references-and-inspirations">Additional references and inspirations<a class="anchor" aria-label="anchor" href="#additional-references-and-inspirations"></a>
@@ -669,7 +349,6 @@
 <ul>
 <li><a href="https://github.com/PeerChristensen/cohorts" class="external-link">PeerChristensen’s Cohort Package</a></li>
 </ul>
-</div>
 </div>
 
 
@@ -696,7 +375,14 @@
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://CRAN.R-project.org/package=fpaR" class="external-link"><img src="https://www.r-pkg.org/badges/version/fpaR?svg=1.png" alt="CRAN status"></a></li>
+<li><a href="https://mybinder.org/v2/gh/usrbinr/fpaR/HEAD" class="external-link"><img src="https://mybinder.org/badge_logo.svg" alt="Binder"></a></li>
+<li><a href="https://cran.r-project.org/package=fpaR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/fpaR.png"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>

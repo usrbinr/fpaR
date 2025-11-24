@@ -1,9 +1,10 @@
 # Cohort Analysis
 
-A database is remake of 'https://github.com/PeerChristensen/cohorts'
-excellent cohort package combining chort_table_month, cohort_table_year,
-cohort_table_day into a single package. Re-written to be database
-friendly tested against snowflake and duckdb databases
+Database-friendly cohort analysis function. A remake of
+<https://github.com/PeerChristensen/cohorts>, combining
+`cohort_table_month`, `cohort_table_year`, and `cohort_table_day` into a
+single package. Rewritten for database compatibility and tested with
+Snowflake and DuckDB.
 
 ## Usage
 
@@ -38,12 +39,12 @@ cohort(
 
 - time_unit:
 
-  do you want summarize the date column to 'day',
-  'week','month','quarter' or 'year'
+  do you want summarize the date column to 'day', 'week',
+  'month','quarter' or 'year'
 
 - period_label:
 
-  do you want period labels or the dates c(TRUE,FALSE)
+  do you want period labels or the dates c(TRUE , FALSE)
 
 ## Value
 
@@ -51,12 +52,12 @@ segment object
 
 ## Details
 
-- This will group your `.value` column by shared time attributes from
-  the `.date` column
+- Groups your `.value` column by shared time attributes from the `.date`
+  column.
 
-- It will assign to each member a time base cohort based on the member's
-  first entry in the `.date` column
+- Assigns each member to a cohort based on their first entry in `.date`.
 
-- The cohort will be generalized by the time_unit argument you selected
+- Aggregates the cohort by the `time_unit` argument (`day`, `week`,
+  `month`, `quarter`, or `year`).
 
-- Then the distinct count of each cohort member over time is calculated
+- Computes the distinct count of each cohort member over time.
