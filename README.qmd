@@ -208,7 +208,7 @@ Work in progress.
 
 ## Future capabilities
 
-Is there a future capability that you want to see here? please open up a [discussion](https://github.com/usrbinr/fpaR/discussions) on our github site
+Is there a future capability that you want to see here? please open up [discussion](https://github.com/usrbinr/fpaR/discussions) on our github site
 
 ## Additional references and inspirations
 

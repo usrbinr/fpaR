@@ -12,7 +12,7 @@ quarto::write_yaml_metadata_block(
    )
 ```
 
-## Introduction
+### Introduction
 
 In many fpaR functions, you will see a reference to a calendar_type argument which may confuse most of you, isn't there only one type of calendar?
 
@@ -23,7 +23,7 @@ To accomodate the uniqueness of some industries, financial planning analysis wil
 
 This vignette explains the differences between these calendars and their typical use cases.
 
-## Standard Calendar
+### Standard Calendar
 
 This is your "typical" calendar also known as a conventional Gregorian calendar:
 
@@ -49,7 +49,7 @@ The primary disadvantage of this calendar is that when you try to compare a metr
 This can lead to misleading conclusions that revenue is increasing or decreasing
 
 
-## 5-5-4 Calendar
+### 5-5-4 Calendar
 
 The **5-5-4 calendar** is commonly used in retail designed to simplify period-over-period comparisons which a standard calendar introduces
 
@@ -65,7 +65,7 @@ The **5-5-4 calendar** is commonly used in retail designed to simplify period-ov
 | Month 2 | 5 |
 | Month 3 | 4 |
 
-# Comparison
+### Comparison
 
 | Feature | Standard Calendar | 5-5-4 Calendar |
 |---------|-----------------|----------------|
@@ -75,7 +75,7 @@ The **5-5-4 calendar** is commonly used in retail designed to simplify period-ov
 | Best for | General reporting, financial statements | Retail, period-over-period sales and inventory analysis |
 
 
-## How to reference in `fpaR` functions?
+### How to reference in `fpaR` functions?
 
 Where you see `calandar_type` argument in function you can either put in "standard" to get a traditional calendar or you can put "554" or  "445" to get the alternative cealndar equivalents.
 
