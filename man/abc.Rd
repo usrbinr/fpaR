@@ -14,7 +14,7 @@ abc(.data, category_values, .value)
 \item{.value}{optional: if left blank,\code{\link[=abc]{abc()}} will use the number of rows per group to categorize, alternatively you can pass a column name to categorize}
 }
 \value{
-segment object
+abc object
 }
 \description{
 \itemize{

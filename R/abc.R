@@ -14,7 +14,7 @@
 #' -  If you do not provide a `.value` then it will count the transactions per group, if you provide `.value` then it will [sum()] the `.value` per group
 #' -  The function creates a `segment` object, which pre-processes the data into its components
 #'
-#' @returns segment object
+#' @returns abc object
 #' @export
 #'
 #' @examples
@@ -41,7 +41,7 @@ abc <- function(.data,category_values,.value){
   }
 
 
-  x <-   segment(
+  x <-   segment_abc(
     datum                      = datum(.data,date_vec = NA,calendar_type = NA)
     ,value                    = value(value_vec = value_vec,new_column_name_vec = "abc")
     ,category                 = category(category_values=category_values)
@@ -226,13 +226,12 @@ cohort <- function(.data,.date,.value,calendar_type,time_unit="month",period_lab
   # calendar_type <- "standard"
 
 
-  x <-  segment(
+  x <-  segment_cohort(
     datum= datum(
       .data
       ,calendar_type = calendar_type
       ,date_vec = rlang::as_label(rlang::enquo(.date))
     )
-    ,category = category(category_values = 0)
     ,fn = fn(
       fn_exec = cohort_fn
       ,fn_name = "cohort"

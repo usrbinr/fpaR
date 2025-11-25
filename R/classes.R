@@ -370,13 +370,29 @@ category <- S7::new_class(
   )
 )
 
-segment <- S7::new_class(
 
-  ,name="segment"
+segment_abc <- S7::new_class(
+
+  ,name="segment_abc"
   ,package = "fpaR"
   ,properties = list(
     datum=datum
     ,category=category
+    ,time_unit=time_unit
+    ,fn=fn
+    ,action=action
+    ,value=value
+  )
+)
+
+
+
+segment_cohort <- S7::new_class(
+
+  ,name="segment_cohort"
+  ,package = "fpaR"
+  ,properties = list(
+    datum=datum
     ,time_unit=time_unit
     ,fn=fn
     ,action=action
