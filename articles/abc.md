@@ -4,7 +4,7 @@
 
 In business and financial analytics, the **ABC classification** method
 is widely used to categorize items, customers, or other groups according
-to their contribution to a total metric.
+to their relative contribution to a total metric.
 
 The [`abc()`](https://usrbinr.github.io/fpaR/reference/abc.md) function
 provides a flexible and robust way to perform ABC segmentation, either
@@ -29,22 +29,20 @@ such as sales margin or revenue.
 > [`fpaR::abc()`](https://usrbinr.github.io/fpaR/reference/abc.md)
 > requires a grouped tibble or lazy DBI object using
 > [`dplyr::group_by()`](https://dplyr.tidyverse.org/reference/group_by.html)
-> to specific the groups that drive the contribution
+> to specify the groups that drive the contribution
 
 **Value Capture**
 
-- If `.value` is provided, the function sums it per group; otherwise, it
-  counts rows.
+- If `.value` is provided, the the column is aggregate per group;
+  otherwise, it counts rows.
 
-**Segment Object Creation**
+**Category Values**
 
-- The function creates a `segment` object which stores all the necessary
-  metadata for later computation. **Category Values**
-
-- [Table 1](#tbl-abc-args) explains the break points should be
-  cumulative so if you want to see the stores that make up the top 40%
-  of revenue follow by top 70% and then 90% you should put in
-  `c(0.4,.7,.9,1)`
+- Provide the break points break points that are used to set the
+  cumulative categories. Each break point will get a letter category
+  starting with ‘A’
+- If you want to see the stores that make up the top 40% of revenue
+  follow by top 70% and then 90% you should put in `c(0.4,.7,.9,1)`
 
 | Argument        | Description                                                                                                      |
 |-----------------|------------------------------------------------------------------------------------------------------------------|
@@ -53,14 +51,6 @@ such as sales margin or revenue.
 | .value          | Optional. A column to sum for categorization. If not provided, the function counts the number of rows per group. |
 
 Table 1
-
-### Output
-
-The function returns a **segment object**. Use
-[`calculate()`](https://usrbinr.github.io/fpaR/reference/calculate.md)
-to generate the ABC classification table:
-
-If we wanted to
 
 ``` r
 # Example
@@ -115,8 +105,9 @@ contoso::sales |>
 
     ────────────────────────────────────────────────────────────────────────────────
 
-To return the results, use
-[`fpaR::calculate()`](https://usrbinr.github.io/fpaR/reference/calculate.md)
+The function returns a **segment object**. Use
+[`calculate()`](https://usrbinr.github.io/fpaR/reference/calculate.md)
+to generate the ABC classification table:
 
 ``` r
 contoso::sales |> 
@@ -128,17 +119,63 @@ contoso::sales |>
    fpaR::calculate()
 ```
 
-| store_key | abc_margin | cum_sum | prop_total  | cum_prop_total | row_id | max_row_id | cum_unit_prop | category_value | category_name |
-|-----------|------------|---------|-------------|----------------|--------|------------|---------------|----------------|---------------|
-| 510       | 69455.50   | 2415418 | 0.016949770 | 0.5894534      | 4      | 58         | 0.06896552    | 0.4            | a             |
-| 400       | 46370.18   | 3045628 | 0.011316078 | 0.7432485      | 16     | 58         | 0.27586207    | 0.4            | a             |
-| 660       | 42338.14   | 3131933 | 0.010332108 | 0.7643101      | 18     | 58         | 0.31034483    | 0.4            | a             |
-| 440       | 56500.03   | 2596521 | 0.013788146 | 0.6336494      | 7      | 58         | 0.12068966    | 0.4            | a             |
-| 540       | 78124.11   | 2271359 | 0.019065238 | 0.5542974      | 2      | 58         | 0.03448276    | 0.4            | a             |
-| 80        | 67880.51   | 2483298 | 0.016565414 | 0.6060188      | 5      | 58         | 0.08620690    | 0.4            | a             |
-| 550       | 53874.43   | 2705337 | 0.013147399 | 0.6602046      | 9      | 58         | 0.15517241    | 0.4            | a             |
-| 470       | 39874.75   | 3295960 | 0.009730947 | 0.8043389      | 22     | 58         | 0.37931034    | 0.4            | a             |
-| 450       | 54941.68   | 2651463 | 0.013407849 | 0.6470572      | 8      | 58         | 0.13793103    | 0.4            | a             |
-| 560       | 43966.48   | 3089595 | 0.010729485 | 0.7539780      | 17     | 58         | 0.29310345    | 0.4            | a             |
+| store_key | abc_margin | cum_sum   | prop_total | cum_prop_total | row_id | max_row_id | cum_unit_prop | category_value | category_name |
+|-----------|------------|-----------|------------|----------------|--------|------------|---------------|----------------|---------------|
+| 540       | 78124.11   | 78124.11  | 0.04102100 | 0.04102100     | 1      | 57         | 0.01754386    | 0.4            | a             |
+| 610       | 74603.84   | 152727.95 | 0.03917259 | 0.08019359     | 2      | 57         | 0.03508772    | 0.4            | a             |
+| 510       | 69455.50   | 222183.44 | 0.03646933 | 0.11666292     | 3      | 57         | 0.05263158    | 0.4            | a             |
+| 80        | 67880.51   | 290063.96 | 0.03564234 | 0.15230526     | 4      | 57         | 0.07017544    | 0.4            | a             |
+| 270       | 56722.52   | 346786.47 | 0.02978356 | 0.18208882     | 5      | 57         | 0.08771930    | 0.4            | a             |
+| 440       | 56500.03   | 403286.51 | 0.02966674 | 0.21175556     | 6      | 57         | 0.10526316    | 0.4            | a             |
+| 450       | 54941.68   | 458228.19 | 0.02884849 | 0.24060405     | 7      | 57         | 0.12280702    | 0.4            | a             |
+| 550       | 53874.43   | 512102.61 | 0.02828810 | 0.26889216     | 8      | 57         | 0.14035088    | 0.4            | a             |
+| 490       | 51347.82   | 563450.44 | 0.02696145 | 0.29585360     | 9      | 57         | 0.15789474    | 0.4            | a             |
+| 650       | 49467.08   | 612917.52 | 0.02597392 | 0.32182752     | 10     | 57         | 0.17543860    | 0.4            | a             |
 
 Table 2
+
+This table contains grouped data with various metrics, highlighting the
+contribution of each group in terms of both value and transaction count.
+Below is an explanation of the key columns and how to interpret the
+results:
+
+### Understanding the Results
+
+- Store 540 has a margin of \$7,812.11 (“ABC Margin”), which accounts
+  for about 4% (“prop_total”) of the total margin across all stores
+
+- The “cum_sum” column tracks the running total of values (e.g., revenue
+  or count) for each store, showing the cumulative sum up to that row
+
+- The “cum_prop_total” column shows each store’s contribution as a
+  percentage of the total margin as you move down the table
+
+- The store with the highest contribution has a “row_id” of 1 and is
+  assigned to the first category segment (‘A’) via the “category_name”
+  column
+
+- The “max_row_id” shows that there are 57 additional stores in the same
+  category (‘A’)
+
+- The “cum_unit_prop” column tracks the cumulative contribution from a
+  transaction count perspective, similar to cum_prop_total but at the
+  unit level
+
+- The category_value and category_name columns define the breakpoints
+  you provided, assigning stores to categories (e.g., ‘A’, ‘B’, ‘C’)
+  based on their cumulative contribution
+
+This is summarized in [Table 3](#tbl-output) below
+
+| Column_Name    | Description                                                                                                                                       | Example_Values   |
+|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------|------------------|
+| cum_sum        | The cumulative sum of the specified values (e.g., revenue, count, etc.), aggregated per group. Represents the total value up to that row.         | 1000, 2500, 4000 |
+| prop_total     | The proportion of the total for each row's value. Shows the percentage of the total represented by the current row's contribution.                | 0.10, 0.25, 0.40 |
+| cum_prop_total | The cumulative proportion of the total, showing the running total percentage of the entire dataset as you move through the rows.                  | 0.10, 0.35, 0.75 |
+| row_id         | The unique identifier for the row, often used to track or identify specific rows in the dataset. Typically sequential ID or index.                | 1, 2, 3          |
+| max_row_id     | The maximum row ID in the current group (if grouping is applied), representing the total number of rows in the group.                             | 5, 5, 5          |
+| cum_unit_prop  | The cumulative proportion of the unit values, similar to cum_prop_total, but typically used when the unit is treated as aggregate.                | 0.10, 0.30, 0.70 |
+| category_value | The category value that corresponds to the cumulative proportion break points (e.g., top 10%, top 40%, etc.). Based on the break points provided. | 0.4, 0.7, 0.9    |
+| category_name  | The name of the category assigned to each row based on the cumulative contribution. Categories are represented by letters (A, B, C, etc.).        | "A", "B", "C"    |
+
+Table 3

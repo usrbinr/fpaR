@@ -1,4 +1,4 @@
-# Cohort
+# cohort
 
 ## Introduction
 
@@ -67,17 +67,68 @@ The function returns a **segment object**. Use
 to retrieve the cohort table:
 
 ``` r
+#|eval: false
 library(dplyr)
+```
 
+    Attaching package: 'dplyr'
+
+    The following objects are masked from 'package:stats':
+
+        filter, lag
+
+    The following objects are masked from 'package:base':
+
+        intersect, setdiff, setequal, union
+
+``` r
 # Example cohort analysis
-seg_obj <- cohort(.data = contoso::sales,
+fpaR::cohort(.data = contoso::sales,
                   .date = order_date,
                   .value = customer_key,
                   calendar_type = "standard",
                   time_unit = "month",
-                  period_label = FALSE)
-
-# Calculate the cohort table
-cohort_tbl <- calculate(seg_obj)
-cohort_tbl <- dplyr::collect(cohort_tbl)  # if using a DBI objec
+                  period_label = FALSE
+             )
 ```
+
+    ── Time Based Cohort ───────────────────────────────────────────────────────────
+
+    Function: `cohort` was executed
+
+    ── Description: ──
+
+    This segments groups based on a shared time related dimension so you can track
+    a cohort's trend over time
+
+    ── Category Information ──
+
+    • The data set is grouped by the customer_key and segments each group member by their first order_date entry to define their cohort customer_key
+    • This creates cohort ID that each member is assigned to eg; January 2020, February 2020, etc
+    • The distinct count of each customer_key member in the cohort is then tracked over time
+
+    ── Calendar: ──
+
+    • The calendar aggregated order_date to the month time unit
+    • A standard calendar is created with 0 groups
+    • Calendar ranges from 2021-05-18 to 2024-04-20
+    • 222 days were missing and replaced with 0
+    • New date column cohort_date was created from order_date
+
+    ── Actions: ──
+
+    ✖Aggregate
+
+    ✖Shift
+
+    ✖Compare
+
+    ✖Proportion Of Total
+
+    ✔Count Distinct
+
+    ── Next Steps: ──
+
+    • Use `calculate()` to return the results
+
+    ────────────────────────────────────────────────────────────────────────────────

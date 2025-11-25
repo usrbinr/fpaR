@@ -37,8 +37,8 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/abc.html">ABC Segmentation</a></li>
     <li><a class="dropdown-item" href="../articles/calendar_types.html">Standard vs. 5-5-4 Calendar</a></li>
-    <li><a class="dropdown-item" href="../articles/cohort.html">Cohort</a></li>
-    <li><a class="dropdown-item" href="../articles/getting_started.html">Getting started</a></li>
+    <li><a class="dropdown-item" href="../articles/cohort.html">cohort</a></li>
+    <li><a class="dropdown-item" href="../articles/getting_started_with_ti.html">Getting started</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -58,7 +58,7 @@
       <h1>ABC Segmentation</h1>
       <p class="subtitle">How to use segmentation strategies to simplify your analysis</p>
 
-      <p class="date">2025-11-24</p>
+      <p class="date">2025-11-25</p>
 
 
       <div class="d-none name"><code></code></div>
@@ -76,7 +76,7 @@
 </div>
 <section class="level3"><h3 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h3>
-<p>In business and financial analytics, the <strong>ABC classification</strong> method is widely used to categorize items, customers, or other groups according to their contribution to a total metric.</p>
+<p>In business and financial analytics, the <strong>ABC classification</strong> method is widely used to categorize items, customers, or other groups according to their relative contribution to a total metric.</p>
 <p>The <code><a href="../reference/abc.html">abc()</a></code> function provides a flexible and robust way to perform ABC segmentation, either based on <strong>transaction counts</strong> or the sum of a <strong>numeric variable</strong> such as sales margin or revenue.</p>
 </section><section class="level3"><h3 id="function-purpose">Function Purpose<a class="anchor" aria-label="anchor" href="#function-purpose"></a>
 </h3>
@@ -89,16 +89,17 @@
 </ul></section><section class="level3"><h3 id="how-it-works">How It Works<a class="anchor" aria-label="anchor" href="#how-it-works"></a>
 </h3>
 <blockquote>
-<p><code><a href="../reference/abc.html">fpaR::abc()</a></code> requires a grouped tibble or lazy DBI object using <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">dplyr::group_by()</a></code> to specific the groups that drive the contribution</p>
+<p><code><a href="../reference/abc.html">fpaR::abc()</a></code> requires a grouped tibble or lazy DBI object using <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">dplyr::group_by()</a></code> to specify the groups that drive the contribution</p>
 </blockquote>
 <p><strong>Value Capture</strong></p>
 <ul>
-<li>If <code>.value</code> is provided, the function sums it per group; otherwise, it counts rows.</li>
+<li>If <code>.value</code> is provided, the the column is aggregate per group; otherwise, it counts rows.</li>
 </ul>
-<p><strong>Segment Object Creation</strong></p>
+<p><strong>Category Values</strong></p>
 <ul>
-<li><p>The function creates a <code>segment</code> object which stores all the necessary metadata for later computation. <strong>Category Values</strong></p></li>
-<li><p><a href="#tbl-abc-args" class="quarto-xref">Table 1</a> explains the break points should be cumulative so if you want to see the stores that make up the top 40% of revenue follow by top 70% and then 90% you should put in <code>c(0.4,.7,.9,1)</code></p></li>
+<li>Provide the break points break points that are used to set the cumulative categories. Each break point will get a letter category starting with ‘A’</li>
+<li>If you want to see the stores that make up the top 40% of revenue follow by top 70% and then 90% you should put in <code>c(0.4,.7,.9,1)</code>
+</li>
 </ul>
 <div class="cell">
 <div id="tbl-abc-args" class="cell quarto-float quarto-figure quarto-figure-center">
@@ -110,30 +111,30 @@ Table 1
 
     <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script><script>
       // Create table-specific functions using external factory
-      const tableFns_k2sz47l66j3b732eack6 = TinyTable.createTableFunctions("tinytable_k2sz47l66j3b732eack6");
+      const tableFns_ufnb5cq5x6jd78ie0xia = TinyTable.createTableFunctions("tinytable_ufnb5cq5x6jd78ie0xia");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '3', j: 1 }, { i: '3', j: 2 } ], css_id: 'tinytable_css_qaq34hyond3ffqcznhlz',},
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_4pfso2dtt862t6y9dq4z',},
+          { positions: [ { i: '3', j: 1 }, { i: '3', j: 2 } ], css_id: 'tinytable_css_236ys74cjfbxuyznijvp',},
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_h0uor28dl4dddarbioey',},
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_k2sz47l66j3b732eack6.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_ufnb5cq5x6jd78ie0xia.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
     </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
 <style>
     /* tinytable css entries after */
-    #tinytable_k2sz47l66j3b732eack6 td.tinytable_css_qaq34hyond3ffqcznhlz, #tinytable_k2sz47l66j3b732eack6 th.tinytable_css_qaq34hyond3ffqcznhlz {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
-    #tinytable_k2sz47l66j3b732eack6 td.tinytable_css_4pfso2dtt862t6y9dq4z, #tinytable_k2sz47l66j3b732eack6 th.tinytable_css_4pfso2dtt862t6y9dq4z {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_ufnb5cq5x6jd78ie0xia td.tinytable_css_236ys74cjfbxuyznijvp, #tinytable_ufnb5cq5x6jd78ie0xia th.tinytable_css_236ys74cjfbxuyznijvp {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_ufnb5cq5x6jd78ie0xia td.tinytable_css_h0uor28dl4dddarbioey, #tinytable_ufnb5cq5x6jd78ie0xia th.tinytable_css_h0uor28dl4dddarbioey {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
     </style>
 <div class="container">
-      <table class="table tinytable" id="tinytable_k2sz47l66j3b732eack6" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table tinytable" id="tinytable_ufnb5cq5x6jd78ie0xia" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
 <thead><tr>
 <th scope="col" data-row="0" data-col="1">Argument</th>
                 <th scope="col" data-row="0" data-col="2">Description</th>
@@ -160,10 +161,6 @@ Table 1
 </figure>
 </div>
 </div>
-</section><section class="level3"><h3 id="output">Output<a class="anchor" aria-label="anchor" href="#output"></a>
-</h3>
-<p>The function returns a <strong>segment object</strong>. Use <code><a href="../reference/calculate.html">calculate()</a></code> to generate the ABC classification table:</p>
-<p>If we wanted to</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example</span></span>
@@ -256,7 +253,7 @@ group member's proportational contribution to the total.</code></pre>
 <pre><code>────────────────────────────────────────────────────────────────────────────────</code></pre>
 </div>
 </div>
-<p>To return the results, use <code><a href="../reference/calculate.html">fpaR::calculate()</a></code></p>
+<p>The function returns a <strong>segment object</strong>. Use <code><a href="../reference/calculate.html">calculate()</a></code> to generate the ABC classification table:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">contoso</span><span class="fu">::</span><span class="va"><a href="https://usrbinr.github.io/contoso/reference/sales.html" class="external-link">sales</a></span> <span class="op">|&gt;</span> </span>
@@ -272,35 +269,35 @@ group member's proportational contribution to the total.</code></pre>
 <figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl quarto-uncaptioned" id="tbl-output-no-echo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table 2
 </figcaption><div aria-describedby="tbl-output-no-echo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
+<div class="cell-output-display column-screen">
 <!-- preamble start -->
 
     <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script><script>
       // Create table-specific functions using external factory
-      const tableFns_vtfqxum8lexaifbhcqjs = TinyTable.createTableFunctions("tinytable_vtfqxum8lexaifbhcqjs");
+      const tableFns_usvx38chpy3sk97wcalo = TinyTable.createTableFunctions("tinytable_usvx38chpy3sk97wcalo");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '10', j: 1 }, { i: '10', j: 2 }, { i: '10', j: 3 }, { i: '10', j: 4 }, { i: '10', j: 5 }, { i: '10', j: 6 }, { i: '10', j: 7 }, { i: '10', j: 8 }, { i: '10', j: 9 }, { i: '10', j: 10 } ], css_id: 'tinytable_css_0frr71oba8dxpl187hyc',},
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 }, { i: '0', j: 6 }, { i: '0', j: 7 }, { i: '0', j: 8 }, { i: '0', j: 9 }, { i: '0', j: 10 } ], css_id: 'tinytable_css_idtky3fc4a9adrzw2vqc',},
+          { positions: [ { i: '10', j: 1 }, { i: '10', j: 2 }, { i: '10', j: 3 }, { i: '10', j: 4 }, { i: '10', j: 5 }, { i: '10', j: 6 }, { i: '10', j: 7 }, { i: '10', j: 8 }, { i: '10', j: 9 }, { i: '10', j: 10 } ], css_id: 'tinytable_css_552nr708q0oekm93qnhw',},
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 }, { i: '0', j: 6 }, { i: '0', j: 7 }, { i: '0', j: 8 }, { i: '0', j: 9 }, { i: '0', j: 10 } ], css_id: 'tinytable_css_sqfzhbtvhe25gn9spspn',},
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_vtfqxum8lexaifbhcqjs.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_usvx38chpy3sk97wcalo.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
     </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
 <style>
     /* tinytable css entries after */
-    #tinytable_vtfqxum8lexaifbhcqjs td.tinytable_css_0frr71oba8dxpl187hyc, #tinytable_vtfqxum8lexaifbhcqjs th.tinytable_css_0frr71oba8dxpl187hyc {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
-    #tinytable_vtfqxum8lexaifbhcqjs td.tinytable_css_idtky3fc4a9adrzw2vqc, #tinytable_vtfqxum8lexaifbhcqjs th.tinytable_css_idtky3fc4a9adrzw2vqc {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_usvx38chpy3sk97wcalo td.tinytable_css_552nr708q0oekm93qnhw, #tinytable_usvx38chpy3sk97wcalo th.tinytable_css_552nr708q0oekm93qnhw {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_usvx38chpy3sk97wcalo td.tinytable_css_sqfzhbtvhe25gn9spspn, #tinytable_usvx38chpy3sk97wcalo th.tinytable_css_sqfzhbtvhe25gn9spspn {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
     </style>
 <div class="container">
-      <table class="table tinytable" id="tinytable_vtfqxum8lexaifbhcqjs" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table tinytable" id="tinytable_usvx38chpy3sk97wcalo" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
 <thead><tr>
 <th scope="col" data-row="0" data-col="1">store_key</th>
                 <th scope="col" data-row="0" data-col="2">abc_margin</th>
@@ -315,124 +312,226 @@ Table 2
               </tr></thead>
 <tbody>
 <tr>
-<td data-row="1" data-col="1">510</td>
-                  <td data-row="1" data-col="2">69455.50</td>
-                  <td data-row="1" data-col="3">2415418</td>
-                  <td data-row="1" data-col="4">0.016949770</td>
-                  <td data-row="1" data-col="5">0.5894534</td>
-                  <td data-row="1" data-col="6">4</td>
-                  <td data-row="1" data-col="7">58</td>
-                  <td data-row="1" data-col="8">0.06896552</td>
+<td data-row="1" data-col="1">540</td>
+                  <td data-row="1" data-col="2">78124.11</td>
+                  <td data-row="1" data-col="3">78124.11</td>
+                  <td data-row="1" data-col="4">0.04102100</td>
+                  <td data-row="1" data-col="5">0.04102100</td>
+                  <td data-row="1" data-col="6">1</td>
+                  <td data-row="1" data-col="7">57</td>
+                  <td data-row="1" data-col="8">0.01754386</td>
                   <td data-row="1" data-col="9">0.4</td>
                   <td data-row="1" data-col="10">a</td>
                 </tr>
 <tr>
-<td data-row="2" data-col="1">400</td>
-                  <td data-row="2" data-col="2">46370.18</td>
-                  <td data-row="2" data-col="3">3045628</td>
-                  <td data-row="2" data-col="4">0.011316078</td>
-                  <td data-row="2" data-col="5">0.7432485</td>
-                  <td data-row="2" data-col="6">16</td>
-                  <td data-row="2" data-col="7">58</td>
-                  <td data-row="2" data-col="8">0.27586207</td>
+<td data-row="2" data-col="1">610</td>
+                  <td data-row="2" data-col="2">74603.84</td>
+                  <td data-row="2" data-col="3">152727.95</td>
+                  <td data-row="2" data-col="4">0.03917259</td>
+                  <td data-row="2" data-col="5">0.08019359</td>
+                  <td data-row="2" data-col="6">2</td>
+                  <td data-row="2" data-col="7">57</td>
+                  <td data-row="2" data-col="8">0.03508772</td>
                   <td data-row="2" data-col="9">0.4</td>
                   <td data-row="2" data-col="10">a</td>
                 </tr>
 <tr>
-<td data-row="3" data-col="1">660</td>
-                  <td data-row="3" data-col="2">42338.14</td>
-                  <td data-row="3" data-col="3">3131933</td>
-                  <td data-row="3" data-col="4">0.010332108</td>
-                  <td data-row="3" data-col="5">0.7643101</td>
-                  <td data-row="3" data-col="6">18</td>
-                  <td data-row="3" data-col="7">58</td>
-                  <td data-row="3" data-col="8">0.31034483</td>
+<td data-row="3" data-col="1">510</td>
+                  <td data-row="3" data-col="2">69455.50</td>
+                  <td data-row="3" data-col="3">222183.44</td>
+                  <td data-row="3" data-col="4">0.03646933</td>
+                  <td data-row="3" data-col="5">0.11666292</td>
+                  <td data-row="3" data-col="6">3</td>
+                  <td data-row="3" data-col="7">57</td>
+                  <td data-row="3" data-col="8">0.05263158</td>
                   <td data-row="3" data-col="9">0.4</td>
                   <td data-row="3" data-col="10">a</td>
                 </tr>
 <tr>
-<td data-row="4" data-col="1">440</td>
-                  <td data-row="4" data-col="2">56500.03</td>
-                  <td data-row="4" data-col="3">2596521</td>
-                  <td data-row="4" data-col="4">0.013788146</td>
-                  <td data-row="4" data-col="5">0.6336494</td>
-                  <td data-row="4" data-col="6">7</td>
-                  <td data-row="4" data-col="7">58</td>
-                  <td data-row="4" data-col="8">0.12068966</td>
+<td data-row="4" data-col="1">80</td>
+                  <td data-row="4" data-col="2">67880.51</td>
+                  <td data-row="4" data-col="3">290063.96</td>
+                  <td data-row="4" data-col="4">0.03564234</td>
+                  <td data-row="4" data-col="5">0.15230526</td>
+                  <td data-row="4" data-col="6">4</td>
+                  <td data-row="4" data-col="7">57</td>
+                  <td data-row="4" data-col="8">0.07017544</td>
                   <td data-row="4" data-col="9">0.4</td>
                   <td data-row="4" data-col="10">a</td>
                 </tr>
 <tr>
-<td data-row="5" data-col="1">540</td>
-                  <td data-row="5" data-col="2">78124.11</td>
-                  <td data-row="5" data-col="3">2271359</td>
-                  <td data-row="5" data-col="4">0.019065238</td>
-                  <td data-row="5" data-col="5">0.5542974</td>
-                  <td data-row="5" data-col="6">2</td>
-                  <td data-row="5" data-col="7">58</td>
-                  <td data-row="5" data-col="8">0.03448276</td>
+<td data-row="5" data-col="1">270</td>
+                  <td data-row="5" data-col="2">56722.52</td>
+                  <td data-row="5" data-col="3">346786.47</td>
+                  <td data-row="5" data-col="4">0.02978356</td>
+                  <td data-row="5" data-col="5">0.18208882</td>
+                  <td data-row="5" data-col="6">5</td>
+                  <td data-row="5" data-col="7">57</td>
+                  <td data-row="5" data-col="8">0.08771930</td>
                   <td data-row="5" data-col="9">0.4</td>
                   <td data-row="5" data-col="10">a</td>
                 </tr>
 <tr>
-<td data-row="6" data-col="1">80</td>
-                  <td data-row="6" data-col="2">67880.51</td>
-                  <td data-row="6" data-col="3">2483298</td>
-                  <td data-row="6" data-col="4">0.016565414</td>
-                  <td data-row="6" data-col="5">0.6060188</td>
-                  <td data-row="6" data-col="6">5</td>
-                  <td data-row="6" data-col="7">58</td>
-                  <td data-row="6" data-col="8">0.08620690</td>
+<td data-row="6" data-col="1">440</td>
+                  <td data-row="6" data-col="2">56500.03</td>
+                  <td data-row="6" data-col="3">403286.51</td>
+                  <td data-row="6" data-col="4">0.02966674</td>
+                  <td data-row="6" data-col="5">0.21175556</td>
+                  <td data-row="6" data-col="6">6</td>
+                  <td data-row="6" data-col="7">57</td>
+                  <td data-row="6" data-col="8">0.10526316</td>
                   <td data-row="6" data-col="9">0.4</td>
                   <td data-row="6" data-col="10">a</td>
                 </tr>
 <tr>
-<td data-row="7" data-col="1">550</td>
-                  <td data-row="7" data-col="2">53874.43</td>
-                  <td data-row="7" data-col="3">2705337</td>
-                  <td data-row="7" data-col="4">0.013147399</td>
-                  <td data-row="7" data-col="5">0.6602046</td>
-                  <td data-row="7" data-col="6">9</td>
-                  <td data-row="7" data-col="7">58</td>
-                  <td data-row="7" data-col="8">0.15517241</td>
+<td data-row="7" data-col="1">450</td>
+                  <td data-row="7" data-col="2">54941.68</td>
+                  <td data-row="7" data-col="3">458228.19</td>
+                  <td data-row="7" data-col="4">0.02884849</td>
+                  <td data-row="7" data-col="5">0.24060405</td>
+                  <td data-row="7" data-col="6">7</td>
+                  <td data-row="7" data-col="7">57</td>
+                  <td data-row="7" data-col="8">0.12280702</td>
                   <td data-row="7" data-col="9">0.4</td>
                   <td data-row="7" data-col="10">a</td>
                 </tr>
 <tr>
-<td data-row="8" data-col="1">470</td>
-                  <td data-row="8" data-col="2">39874.75</td>
-                  <td data-row="8" data-col="3">3295960</td>
-                  <td data-row="8" data-col="4">0.009730947</td>
-                  <td data-row="8" data-col="5">0.8043389</td>
-                  <td data-row="8" data-col="6">22</td>
-                  <td data-row="8" data-col="7">58</td>
-                  <td data-row="8" data-col="8">0.37931034</td>
+<td data-row="8" data-col="1">550</td>
+                  <td data-row="8" data-col="2">53874.43</td>
+                  <td data-row="8" data-col="3">512102.61</td>
+                  <td data-row="8" data-col="4">0.02828810</td>
+                  <td data-row="8" data-col="5">0.26889216</td>
+                  <td data-row="8" data-col="6">8</td>
+                  <td data-row="8" data-col="7">57</td>
+                  <td data-row="8" data-col="8">0.14035088</td>
                   <td data-row="8" data-col="9">0.4</td>
                   <td data-row="8" data-col="10">a</td>
                 </tr>
 <tr>
-<td data-row="9" data-col="1">450</td>
-                  <td data-row="9" data-col="2">54941.68</td>
-                  <td data-row="9" data-col="3">2651463</td>
-                  <td data-row="9" data-col="4">0.013407849</td>
-                  <td data-row="9" data-col="5">0.6470572</td>
-                  <td data-row="9" data-col="6">8</td>
-                  <td data-row="9" data-col="7">58</td>
-                  <td data-row="9" data-col="8">0.13793103</td>
+<td data-row="9" data-col="1">490</td>
+                  <td data-row="9" data-col="2">51347.82</td>
+                  <td data-row="9" data-col="3">563450.44</td>
+                  <td data-row="9" data-col="4">0.02696145</td>
+                  <td data-row="9" data-col="5">0.29585360</td>
+                  <td data-row="9" data-col="6">9</td>
+                  <td data-row="9" data-col="7">57</td>
+                  <td data-row="9" data-col="8">0.15789474</td>
                   <td data-row="9" data-col="9">0.4</td>
                   <td data-row="9" data-col="10">a</td>
                 </tr>
 <tr>
-<td data-row="10" data-col="1">560</td>
-                  <td data-row="10" data-col="2">43966.48</td>
-                  <td data-row="10" data-col="3">3089595</td>
-                  <td data-row="10" data-col="4">0.010729485</td>
-                  <td data-row="10" data-col="5">0.7539780</td>
-                  <td data-row="10" data-col="6">17</td>
-                  <td data-row="10" data-col="7">58</td>
-                  <td data-row="10" data-col="8">0.29310345</td>
+<td data-row="10" data-col="1">650</td>
+                  <td data-row="10" data-col="2">49467.08</td>
+                  <td data-row="10" data-col="3">612917.52</td>
+                  <td data-row="10" data-col="4">0.02597392</td>
+                  <td data-row="10" data-col="5">0.32182752</td>
+                  <td data-row="10" data-col="6">10</td>
+                  <td data-row="10" data-col="7">57</td>
+                  <td data-row="10" data-col="8">0.17543860</td>
                   <td data-row="10" data-col="9">0.4</td>
                   <td data-row="10" data-col="10">a</td>
+                </tr>
+</tbody>
+</table>
+</div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>This table contains grouped data with various metrics, highlighting the contribution of each group in terms of both value and transaction count. Below is an explanation of the key columns and how to interpret the results:</p>
+</section><section class="level3"><h3 id="understanding-the-results">Understanding the Results<a class="anchor" aria-label="anchor" href="#understanding-the-results"></a>
+</h3>
+<ul>
+<li><p>Store 540 has a margin of $7,812.11 (“ABC Margin”), which accounts for about 4% (“prop_total”) of the total margin across all stores</p></li>
+<li><p>The “cum_sum” column tracks the running total of values (e.g., revenue or count) for each store, showing the cumulative sum up to that row</p></li>
+<li><p>The “cum_prop_total” column shows each store’s contribution as a percentage of the total margin as you move down the table</p></li>
+<li><p>The store with the highest contribution has a “row_id” of 1 and is assigned to the first category segment (‘A’) via the “category_name” column</p></li>
+<li><p>The “max_row_id” shows that there are 57 additional stores in the same category (‘A’)</p></li>
+<li><p>The “cum_unit_prop” column tracks the cumulative contribution from a transaction count perspective, similar to cum_prop_total but at the unit level</p></li>
+<li><p>The category_value and category_name columns define the breakpoints you provided, assigning stores to categories (e.g., ‘A’, ‘B’, ‘C’) based on their cumulative contribution</p></li>
+</ul>
+<p>This is summarized in <a href="#tbl-output" class="quarto-xref">Table 3</a> below</p>
+<div class="cell">
+<div id="tbl-output" class="cell quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl quarto-uncaptioned" id="tbl-output-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 3
+</figcaption><div aria-describedby="tbl-output-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display column-screen">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script><script>
+      // Create table-specific functions using external factory
+      const tableFns_bjjpl5w2n87ebtn3zitt = TinyTable.createTableFunctions("tinytable_bjjpl5w2n87ebtn3zitt");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '8', j: 1 }, { i: '8', j: 2 }, { i: '8', j: 3 } ], css_id: 'tinytable_css_m4val8zv0s5k6kxrksbs',},
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 } ], css_id: 'tinytable_css_pggo078b0whv4zfdpvgl',},
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_bjjpl5w2n87ebtn3zitt.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+<style>
+    /* tinytable css entries after */
+    #tinytable_bjjpl5w2n87ebtn3zitt td.tinytable_css_m4val8zv0s5k6kxrksbs, #tinytable_bjjpl5w2n87ebtn3zitt th.tinytable_css_m4val8zv0s5k6kxrksbs {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_bjjpl5w2n87ebtn3zitt td.tinytable_css_pggo078b0whv4zfdpvgl, #tinytable_bjjpl5w2n87ebtn3zitt th.tinytable_css_pggo078b0whv4zfdpvgl {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    </style>
+<div class="container">
+      <table class="table tinytable" id="tinytable_bjjpl5w2n87ebtn3zitt" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+<thead><tr>
+<th scope="col" data-row="0" data-col="1">Column_Name</th>
+                <th scope="col" data-row="0" data-col="2">Description</th>
+                <th scope="col" data-row="0" data-col="3">Example_Values</th>
+              </tr></thead>
+<tbody>
+<tr>
+<td data-row="1" data-col="1">cum_sum</td>
+                  <td data-row="1" data-col="2">The cumulative sum of the specified values (e.g., revenue, count, etc.), aggregated per group. Represents the total value up to that row.</td>
+                  <td data-row="1" data-col="3">1000, 2500, 4000</td>
+                </tr>
+<tr>
+<td data-row="2" data-col="1">prop_total</td>
+                  <td data-row="2" data-col="2">The proportion of the total for each row's value. Shows the percentage of the total represented by the current row's contribution.</td>
+                  <td data-row="2" data-col="3">0.10, 0.25, 0.40</td>
+                </tr>
+<tr>
+<td data-row="3" data-col="1">cum_prop_total</td>
+                  <td data-row="3" data-col="2">The cumulative proportion of the total, showing the running total percentage of the entire dataset as you move through the rows.</td>
+                  <td data-row="3" data-col="3">0.10, 0.35, 0.75</td>
+                </tr>
+<tr>
+<td data-row="4" data-col="1">row_id</td>
+                  <td data-row="4" data-col="2">The unique identifier for the row, often used to track or identify specific rows in the dataset. Typically sequential ID or index.</td>
+                  <td data-row="4" data-col="3">1, 2, 3</td>
+                </tr>
+<tr>
+<td data-row="5" data-col="1">max_row_id</td>
+                  <td data-row="5" data-col="2">The maximum row ID in the current group (if grouping is applied), representing the total number of rows in the group.</td>
+                  <td data-row="5" data-col="3">5, 5, 5</td>
+                </tr>
+<tr>
+<td data-row="6" data-col="1">cum_unit_prop</td>
+                  <td data-row="6" data-col="2">The cumulative proportion of the unit values, similar to cum_prop_total, but typically used when the unit is treated as aggregate.</td>
+                  <td data-row="6" data-col="3">0.10, 0.30, 0.70</td>
+                </tr>
+<tr>
+<td data-row="7" data-col="1">category_value</td>
+                  <td data-row="7" data-col="2">The category value that corresponds to the cumulative proportion break points (e.g., top 10%, top 40%, etc.). Based on the break points provided.</td>
+                  <td data-row="7" data-col="3">0.4, 0.7, 0.9</td>
+                </tr>
+<tr>
+<td data-row="8" data-col="1">category_name</td>
+                  <td data-row="8" data-col="2">The name of the category assigned to each row based on the cumulative contribution. Categories are represented by letters (A, B, C, etc.).</td>
+                  <td data-row="8" data-col="3">"A", "B", "C"</td>
                 </tr>
 </tbody>
 </table>
