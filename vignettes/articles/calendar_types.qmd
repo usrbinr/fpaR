@@ -3,10 +3,6 @@ title: "Standard vs. 5-5-4 Calendar"
 subtitle: "What do we mean by standard and non-standard calendar?"
 format: html
 author: "Alejandro Hagan"
-vignette: >
-  %\VignetteIndexEntry{Standard vs. 5-5-4 Calendar}
-  %\VignetteEngine{quarto::html}
-  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r}
@@ -83,5 +79,4 @@ The **5-5-4 calendar** is a retail accounting calendar designed to simplify peri
 # Conclusion
 
 Understanding the difference between standard and 5-5-4 calendars helps organizations choose the right system for their reporting needs. While standard calendars are common for financial statements and general business operations, the 5-5-4 calendar is preferred in retail for more consistent period comparisons and operational planning.
-
 

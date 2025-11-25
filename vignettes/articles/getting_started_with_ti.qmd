@@ -2,10 +2,6 @@
 title: "Getting started"
 subtitle: "How to use time-intilligence functions"
 format: html
-vignette: >
-  %\VignetteIndexEntry{Getting started}
-  %\VignetteEngine{quarto::html}
-  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r}
@@ -69,10 +65,11 @@ To return the results to a lazy tibble of results, pass the ti object through to
 #| message: false
 #| eval: false
 
-contoso::sales |>                                                                
+contoso::sales |>                                                          
    fpaR::mtd(.date=order_date,.value = margin,calendar_type = "standard") |>  
    fpaR::calculate()                                                          
 ```
+
 
 If you using a tibble, under the hood, `fpaR` is converting your data to
 a [duckdb](https://github.com/duckdb/duckdb-r) database.
@@ -240,4 +237,3 @@ This vignette explains what the function does, how it works, and how to work wit
 5. Summarizes the data by summing the YTD and PYTD values by group.
 
 The output is a **DBI object** that can be converted into a **tibble** using `dplyr::collect()` for further analysis.
-

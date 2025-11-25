@@ -23,7 +23,6 @@ Imports:
     janitor,
     stringr
 LazyData: true
-VignetteBuilder: quarto, knitr
 Suggests: 
     testthat (>= 3.0.0),
     cohorts,

@@ -1,10 +1,7 @@
 ---
-title: "Cohort"
-vignette: >
-  %\VignetteIndexEntry{Cohort}
-  %\VignetteEngine{quarto::html}
-  %\VignetteEncoding{UTF-8}
+title: "cohort"
 ---
+
 # Introduction
 
 Cohort analysis is a common method for tracking groups of users, customers, or entities over time to understand retention, behavior, or trends.  
@@ -54,18 +51,17 @@ The `cohort()` function in **fpaR** provides a **database-friendly implementatio
 
 The function returns a **segment object**. Use `calculate()` to retrieve the cohort table:
 
-```r
+```{r}
+#|eval: false
 library(dplyr)
 
 # Example cohort analysis
-seg_obj <- cohort(.data = contoso::sales,
+fpaR::cohort(.data = contoso::sales,
                   .date = order_date,
                   .value = customer_key,
                   calendar_type = "standard",
                   time_unit = "month",
-                  period_label = FALSE)
+                  period_label = FALSE
+             )
 
-# Calculate the cohort table
-cohort_tbl <- calculate(seg_obj)
-cohort_tbl <- dplyr::collect(cohort_tbl)  # if using a DBI objec
 ```
