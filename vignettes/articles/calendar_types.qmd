@@ -1,8 +1,8 @@
 ---
 title: "Standard vs. 5-5-4 Calendar"
 subtitle: "What do we mean by standard and non-standard calendar?"
-format: html
 author: "Alejandro Hagan"
+format: html
 ---
 
 ```{r}
@@ -12,23 +12,26 @@ quarto::write_yaml_metadata_block(
    )
 ```
 
-# Introduction
+## Introduction
 
-Calendars are essential tools for organizing, tracking, and reporting business activities. In financial planning, reporting, and retail analytics, two common calendar systems are widely used:
+In many fpaR functions, you will see a reference to a calendar_type argument which may confuse most of you, isn't there only one type of calendar?
+
+To accomodate the uniqueness of some industries, financial planning analysis will often involve two calendar systems:
 
 1. **Standard Calendar**  
 2. **5-5-4 Calendar**  
 
 This vignette explains the differences between these calendars and their typical use cases.
 
-# Standard Calendar
+## Standard Calendar
 
-A **standard calendar** follows the conventional Gregorian calendar:
+This is your "typical" calendar also known as a conventional Gregorian calendar:
 
 - 12 months of varying lengths (28–31 days)
 - 52 weeks per year (sometimes 53 in leap years)
-- Months are uneven in length, which can cause challenges in period-over-period comparisons.
+- Months are uneven in length, which can cause challenges in period-over-period comparison
 
+For most of your analysis this is most likely the calendar "type" that you need to follow
 **Example:**
 
 | Month | Days |
@@ -39,15 +42,16 @@ A **standard calendar** follows the conventional Gregorian calendar:
 | ... | ... |
 | December | 31 |
 
-**Use Cases:**
+The advantage of this calendar type is that it matches most internal / external reporting timelines since this is the calendar that we mainly used to plan or schedules our lives
 
-- General business reporting
-- Financial statements based on actual months
-- Year-over-year or month-over-month analysis
+The primary disadvantage of this calendar is that when you try to compare a metric, lets say revenue, across periods you can easily compare periods with uneven days (eg. comparing January sales to February sales)
 
-# 5-5-4 Calendar
+This can lead to misleading conclusions that revenue is increasing or decreasing
 
-The **5-5-4 calendar** is a retail accounting calendar designed to simplify period-over-period comparisons:
+
+## 5-5-4 Calendar
+
+The **5-5-4 calendar** is commonly used in retail designed to simplify period-over-period comparisons which a standard calendar introduces
 
 - Each quarter has **13 weeks**, divided into three periods: 5 weeks, 5 weeks, 4 weeks
 - Each month in the quarter has a fixed number of weeks (rather than days)
@@ -61,12 +65,6 @@ The **5-5-4 calendar** is a retail accounting calendar designed to simplify peri
 | Month 2 | 5 |
 | Month 3 | 4 |
 
-**Use Cases:**
-
-- Retail businesses where consistent weekly reporting is crucial
-- Comparing performance across periods without being affected by uneven month lengths
-- Planning promotions, inventory, and sales cycles aligned with weeks rather than calendar months
-
 # Comparison
 
 | Feature | Standard Calendar | 5-5-4 Calendar |
@@ -76,7 +74,11 @@ The **5-5-4 calendar** is a retail accounting calendar designed to simplify peri
 | Year Alignment | Calendar year | Usually aligned to fiscal year starting on a specific day (e.g., Sunday) |
 | Best for | General reporting, financial statements | Retail, period-over-period sales and inventory analysis |
 
-# Conclusion
 
-Understanding the difference between standard and 5-5-4 calendars helps organizations choose the right system for their reporting needs. While standard calendars are common for financial statements and general business operations, the 5-5-4 calendar is preferred in retail for more consistent period comparisons and operational planning.
+## How to reference in `fpaR` functions?
+
+Where you see `calandar_type` argument in function you can either put in "standard" to get a traditional calendar or you can put "554" or  "445" to get the alternative cealndar equivalents.
+
+Under the hood `fpaR` will create and convert your calendar to right calendar types an the functions will correctly index of the new keys.
+
 

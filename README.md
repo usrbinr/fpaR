@@ -29,12 +29,12 @@ Under the hood, these functions are built upon the great foundations of:
 - [duckdb](https://github.com/duckdb/duckdb-r)
 - [lubridate](https://lubridate.tidyverse.org/)
 
-`fpaR` is designed to seamlessly work with either tibbles or modern
-databases (DuckDB, Snowflake, SQLite, etc) with a unified syntax
+`fpaR` is designed to work with either tibbles or modern databases
+(DuckDB, Snowflake, SQLite, etc) with a unified syntax
 
 Even if you are working with tibbles, most functions are optimized to
-leverage [DuckDB](https://github.com/duckdb/duckdb-r) for superior speed
-and performance.[^1]
+leverage [DuckDB](https://github.com/duckdb/duckdb-r) for increased
+speed and performance[^1]
 
 By default most `fpaR` function returns a lazy DBI object which you can
 return as a tibble with `dplyr::collect()`
@@ -60,18 +60,18 @@ pak::pak("usrbinr/fpaR")
 
 ## What is in fpaR?
 
-There are 3 main categories of functions:
-
-- Time intelligence
-- Segmentation strategies
-- Factor analysis (work in progress)
-
-### Datasets
-
 > We recommend using the [Contoso](https://usrbinr.github.io/contoso/)
 > package for any practice analysis. The contoso datasets are fictional
 > business transaction of Contoso toy company which are helpful for
 > business intelligence related analysis
+
+There are 3 main categories of functions:
+
+- Time intelligence realted functions
+  (<a href="#tbl-ti-fn" class="quarto-xref">Table 1</a>)
+- Categorization strategies
+  (<a href="#tbl-abc-fn" class="quarto-xref">Table 2</a>)
+- Factor analysis (work in progress)
 
 ### Time intelligence
 
@@ -99,6 +99,12 @@ intelligence related analysis in a consistent, fast and transparent way
 
 Below is the full list of time intelligence functions:
 
+<div id="tbl-ti-fn">
+
+Table 1
+
+<div class="cell-output-display">
+
 | Function | Description | Shift | Aggregate | Compare |
 |----|----|----|----|----|
 | YoY | Full Year over Year |  |  | X |
@@ -122,6 +128,10 @@ Below is the full list of time intelligence functions:
 | PWTD | Prior Week-to-Date | X | X |  |
 | ATD | cumlaitve total from inception to date |  | x |  |
 | DoD | Full Day over Full Day |  |  | X |
+
+</div>
+
+</div>
 
 ### **Segmentation Strategies**
 
@@ -147,10 +157,20 @@ product or service
 This allows you to understand retention, turnover and other attributes
 more clearly
 
+<div id="tbl-abc-fn">
+
+Table 2
+
+<div class="cell-output-display">
+
 | Function | Description | Categorizes | Time-Based | Tracks Over Time |
 |----|----|----|----|----|
 | abc() | ABC Classification groups items by relative contribution (Pareto analysis). | X |  |  |
 | cohort() | Cohort analysis groups entities by a shared start point and analyzes behavior over time. |  | X | X |
+
+</div>
+
+</div>
 
 ------------------------------------------------------------------------
 

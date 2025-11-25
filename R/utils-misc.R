@@ -235,6 +235,10 @@ lubridate::days
       ,week_end_date=lubridate::ceiling_date({{.date}},unit = "week")-1
       ,day_of_week=lubridate::wday({{.date}},label = FALSE)
       ,day_of_week_label=lubridate::wday({{.date}},label = TRUE)
+      ,day_of_year=lubridate::day({{.date}})
+      ,month_of_year_label_abb=lubridate::month({{.date}},label = TRUE,abbr = TRUE)
+      ,month_of_year_label_full_name=lubridate::month({{.date}},label=TRUE,abbr = FALSE)
+      ,month_of_year=lubridate::month({{.date}},label=FALSE)
       ,days_in_year=year_end_date-year_start_date
       ,days_in_quarter=quarter_end_date-quarter_start_date
       ,days_in_month=lubridate::days_in_month({{.date}})
@@ -247,6 +251,7 @@ lubridate::days
       ,days_complete_in_quarter={{.date}}-quarter_start_date
       ,days_complete_in_month={{.date}}-month_start_date
       ,days_complete_in_year={{.date}}-year_start_date
+
       ,weekend_indicator=dplyr::if_else(day_of_week_label %in% c("Saturday","Sunday"),1,0)
     ) |>
     dplyr::mutate(
@@ -324,6 +329,10 @@ augment_calendar_dbi <- function(.data,.date){
     ,week_end_date=dplyr::sql(glue::glue("date_trunc('month', {date_vec}) + INTERVAL '1' month"))
     ,day_of_week=lubridate::wday({{.date}},label = FALSE)
     ,day_of_week_label=lubridate::wday({{.date}},label = TRUE)
+    ,day_of_year=lubridate::day({{.date}})
+    ,month_of_year_label_abb=lubridate::month({{.date}},label = TRUE,abbr = TRUE)
+    ,month_of_year_label_full_name=lubridate::month({{.date}},label=TRUE,abbr = FALSE)
+    ,month_of_year=lubridate::month({{.date}},label=FALSE)
     ,days_in_year=year_end_date-year_start_date
     ,days_in_quarter=quarter_end_date-quarter_start_date
     ,days_in_month=dplyr::sql(glue::glue("last_day({date_vec})"))

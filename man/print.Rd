@@ -14,13 +14,9 @@ ti object
 segment object
 
 segment object
-
-segment object
 }
 \description{
 Print ti objects
-
-Print segment objects
 
 Print segment objects
 
