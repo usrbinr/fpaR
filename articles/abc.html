@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>ABC Segmentation • fpaR</title>
+<title>ABC Classification • fpaR</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="abc_files/libs/quarto-html/popper.min.js"></script><script src="abc_files/libs/quarto-html/tippy.umd.min.js"></script><link href="abc_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="abc_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="ABC Segmentation">
+<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="ABC Classification">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -35,7 +35,7 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/abc.html">ABC Segmentation</a></li>
+<li><a class="dropdown-item" href="../articles/abc.html">ABC Classification</a></li>
     <li><a class="dropdown-item" href="../articles/calendar_types.html">Standard vs. 5-5-4 Calendar</a></li>
     <li><a class="dropdown-item" href="../articles/cohort.html">cohort</a></li>
     <li><a class="dropdown-item" href="../articles/getting_started_with_ti.html">Getting started</a></li>
@@ -55,8 +55,8 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>ABC Segmentation</h1>
-      <p class="subtitle">How to use segmentation strategies to simplify your analysis</p>
+      <h1>ABC Classification</h1>
+      <p class="subtitle">How to use classification strategies to focus your analysis</p>
 
       <p class="date">2025-11-25</p>
 
@@ -76,28 +76,26 @@
 </div>
 <section class="level3"><h3 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h3>
-<p>In business and financial analytics, the <strong>ABC classification</strong> method is widely used to categorize items, customers, or other groups according to their relative contribution to a total metric.</p>
-<p>The <code><a href="../reference/abc.html">abc()</a></code> function provides a flexible and robust way to perform ABC segmentation, either based on <strong>transaction counts</strong> or the sum of a <strong>numeric variable</strong> such as sales margin or revenue.</p>
-</section><section class="level3"><h3 id="function-purpose">Function Purpose<a class="anchor" aria-label="anchor" href="#function-purpose"></a>
-</h3>
-<p><code><a href="../reference/abc.html">abc()</a></code>:</p>
+<p>In business and financial analytics, the <strong>ABC classification</strong> method is widely used to categorize items, customers, or other groups according to their relative contribution to a total metric.<br>
+The <code><a href="../reference/abc.html">abc()</a></code> function provides an easy way to classify a group’s member by their relative contribution of either their <strong>transaction counts</strong> or the sum of a <strong>numeric variable</strong> such as sales margin or revenue.</p>
 <ul>
-<li>Segments a dataset into categories (A, B, C, etc.) based on cumulative contribution.</li>
-<li>Allows for <strong>custom break points</strong> (e.g., top 10% = A, next 40% = B, etc.).</li>
-<li>Works on both <strong>grouped tibbles</strong> and <strong>database-backed objects</strong>.</li>
-<li>Returns a <strong>segment object</strong>, which is processed by <code><a href="../reference/calculate.html">calculate()</a></code> to produce a table of results.</li>
+<li>Allows for <strong>custom break points</strong> (e.g., top 10% = A, next 40% = B, etc.)</li>
+<li>Works on both <strong>tibbles</strong> and <strong>database objects</strong>
+</li>
+<li>Returns a <strong>segment object</strong>, which is processed by <code><a href="../reference/calculate.html">calculate()</a></code> to produce a table of results</li>
 </ul></section><section class="level3"><h3 id="how-it-works">How It Works<a class="anchor" aria-label="anchor" href="#how-it-works"></a>
 </h3>
 <blockquote>
-<p><code><a href="../reference/abc.html">fpaR::abc()</a></code> requires a grouped tibble or lazy DBI object using <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">dplyr::group_by()</a></code> to specify the groups that drive the contribution</p>
+<p><code><a href="../reference/abc.html">abc()</a></code> requires a grouped tibble or lazy DBI object using <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">dplyr::group_by()</a></code> to specify the group composition that drives the contribution</p>
 </blockquote>
 <p><strong>Value Capture</strong></p>
 <ul>
-<li>If <code>.value</code> is provided, the the column is aggregate per group; otherwise, it counts rows.</li>
+<li>If <code>.value</code> is provided, then that column is aggregate per group member; otherwise, it counts rows</li>
 </ul>
 <p><strong>Category Values</strong></p>
 <ul>
-<li>Provide the break points break points that are used to set the cumulative categories. Each break point will get a letter category starting with ‘A’</li>
+<li>Provide the break points that are used to set the cumulative categories</li>
+<li>Each break point will get a letter category starting with ‘A’</li>
 <li>If you want to see the stores that make up the top 40% of revenue follow by top 70% and then 90% you should put in <code>c(0.4,.7,.9,1)</code>
 </li>
 </ul>
@@ -111,30 +109,30 @@ Table 1
 
     <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script><script>
       // Create table-specific functions using external factory
-      const tableFns_ufnb5cq5x6jd78ie0xia = TinyTable.createTableFunctions("tinytable_ufnb5cq5x6jd78ie0xia");
+      const tableFns_oc1a2d2m1bcf5jjn3pt0 = TinyTable.createTableFunctions("tinytable_oc1a2d2m1bcf5jjn3pt0");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '3', j: 1 }, { i: '3', j: 2 } ], css_id: 'tinytable_css_236ys74cjfbxuyznijvp',},
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_h0uor28dl4dddarbioey',},
+          { positions: [ { i: '3', j: 1 }, { i: '3', j: 2 } ], css_id: 'tinytable_css_1vyoehlpbzpsp15r0t49',},
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_zadbcf2s9939jhditiiq',},
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_ufnb5cq5x6jd78ie0xia.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_oc1a2d2m1bcf5jjn3pt0.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
     </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
 <style>
     /* tinytable css entries after */
-    #tinytable_ufnb5cq5x6jd78ie0xia td.tinytable_css_236ys74cjfbxuyznijvp, #tinytable_ufnb5cq5x6jd78ie0xia th.tinytable_css_236ys74cjfbxuyznijvp {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
-    #tinytable_ufnb5cq5x6jd78ie0xia td.tinytable_css_h0uor28dl4dddarbioey, #tinytable_ufnb5cq5x6jd78ie0xia th.tinytable_css_h0uor28dl4dddarbioey {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_oc1a2d2m1bcf5jjn3pt0 td.tinytable_css_1vyoehlpbzpsp15r0t49, #tinytable_oc1a2d2m1bcf5jjn3pt0 th.tinytable_css_1vyoehlpbzpsp15r0t49 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_oc1a2d2m1bcf5jjn3pt0 td.tinytable_css_zadbcf2s9939jhditiiq, #tinytable_oc1a2d2m1bcf5jjn3pt0 th.tinytable_css_zadbcf2s9939jhditiiq {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
     </style>
 <div class="container">
-      <table class="table tinytable" id="tinytable_ufnb5cq5x6jd78ie0xia" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table tinytable" id="tinytable_oc1a2d2m1bcf5jjn3pt0" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
 <thead><tr>
 <th scope="col" data-row="0" data-col="1">Argument</th>
                 <th scope="col" data-row="0" data-col="2">Description</th>
@@ -253,7 +251,12 @@ group member's proportational contribution to the total.</code></pre>
 <pre><code>────────────────────────────────────────────────────────────────────────────────</code></pre>
 </div>
 </div>
-<p>The function returns a <strong>segment object</strong>. Use <code><a href="../reference/calculate.html">calculate()</a></code> to generate the ABC classification table:</p>
+<p>The function returns a <strong>segment object</strong></p>
+<ul>
+<li>This will summarize the series of actions and meta information about your data</li>
+<li>Use <code><a href="../reference/calculate.html">calculate()</a></code> to generate the ABC classification table</li>
+<li>This will return a duckdb DBI object use <code><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">dplyr::collect()</a></code> to return a tibble</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">contoso</span><span class="fu">::</span><span class="va"><a href="https://usrbinr.github.io/contoso/reference/sales.html" class="external-link">sales</a></span> <span class="op">|&gt;</span> </span>
@@ -274,30 +277,30 @@ Table 2
 
     <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script><script>
       // Create table-specific functions using external factory
-      const tableFns_usvx38chpy3sk97wcalo = TinyTable.createTableFunctions("tinytable_usvx38chpy3sk97wcalo");
+      const tableFns_vt6qmsq159o2nnop2srk = TinyTable.createTableFunctions("tinytable_vt6qmsq159o2nnop2srk");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '10', j: 1 }, { i: '10', j: 2 }, { i: '10', j: 3 }, { i: '10', j: 4 }, { i: '10', j: 5 }, { i: '10', j: 6 }, { i: '10', j: 7 }, { i: '10', j: 8 }, { i: '10', j: 9 }, { i: '10', j: 10 } ], css_id: 'tinytable_css_552nr708q0oekm93qnhw',},
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 }, { i: '0', j: 6 }, { i: '0', j: 7 }, { i: '0', j: 8 }, { i: '0', j: 9 }, { i: '0', j: 10 } ], css_id: 'tinytable_css_sqfzhbtvhe25gn9spspn',},
+          { positions: [ { i: '10', j: 1 }, { i: '10', j: 2 }, { i: '10', j: 3 }, { i: '10', j: 4 }, { i: '10', j: 5 }, { i: '10', j: 6 }, { i: '10', j: 7 }, { i: '10', j: 8 }, { i: '10', j: 9 }, { i: '10', j: 10 } ], css_id: 'tinytable_css_lyt7zfgg1pdku30xl155',},
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 }, { i: '0', j: 6 }, { i: '0', j: 7 }, { i: '0', j: 8 }, { i: '0', j: 9 }, { i: '0', j: 10 } ], css_id: 'tinytable_css_0sr91trvj8s6i77ln3d1',},
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_usvx38chpy3sk97wcalo.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_vt6qmsq159o2nnop2srk.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
     </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
 <style>
     /* tinytable css entries after */
-    #tinytable_usvx38chpy3sk97wcalo td.tinytable_css_552nr708q0oekm93qnhw, #tinytable_usvx38chpy3sk97wcalo th.tinytable_css_552nr708q0oekm93qnhw {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
-    #tinytable_usvx38chpy3sk97wcalo td.tinytable_css_sqfzhbtvhe25gn9spspn, #tinytable_usvx38chpy3sk97wcalo th.tinytable_css_sqfzhbtvhe25gn9spspn {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_vt6qmsq159o2nnop2srk td.tinytable_css_lyt7zfgg1pdku30xl155, #tinytable_vt6qmsq159o2nnop2srk th.tinytable_css_lyt7zfgg1pdku30xl155 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_vt6qmsq159o2nnop2srk td.tinytable_css_0sr91trvj8s6i77ln3d1, #tinytable_vt6qmsq159o2nnop2srk th.tinytable_css_0sr91trvj8s6i77ln3d1 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
     </style>
 <div class="container">
-      <table class="table tinytable" id="tinytable_usvx38chpy3sk97wcalo" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table tinytable" id="tinytable_vt6qmsq159o2nnop2srk" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
 <thead><tr>
 <th scope="col" data-row="0" data-col="1">store_key</th>
                 <th scope="col" data-row="0" data-col="2">abc_margin</th>
@@ -452,7 +455,7 @@ Table 2
 <li><p>The “cum_unit_prop” column tracks the cumulative contribution from a transaction count perspective, similar to cum_prop_total but at the unit level</p></li>
 <li><p>The category_value and category_name columns define the breakpoints you provided, assigning stores to categories (e.g., ‘A’, ‘B’, ‘C’) based on their cumulative contribution</p></li>
 </ul>
-<p>This is summarized in <a href="#tbl-output" class="quarto-xref">Table 3</a> below</p>
+<p>This is summarized in <a href="#tbl-output" class="quarto-xref">Table 3</a> below:</p>
 <div class="cell">
 <div id="tbl-output" class="cell quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl quarto-uncaptioned" id="tbl-output-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -463,30 +466,30 @@ Table 3
 
     <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script><script>
       // Create table-specific functions using external factory
-      const tableFns_bjjpl5w2n87ebtn3zitt = TinyTable.createTableFunctions("tinytable_bjjpl5w2n87ebtn3zitt");
+      const tableFns_h2ha18m8kfwxojet9k0x = TinyTable.createTableFunctions("tinytable_h2ha18m8kfwxojet9k0x");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '8', j: 1 }, { i: '8', j: 2 }, { i: '8', j: 3 } ], css_id: 'tinytable_css_m4val8zv0s5k6kxrksbs',},
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 } ], css_id: 'tinytable_css_pggo078b0whv4zfdpvgl',},
+          { positions: [ { i: '8', j: 1 }, { i: '8', j: 2 }, { i: '8', j: 3 } ], css_id: 'tinytable_css_osae9zxj3clcypcbnca3',},
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 } ], css_id: 'tinytable_css_ld3qv2trp4tblstaor9i',},
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_bjjpl5w2n87ebtn3zitt.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_h2ha18m8kfwxojet9k0x.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
     </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
 <style>
     /* tinytable css entries after */
-    #tinytable_bjjpl5w2n87ebtn3zitt td.tinytable_css_m4val8zv0s5k6kxrksbs, #tinytable_bjjpl5w2n87ebtn3zitt th.tinytable_css_m4val8zv0s5k6kxrksbs {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
-    #tinytable_bjjpl5w2n87ebtn3zitt td.tinytable_css_pggo078b0whv4zfdpvgl, #tinytable_bjjpl5w2n87ebtn3zitt th.tinytable_css_pggo078b0whv4zfdpvgl {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_h2ha18m8kfwxojet9k0x td.tinytable_css_osae9zxj3clcypcbnca3, #tinytable_h2ha18m8kfwxojet9k0x th.tinytable_css_osae9zxj3clcypcbnca3 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_h2ha18m8kfwxojet9k0x td.tinytable_css_ld3qv2trp4tblstaor9i, #tinytable_h2ha18m8kfwxojet9k0x th.tinytable_css_ld3qv2trp4tblstaor9i {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
     </style>
 <div class="container">
-      <table class="table tinytable" id="tinytable_bjjpl5w2n87ebtn3zitt" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table tinytable" id="tinytable_h2ha18m8kfwxojet9k0x" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
 <thead><tr>
 <th scope="col" data-row="0" data-col="1">Column_Name</th>
                 <th scope="col" data-row="0" data-col="2">Description</th>

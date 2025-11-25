@@ -254,7 +254,7 @@ Functions for segmentation and cohort analysis.
 
 ### All vignettes
 
-- [ABC Segmentation](https://usrbinr.github.io/fpaR/articles/abc.md):
+- [ABC Classification](https://usrbinr.github.io/fpaR/articles/abc.md):
 - [Standard vs. 5-5-4
   Calendar](https://usrbinr.github.io/fpaR/articles/calendar_types.md):
 - [cohort](https://usrbinr.github.io/fpaR/articles/cohort.md):

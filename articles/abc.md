@@ -1,46 +1,39 @@
-# ABC Segmentation
+# ABC Classification
 
 ### Introduction
 
 In business and financial analytics, the **ABC classification** method
 is widely used to categorize items, customers, or other groups according
-to their relative contribution to a total metric.
-
+to their relative contribution to a total metric.  
 The [`abc()`](https://usrbinr.github.io/fpaR/reference/abc.md) function
-provides a flexible and robust way to perform ABC segmentation, either
-based on **transaction counts** or the sum of a **numeric variable**
-such as sales margin or revenue.
+provides an easy way to classify a group’s member by their relative
+contribution of either their **transaction counts** or the sum of a
+**numeric variable** such as sales margin or revenue.
 
-### Function Purpose
-
-[`abc()`](https://usrbinr.github.io/fpaR/reference/abc.md):
-
-- Segments a dataset into categories (A, B, C, etc.) based on cumulative
-  contribution.
 - Allows for **custom break points** (e.g., top 10% = A, next 40% = B,
-  etc.).
-- Works on both **grouped tibbles** and **database-backed objects**.
+  etc.)
+- Works on both **tibbles** and **database objects**
 - Returns a **segment object**, which is processed by
   [`calculate()`](https://usrbinr.github.io/fpaR/reference/calculate.md)
-  to produce a table of results.
+  to produce a table of results
 
 ### How It Works
 
-> [`fpaR::abc()`](https://usrbinr.github.io/fpaR/reference/abc.md)
-> requires a grouped tibble or lazy DBI object using
+> [`abc()`](https://usrbinr.github.io/fpaR/reference/abc.md) requires a
+> grouped tibble or lazy DBI object using
 > [`dplyr::group_by()`](https://dplyr.tidyverse.org/reference/group_by.html)
-> to specify the groups that drive the contribution
+> to specify the group composition that drives the contribution
 
 **Value Capture**
 
-- If `.value` is provided, the the column is aggregate per group;
-  otherwise, it counts rows.
+- If `.value` is provided, then that column is aggregate per group
+  member; otherwise, it counts rows
 
 **Category Values**
 
-- Provide the break points break points that are used to set the
-  cumulative categories. Each break point will get a letter category
-  starting with ‘A’
+- Provide the break points that are used to set the cumulative
+  categories
+- Each break point will get a letter category starting with ‘A’
 - If you want to see the stores that make up the top 40% of revenue
   follow by top 70% and then 90% you should put in `c(0.4,.7,.9,1)`
 
@@ -105,9 +98,16 @@ contoso::sales |>
 
     ────────────────────────────────────────────────────────────────────────────────
 
-The function returns a **segment object**. Use
-[`calculate()`](https://usrbinr.github.io/fpaR/reference/calculate.md)
-to generate the ABC classification table:
+The function returns a **segment object**
+
+- This will summarize the series of actions and meta information about
+  your data
+- Use
+  [`calculate()`](https://usrbinr.github.io/fpaR/reference/calculate.md)
+  to generate the ABC classification table
+- This will return a duckdb DBI object use
+  [`dplyr::collect()`](https://dplyr.tidyverse.org/reference/compute.html)
+  to return a tibble
 
 ``` r
 contoso::sales |> 
@@ -165,7 +165,7 @@ results:
   you provided, assigning stores to categories (e.g., ‘A’, ‘B’, ‘C’)
   based on their cumulative contribution
 
-This is summarized in [Table 3](#tbl-output) below
+This is summarized in [Table 3](#tbl-output) below:
 
 | Column_Name    | Description                                                                                                                                       | Example_Values   |
 |----------------|---------------------------------------------------------------------------------------------------------------------------------------------------|------------------|
