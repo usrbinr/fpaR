@@ -219,7 +219,7 @@ print_actions_steps <- function(x){
 #'   date-based attributes.
 #' @keywords internal
 
-augment_calendar_tbl <- function(.data,.date){
+augment_standard_calendar_tbl <- function(.data,.date){
 
 lubridate::days
   # create attibutes
@@ -311,7 +311,7 @@ lubridate::days
 #' @return A dbi containing the original data along with all generated
 #'   date-based attributes.
 #' @keywords internal
-augment_calendar_dbi <- function(.data,.date){
+augment_standard_calendar_dbi <- function(.data,.date){
 
 
   date_vec <- rlang::as_label(.date)
@@ -357,11 +357,8 @@ augment_calendar_dbi <- function(.data,.date){
 
 
 
-
-
-
 #' @title Add Comprehensive Date-Based Attributes to a DBI  lazy frame or tibble object
-#' @name augment_calendar
+#' @name augment_standard_calendar
 #' @description
 #' This function takes a data frame and a date column and generates a wide set of
 #' derived date attributes. These include start/end dates for year, quarter,
@@ -407,7 +404,7 @@ augment_calendar_dbi <- function(.data,.date){
 #' @return A dbi or  tibble containing the original data along with all generated
 #'   date-based attributes.
 #'
-augment_calendar <- function(.data,.date){
+augment_standard_calendar <- function(.data,.date){
 
   data_class <- class(.data)
 
@@ -420,7 +417,7 @@ augment_calendar <- function(.data,.date){
 
   if(any(data_class %in% "tbl_lazy")){
 
-    out <- augment_calendar_dbi(.data = .data,.date = .date_var)
+    out <- augment_standard_calendar_dbi(.data = .data,.date = .date_var)
 
     return(out)
 
@@ -429,7 +426,7 @@ augment_calendar <- function(.data,.date){
 
   if(any(data_class %in% "tbl")){
 
-    out <- augment_calendar_tbl(.data = .data,.date = !!.date_var)
+    out <- augment_standard_calendar_tbl(.data = .data,.date = !!.date_var)
 
     return(out)
   }
@@ -458,6 +455,121 @@ closest_sunday_feb1 <- function(year) {
   # Return the closest Sunday
   feb1 + offset
 }
+
+
+#' Create Non-Standard Month
+#'
+#' @param .data non-standard calendar table
+#' @param pattern '554','545' or '445'
+#'
+#' @returns DBI object
+#'
+#' @keywords internal
+create_ns_month <- function(.data,pattern){
+
+
+  valid_colnames <- c("week_ns","year_ns")
+  valid_pattern <- c("544","545","445")
+
+
+  assertthat::assert_that(
+    pattern %in% valid_pattern
+    ,msg = cli::cli_abort("Please select {.or {.val {valid_pattern}}}")
+  )
+
+
+  assertthat::assert_that(
+    pattern %in% valid_pattern
+    ,msg = cli::cli_abort("Please ensure [.val week_ns] and [.val year_ns] are in the dataset")
+  )
+
+
+  if(pattern=="544"){
+
+    valid_cumulative_months <- cumsum(rep(c(5,4,4),4))
+
+    out <-
+      .data |>
+      dplyr::mutate(
+        .by=year_ns
+        ,month_ns=dplyr::case_when(
+          # either framing it in advance or somehow passing a arg to it
+          week_ns<=!!valid_cumulative_months[[1]]~1
+          ,week_ns<=!!valid_cumulative_months[[2]]~2
+          ,week_ns<=!!valid_cumulative_months[[3]]~3
+          ,week_ns<=!!valid_cumulative_months[[4]]~4
+          ,week_ns<=!!valid_cumulative_months[[5]]~5
+          ,week_ns<=!!valid_cumulative_months[[6]]~6
+          ,week_ns<=!!valid_cumulative_months[[7]]~7
+          ,week_ns<=!!valid_cumulative_months[[8]]~8
+          ,week_ns<=!!valid_cumulative_months[[9]]~9
+          ,week_ns<=!!valid_cumulative_months[[10]]~10
+          ,week_ns<=!!valid_cumulative_months[[11]]~11
+          ,week_ns<=!!valid_cumulative_months[[12]]~12
+          ,.default=13
+        )
+      )
+  }
+
+  if(pattern=="445"){
+
+    valid_cumulative_months <- cumsum(rep(c(4,4,5),4))
+
+    out <- .data |>
+      dplyr::mutate(
+        .by=year_ns
+        ,month_ns=dplyr::case_when(
+          # either framing it in advance or somehow passing a arg to it
+          week_ns<=!!valid_cumulative_months[[1]]~1
+          ,week_ns<=!!valid_cumulative_months[[2]]~2
+          ,week_ns<=!!valid_cumulative_months[[3]]~3
+          ,week_ns<=!!valid_cumulative_months[[4]]~4
+          ,week_ns<=!!valid_cumulative_months[[5]]~5
+          ,week_ns<=!!valid_cumulative_months[[6]]~6
+          ,week_ns<=!!valid_cumulative_months[[7]]~7
+          ,week_ns<=!!valid_cumulative_months[[8]]~8
+          ,week_ns<=!!valid_cumulative_months[[9]]~9
+          ,week_ns<=!!valid_cumulative_months[[10]]~10
+          ,week_ns<=!!valid_cumulative_months[[11]]~11
+          ,week_ns<=!!valid_cumulative_months[[12]]~12
+          ,.default=13
+        )
+      )
+  }
+
+
+  if(pattern=="454"){
+
+    valid_cumulative_months <- cumsum(rep(c(4,5,4),4))
+
+    out <- .data |>
+      dplyr::mutate(
+        .by=year_ns
+        ,month_ns=dplyr::case_when(
+          # either framing it in advance or somehow passing a arg to it
+          week_ns<=!!valid_cumulative_months[[1]]~1
+          ,week_ns<=!!valid_cumulative_months[[2]]~2
+          ,week_ns<=!!valid_cumulative_months[[3]]~3
+          ,week_ns<=!!valid_cumulative_months[[4]]~4
+          ,week_ns<=!!valid_cumulative_months[[5]]~5
+          ,week_ns<=!!valid_cumulative_months[[6]]~6
+          ,week_ns<=!!valid_cumulative_months[[7]]~7
+          ,week_ns<=!!valid_cumulative_months[[8]]~8
+          ,week_ns<=!!valid_cumulative_months[[9]]~9
+          ,week_ns<=!!valid_cumulative_months[[10]]~10
+          ,week_ns<=!!valid_cumulative_months[[11]]~11
+          ,week_ns<=!!valid_cumulative_months[[12]]~12
+          ,.default=13
+        )
+      )
+  }
+
+  return(out)
+
+
+}
+
+
 
 
 utils::globalVariables(
