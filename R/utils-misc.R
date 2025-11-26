@@ -418,14 +418,11 @@ augment_calendar <- function(.data,.date){
     ,msg = ".data must be regular tibble or DBI lazy object"
     )
 
-
-
   if(any(data_class %in% "tbl_lazy")){
 
     out <- augment_calendar_dbi(.data = .data,.date = .date_var)
 
     return(out)
-
 
   }
 
@@ -435,14 +432,32 @@ augment_calendar <- function(.data,.date){
     out <- augment_calendar_tbl(.data = .data,.date = !!.date_var)
 
     return(out)
-
-
   }
-
-
 
 }
 
+
+#' Finds closet sunday to February 1st
+#'
+#' @param year year of the date
+#'
+#' @returns character vector
+#' @keywords internal
+closest_sunday_feb1 <- function(year) {
+
+  # Create a Date object for February 1st of the given year
+  feb1 <- as.Date(paste0(year, "-02-01"))
+
+  # Get the day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+  wday <- as.integer(format(feb1, "%w"))
+
+  # Calculate offset to the nearest Sunday
+  # If wday <= 3, the closest Sunday is before; else it's after
+  offset <- ifelse(wday <= 3, -wday, 7 - wday)
+
+  # Return the closest Sunday
+  feb1 + offset
+}
 
 
 utils::globalVariables(

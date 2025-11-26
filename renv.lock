@@ -934,8 +934,8 @@
     },
     "contoso": {
       "Package": "contoso",
-      "Version": "1.2.0",
-      "Source": "Repository",
+      "Version": "1.2.2",
+      "Source": "GitHub",
       "Type": "Package",
       "Title": "Dataset of the 'Contoso' Company",
       "Authors@R": "c( person( \"Alejandro\", \"Hagan\", email = \"alejandro.hagan@outlook.com\", role = c(\"aut\", \"cre\") ) )",
@@ -945,24 +945,34 @@
         "DBI",
         "dplyr",
         "cli",
-        "duckdb (>= 1.4.0)"
+        "duckdb (>= 1.4.0)",
+        "assertthat",
+        "cli"
       ],
       "Suggests": [
-        "testthat (>= 3.0.0)"
+        "testthat (>= 3.0.0)",
+        "dbplyr"
       ],
       "Encoding": "UTF-8",
       "LazyData": "true",
       "RoxygenNote": "7.3.3",
+      "Roxygen": "list(markdown = TRUE)",
       "Depends": [
         "R (>= 4.1.0)"
       ],
       "URL": "https://usrbinr.github.io/contoso/, https://github.com/usrbinr/contoso",
       "Config/testthat/edition": "3",
       "BugReports": "https://github.com/usrbinr/contoso/issues",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "contoso",
+      "RemoteUsername": "usrbinr",
+      "RemotePkgRef": "usrbinr/contoso",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "5157e022b4d5871cce95627d879a4a40da1d2b9f",
       "NeedsCompilation": "no",
       "Author": "Alejandro Hagan [aut, cre]",
-      "Maintainer": "Alejandro Hagan <alejandro.hagan@outlook.com>",
-      "Repository": "CRAN"
+      "Maintainer": "Alejandro Hagan <alejandro.hagan@outlook.com>"
     },
     "cpp11": {
       "Package": "cpp11",
