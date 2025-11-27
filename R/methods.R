@@ -32,9 +32,19 @@ S7::method(create_calendar,ti) <- function(x){
 
   ## neeed to add in standard and non-standard logic here.
 
-  # start_year <- closest_sunday_feb1(min_year)
 
+  if(x@datum@calendar_type!="standard"){
 
+    min_year <- lubridate::year(x@datum@min_date)
+
+    start_date <- closest_sunday_feb1(min_year)
+
+    if(min_year<start_date){
+
+      start_date <- closest_sunday_feb1(min_year-1)
+
+    }
+  }
 
 
   ## summarize data table
@@ -52,8 +62,16 @@ S7::method(create_calendar,ti) <- function(x){
 
   #create calendar table
 
-  calendar_dbi <- seq_date_sql(start_date = x@datum@min_date,end_date = x@datum@max_date,time_unit = x@time_unit@value,con=dbplyr::remote_con(x@datum@data))
+  if(x@datum@calendar_type=="standard"){
 
+
+    calendar_dbi <- seq_date_sql(start_date = x@datum@min_date,end_date = x@datum@max_date,time_unit = x@time_unit@value,con=dbplyr::remote_con(x@datum@data))
+
+  }else{
+
+    calendar_dbi <- seq_date_sql(start_date = start_date,end_date = x@datum@max_date,time_unit = x@time_unit@value,con=dbplyr::remote_con(x@datum@data))
+
+  }
 
   # Expand calendar table with cross join of groups
   if(x@datum@group_indicator){
