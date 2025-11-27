@@ -1,62 +1,71 @@
 library(tidyverse)
 library(contoso)
+devtools::document()
 devtools::load_all()
 
 ## create 5-5-4 calendar
 
-x <-  contoso::sales |> fpaR::mtd(order_date,revenue,calendar_type = "standard")
+x <-  contoso::sales |> fpaR::mtd(order_date,margin,calendar_type = "standard")
 
 
-con <- dbplyr::remote_con(x@datum@data)
 
 
 ## find beginng date indicator
 
-min_year <- year(x@datum@min_date)
 
-start_year <- closest_sunday_feb1(min_year)
-
-new_cal <- fpaR:::seq_date_sql(start_date = start_year,end_date=x@datum@max_date,time_unit = "day",con =con ) |>
-  augment_calendar(.date = date)
-
-#  this should generate a type of calendar
-# need to validate year logic -- I am getting 53 weeks all the time
 
 
 
-pattern <- "544"
+#  this should generate a type of calendar
+#  lets start with this for now -- we need to add a 5th year rebalancing logic (eg specify which year we have an extra week)
+#  lets use this for a momnth over month calculation to see how we would do that
 
 
-days_in_week=7
-weeks_in_quarter=13
-quarters_in_year=4
 
-# out <-
-  new_cal |>
+
+
+
+## replicate mtd to see this would work in this system
+
+
+#create claendar
+## take the create_Calendar output and then siply pass then through to the augmnet_ns_calendar rather than default calendar so that I
+## sot aht I don't need to recreate that
+
+# full_dbi <-
+## this should say complete_calendar
+
+
+
+  if(x@datum@calendar_type=="standard"){
+    full_dbi <- create_calendar(x) |>
+      dplyr::mutate(
+        year=lubridate::year(date)
+        ,month=lubridate::month(date)
+        ,.before = 1
+      )
+
+  }
+
+
+if(x@datum@calendar_type!="standard")
+
+  full_dbi <- create_calendar(x) |>
+    augment_non_standard_calendar(pattern="544")
+  )
+    #this should be augment_standard_calendar
+
+
+out_dbi <-
+  full_dbi |>
   dbplyr::window_order(date) |>
-  select(date,day_of_week) |>
   dplyr::mutate(
-      year_index=dplyr::if_else(dplyr::row_number()%%(days_in_week*weeks_in_quarter*quarters_in_year)==1,1,0)
-      ,year_ns=cumsum(year_index)
+    !!x@value@new_column_name_vec:=cumsum(!!x@value@value_quo)
+    ,.by=c(year,month,!!!x@datum@group_quo)
   ) |>
   dplyr::mutate(
-    week_index=dplyr::if_else(dplyr::row_number()%%7==1,1,0)
-    ,week_ns=cumsum(week_index)
-    ,.by=year_ns
-  ) |>
-  create_ns_month(pattern=pattern) |>
-  dplyr::mutate(
-    quarter_ns=dplyr::case_when(
-      month_ns<=3~1
-      ,month_ns<=6~2
-      ,month_ns<=9~3
-      ,.default=4
-    )
-  ) |> collect() |> arrange(date)
+    days_in_current_period=lubridate::day(date)
+  )
 
 
-
-out |> collect() |> arrange(date)
-
-
-
+return(out)

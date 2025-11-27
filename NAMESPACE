@@ -2,7 +2,7 @@
 
 export(abc)
 export(atd)
-export(augment_calendar)
+export(augment_standard_calendar)
 export(calculate)
 export(cohort)
 export(create_calendar)

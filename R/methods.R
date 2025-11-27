@@ -29,6 +29,14 @@ complete_calendar <- S7::new_generic("complete_calendar","x")
 #' @keywords internal
 S7::method(create_calendar,ti) <- function(x){
 
+
+  ## neeed to add in standard and non-standard logic here.
+
+  # start_year <- closest_sunday_feb1(min_year)
+
+
+
+
   ## summarize data table
   summary_dbi <- x@datum@data |>
     dplyr::ungroup() |>

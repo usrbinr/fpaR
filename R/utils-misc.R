@@ -419,7 +419,6 @@ augment_standard_calendar <- function(.data,.date){
 
     out <- augment_standard_calendar_dbi(.data = .data,.date = .date_var)
 
-    return(out)
 
   }
 
@@ -428,8 +427,10 @@ augment_standard_calendar <- function(.data,.date){
 
     out <- augment_standard_calendar_tbl(.data = .data,.date = !!.date_var)
 
-    return(out)
   }
+
+
+
 
 }
 
@@ -465,7 +466,7 @@ closest_sunday_feb1 <- function(year) {
 #' @returns DBI object
 #'
 #' @keywords internal
-create_ns_month <- function(.data,pattern){
+create_non_standard_month <- function(.data,pattern){
 
 
   valid_colnames <- c("week_ns","year_ns")
@@ -491,21 +492,21 @@ create_ns_month <- function(.data,pattern){
     out <-
       .data |>
       dplyr::mutate(
-        .by=year_ns
-        ,month_ns=dplyr::case_when(
+        .by=year
+        ,month=dplyr::case_when(
           # either framing it in advance or somehow passing a arg to it
-          week_ns<=!!valid_cumulative_months[[1]]~1
-          ,week_ns<=!!valid_cumulative_months[[2]]~2
-          ,week_ns<=!!valid_cumulative_months[[3]]~3
-          ,week_ns<=!!valid_cumulative_months[[4]]~4
-          ,week_ns<=!!valid_cumulative_months[[5]]~5
-          ,week_ns<=!!valid_cumulative_months[[6]]~6
-          ,week_ns<=!!valid_cumulative_months[[7]]~7
-          ,week_ns<=!!valid_cumulative_months[[8]]~8
-          ,week_ns<=!!valid_cumulative_months[[9]]~9
-          ,week_ns<=!!valid_cumulative_months[[10]]~10
-          ,week_ns<=!!valid_cumulative_months[[11]]~11
-          ,week_ns<=!!valid_cumulative_months[[12]]~12
+          week<=!!valid_cumulative_months[[1]]~1
+          ,week<=!!valid_cumulative_months[[2]]~2
+          ,week<=!!valid_cumulative_months[[3]]~3
+          ,week<=!!valid_cumulative_months[[4]]~4
+          ,week<=!!valid_cumulative_months[[5]]~5
+          ,week<=!!valid_cumulative_months[[6]]~6
+          ,week<=!!valid_cumulative_months[[7]]~7
+          ,week<=!!valid_cumulative_months[[8]]~8
+          ,week<=!!valid_cumulative_months[[9]]~9
+          ,week<=!!valid_cumulative_months[[10]]~10
+          ,week<=!!valid_cumulative_months[[11]]~11
+          ,week<=!!valid_cumulative_months[[12]]~12
           ,.default=13
         )
       )
@@ -517,21 +518,21 @@ create_ns_month <- function(.data,pattern){
 
     out <- .data |>
       dplyr::mutate(
-        .by=year_ns
-        ,month_ns=dplyr::case_when(
+        .by=year
+        ,month=dplyr::case_when(
           # either framing it in advance or somehow passing a arg to it
-          week_ns<=!!valid_cumulative_months[[1]]~1
-          ,week_ns<=!!valid_cumulative_months[[2]]~2
-          ,week_ns<=!!valid_cumulative_months[[3]]~3
-          ,week_ns<=!!valid_cumulative_months[[4]]~4
-          ,week_ns<=!!valid_cumulative_months[[5]]~5
-          ,week_ns<=!!valid_cumulative_months[[6]]~6
-          ,week_ns<=!!valid_cumulative_months[[7]]~7
-          ,week_ns<=!!valid_cumulative_months[[8]]~8
-          ,week_ns<=!!valid_cumulative_months[[9]]~9
-          ,week_ns<=!!valid_cumulative_months[[10]]~10
-          ,week_ns<=!!valid_cumulative_months[[11]]~11
-          ,week_ns<=!!valid_cumulative_months[[12]]~12
+          week<=!!valid_cumulative_months[[1]]~1
+          ,week<=!!valid_cumulative_months[[2]]~2
+          ,week<=!!valid_cumulative_months[[3]]~3
+          ,week<=!!valid_cumulative_months[[4]]~4
+          ,week<=!!valid_cumulative_months[[5]]~5
+          ,week<=!!valid_cumulative_months[[6]]~6
+          ,week<=!!valid_cumulative_months[[7]]~7
+          ,week<=!!valid_cumulative_months[[8]]~8
+          ,week<=!!valid_cumulative_months[[9]]~9
+          ,week<=!!valid_cumulative_months[[10]]~10
+          ,week<=!!valid_cumulative_months[[11]]~11
+          ,week<=!!valid_cumulative_months[[12]]~12
           ,.default=13
         )
       )
@@ -544,21 +545,21 @@ create_ns_month <- function(.data,pattern){
 
     out <- .data |>
       dplyr::mutate(
-        .by=year_ns
-        ,month_ns=dplyr::case_when(
+        .by=year
+        ,month=dplyr::case_when(
           # either framing it in advance or somehow passing a arg to it
-          week_ns<=!!valid_cumulative_months[[1]]~1
-          ,week_ns<=!!valid_cumulative_months[[2]]~2
-          ,week_ns<=!!valid_cumulative_months[[3]]~3
-          ,week_ns<=!!valid_cumulative_months[[4]]~4
-          ,week_ns<=!!valid_cumulative_months[[5]]~5
-          ,week_ns<=!!valid_cumulative_months[[6]]~6
-          ,week_ns<=!!valid_cumulative_months[[7]]~7
-          ,week_ns<=!!valid_cumulative_months[[8]]~8
-          ,week_ns<=!!valid_cumulative_months[[9]]~9
-          ,week_ns<=!!valid_cumulative_months[[10]]~10
-          ,week_ns<=!!valid_cumulative_months[[11]]~11
-          ,week_ns<=!!valid_cumulative_months[[12]]~12
+          week<=!!valid_cumulative_months[[1]]~1
+          ,week<=!!valid_cumulative_months[[2]]~2
+          ,week<=!!valid_cumulative_months[[3]]~3
+          ,week<=!!valid_cumulative_months[[4]]~4
+          ,week<=!!valid_cumulative_months[[5]]~5
+          ,week<=!!valid_cumulative_months[[6]]~6
+          ,week<=!!valid_cumulative_months[[7]]~7
+          ,week<=!!valid_cumulative_months[[8]]~8
+          ,week<=!!valid_cumulative_months[[9]]~9
+          ,week<=!!valid_cumulative_months[[10]]~10
+          ,week<=!!valid_cumulative_months[[11]]~11
+          ,week<=!!valid_cumulative_months[[12]]~12
           ,.default=13
         )
       )
@@ -569,6 +570,64 @@ create_ns_month <- function(.data,pattern){
 
 }
 
+
+
+
+#' Augment non-standard calendar
+#'
+#' @param .data data
+#' @param pattern 554,445 or 545
+#'
+#' @returns DBI object
+#'
+augment_non_standard_calendar <- function(.data,pattern){
+
+  #test inputs
+  # pattern <- "544"
+
+  # assign variables
+  days_in_week=7
+  weeks_in_quarter=13
+  quarters_in_year=4
+  # start_year <- closest_sunday_feb1(min_year)
+
+
+  #
+  # new_cal <- seq_date_sql(start_date = start_year,end_date=x@datum@max_date,time_unit = "day",con =con ) |>
+  #   augment_standard_calendar(.date = date) |>
+  #   dplyr::select(date,day_of_week)
+
+  out <-
+    .data |>
+    dbplyr::window_order(date) |>
+    dplyr::mutate(
+      year_index=dplyr::if_else(dplyr::row_number()%%(days_in_week*weeks_in_quarter*quarters_in_year)==1,1,0)
+      ,year=cumsum(year_index)
+    ) |>
+    dplyr::mutate(
+      week_index=dplyr::if_else(dplyr::row_number()%%7==1,1,0)
+      ,week=cumsum(week_index)
+      ,.by=year
+    ) |>
+    create_non_standard_month(pattern=pattern) |>
+    dplyr::mutate(
+      quarter=dplyr::case_when(
+        month<=3~1
+        ,month<=6~2
+        ,month<=9~3
+        ,.default=4
+      )
+    ) |>
+    dplyr::mutate(
+      day=lubridate::day(date)
+    ) |>
+    dplyr::select(
+      date,day,week,month,quarter,year
+    )
+
+  return(out)
+
+}
 
 
 
