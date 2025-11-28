@@ -14,12 +14,12 @@ quarto::write_yaml_metadata_block(
 
 ### Introduction
 
-In many fpaR functions, you will see a reference to a calendar_type argument which may confuse most of you, isn't there only one type of calendar?
+In many fpaR functions, you will see a reference to a `calendar_type` argument which may confuse most of you, isn't there only one type of calendar?
 
 To accomodate the uniqueness of some industries, financial planning analysis will often involve two calendar systems:
 
 1. **Standard Calendar**  
-2. **5-5-4 Calendar**  
+2. **Non-standard Calendar** such as `5-4-4`, `4-4-5` or `4-5-4`
 
 This vignette explains the differences between these calendars and their typical use cases.
 
@@ -29,7 +29,8 @@ This is your "typical" calendar also known as a conventional Gregorian calendar:
 
 - 12 months of varying lengths (28–31 days)
 - 52 weeks per year (sometimes 53 in leap years)
-- Months are uneven in length, which can cause challenges in period-over-period comparison
+- 7 days in a week 
+- 365 days in a year (except in the leap years)
 
 For most of your analysis this is most likely the calendar "type" that you need to follow
 **Example:**
@@ -49,25 +50,25 @@ The primary disadvantage of this calendar is that when you try to compare a metr
 This can lead to misleading conclusions that revenue is increasing or decreasing
 
 
-### 5-5-4 Calendar
+### 5-4-4 Calendar
 
-The **5-5-4 calendar** is commonly used in retail designed to simplify period-over-period comparisons which a standard calendar introduces
+The **5-4-4 calendar** is commonly used in retail designed to simplify period-over-period comparisons which a standard calendar introduces
 
-- Each quarter has **13 weeks**, divided into three periods: 5 weeks, 5 weeks, 4 weeks
+- Each quarter has **13 weeks**, divided into three periods: 5 weeks, 4 weeks, 4 weeks
 - Each month in the quarter has a fixed number of weeks (rather than days)
 - Some years include a **53rd week** to align with the solar calendar
 
-**Example of a Quarter in 5-5-4 Calendar:**
+**Example of a Quarter in 5-4-4 Calendar:**
 
 | Period | Weeks |
 |--------|------|
 | Month 1 | 5 |
-| Month 2 | 5 |
+| Month 2 | 4 |
 | Month 3 | 4 |
 
 ### Comparison
 
-| Feature | Standard Calendar | 5-5-4 Calendar |
+| Feature | Standard Calendar | 5-4-4 Calendar |
 |---------|-----------------|----------------|
 | Basis | Days in month | Weeks in period |
 | Month Length | Varies (28–31 days) | Fixed (4 or 5 weeks) |
@@ -77,7 +78,7 @@ The **5-5-4 calendar** is commonly used in retail designed to simplify period-ov
 
 ### How to reference in `fpaR` functions?
 
-Where you see `calandar_type` argument in function you can either put in "standard" to get a traditional calendar or you can put "554" or  "445" to get the alternative cealndar equivalents.
+Where you see `calandar_type` argument in function you can either put in "standard" to get a traditional calendar or you can put "544","454" or  "445" to get the alternative calendar equivalents.
 
 Under the hood `fpaR` will create and convert your calendar to right calendar types an the functions will correctly index of the new keys.
 

@@ -221,7 +221,6 @@ print_actions_steps <- function(x){
 
 augment_standard_calendar_tbl <- function(.data,.date){
 
-lubridate::days
   # create attibutes
   out <- .data |>
     dplyr::mutate(
@@ -316,7 +315,7 @@ augment_standard_calendar_dbi <- function(.data,.date){
 
   date_vec <- rlang::as_label(.date)
 
-# out <-
+out <-
   .data |>
   dplyr::mutate(
     year_start_date=lubridate::floor_date({{.date}},unit = "year")
@@ -350,6 +349,8 @@ augment_standard_calendar_dbi <- function(.data,.date){
  dplyr::mutate(
     dplyr::across(dplyr::contains("date"),\(x) as.Date(x))
   )
+
+return(out)
 
 }
 
@@ -419,6 +420,8 @@ augment_standard_calendar <- function(.data,.date){
 
     out <- augment_standard_calendar_dbi(.data = .data,.date = .date_var)
 
+    return(out)
+
 
   }
 
@@ -427,8 +430,8 @@ augment_standard_calendar <- function(.data,.date){
 
     out <- augment_standard_calendar_tbl(.data = .data,.date = !!.date_var)
 
+    return(out)
   }
-
 
 
 
@@ -628,7 +631,6 @@ augment_non_standard_calendar <- function(.data,pattern){
   return(out)
 
 }
-
 
 
 utils::globalVariables(
