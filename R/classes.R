@@ -101,7 +101,7 @@ datum <- S7::new_class(
         ,default = "standard"
         ,validator =function(value){
 
-          valid_names <- c("standard","544","445","454")
+          valid_names <- c("standard","544","445","454",NA_character_)
 
           if(!any(value %in% valid_names)) return(cli::format_error("Please return {.or {.val {valid_names}}}"))
 

@@ -15,7 +15,8 @@
     - title: "Utilities"
       desc: "General helper and execution utilities."
       contents:
-        - augment_calendar
+        - augment_standard_calendar
+        - augment_non_standard_calendar
         - calculate
 
     - title: "Cohort & Classification"

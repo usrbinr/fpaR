@@ -9,7 +9,6 @@ x <-  contoso::sales |> fpaR::mtd(order_date,margin,calendar_type = "445")
 
 
 
-
 ## find beginng date indicator
 
 

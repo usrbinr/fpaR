@@ -42,7 +42,7 @@ abc <- function(.data,category_values,.value){
 
 
   x <-   segment_abc(
-    datum                      = datum(.data,date_vec = NA,calendar_type = NA)
+    datum                      = datum(.data,date_vec = NA,calendar_type = NA_character_)
     ,value                    = value(value_vec = value_vec,new_column_name_vec = "abc")
     ,category                 = category(category_values=category_values)
     ,fn = fn(

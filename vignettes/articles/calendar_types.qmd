@@ -1,5 +1,5 @@
 ---
-title: "Standard vs. 5-5-4 Calendar"
+title: "Standard vs. 5-4-4 Calendar"
 subtitle: "What do we mean by standard and non-standard calendar?"
 author: "Alejandro Hagan"
 format: html
