@@ -681,7 +681,10 @@ utils::globalVariables(
     "week_start_date",
     "week_end_date",
     "day_of_week_label",
-    "days_in_month"
+    "days_in_month",
+    "year_index",
+    "week_index",
+    "day"
   )
 )
 

@@ -8,7 +8,6 @@
 #' @param end_date calendar end date in YYYY-MM-DD format
 #' @param time_unit calendar table unit in 'day', 'week', 'month', 'quarter' or 'year'
 #' @param con database connection
-#' @export
 #' @return DBI object
 #' @keywords internal
 #' @examples

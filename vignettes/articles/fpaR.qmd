@@ -79,7 +79,7 @@ contoso::sales |>
 ```
 
 
-If you using a tibble, under the hood, `fpaR` is converting your data to a [duckdb](https://github.com/duckdb/duckdb-r) database
+If you using a tibble, under the hood, fpa is converting your data to a [duckdb](https://github.com/duckdb/duckdb-r) database
 
 If your data is in a database, the package will leverage [dbplyr](https://dbplyr.tidyverse.org/) to execute all the calculations
 

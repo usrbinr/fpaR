@@ -14,7 +14,7 @@ quarto::write_yaml_metadata_block(
 ```
 
 
-In business and financial analytics, the **ABC classification** method is widely used to categorize items, customers, or any group members according to their relative contribution to a total metric.  
+The **ABC classification** method is used to categorize items, customers, or any group members according to their relative contribution to a total metric.  
 
 The `abc()` function applies this method by ranking group members according to either transaction counts or the sum of a numeric variable (e.g., revenue, margin):
 

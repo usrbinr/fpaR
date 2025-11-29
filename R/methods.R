@@ -106,6 +106,22 @@ S7::method(create_calendar,ti) <- function(x){
 #' @title Execute time-intelligence or segments class objects to return the underlying transformed table
 #' @name calculate
 #' @param x ti object
+#' @description
+#' The `calculate()` function takes an object created by a time function (like `ytd()`, `mtd()`, or `qtd()`) or a segment function (like `cohort()` or `abc()`) and executes the underlying transformation logic.
+#' It translates the function blueprint into an actionable query, returning the final data table.
+#'
+#' @details
+#' The TI and segment functions in **fpaR**—such as `ytd()` or `cohort()` and others—are designed to be **lazy and database-friendly**.
+#' They do not perform the heavy data transformation immediately.
+#' Instead, they return a blueprint object (of class `ti`,`segment_abc` or `segment_cohort`) that contains all the parameters and logic needed for the calculation.
+#'
+#' **`calculate()`** serves as the **execution engine**.
+#'
+#' When called, it interprets the blueprint and generates optimized R code or SQL code (using the `dbplyr` package) that is then executed efficiently on the data source, whether it's an in-memory `tibble` or a remote database backend (like `duckdb` or `snowflake`).
+#' This approach minimizes data transfer and improves performance for large datasets.
+#'
+#' The resulting table will be sorted by the relevant date column to ensure the correct temporal ordering of the calculated metrics.
+#'
 #'
 #' @returns dbi object
 #' @export
@@ -125,19 +141,9 @@ S7::method(calculate,ti) <- function(x){
 }
 
 
-#' @title Execute time-intelligence or segments class objects to return the underlying transformed table
+#' @rdname calculate
 #' @name calculate
-#' @param x segment object
-#'
-#' @returns dbi object
 #' @export
-#' @examples
-#' \dontrun{
-#' sales |>
-#'     group_by(store_key) |>
-#'     abc(category_values = c(.3,.5,.75,.85)) |>
-#'     calculate()
-#'}
 S7::method(calculate,segment_cohort) <- function(x){
 
   out <- x@fn@fn_exec(x)
@@ -148,19 +154,9 @@ S7::method(calculate,segment_cohort) <- function(x){
 
 
 
-#' @title Execute time-intelligence or segments class objects to return the underlying transformed table
+#' @rdname calculate
 #' @name calculate
-#' @param x segment object
-#'
-#' @returns dbi object
 #' @export
-#' @examples
-#' \dontrun{
-#' sales |>
-#'     group_by(store_key) |>
-#'     abc(category_values = c(.3,.5,.75,.85)) |>
-#'     calculate()
-#'}
 S7::method(calculate,segment_abc) <- function(x){
 
   out <- x@fn@fn_exec(x) |>

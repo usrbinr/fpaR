@@ -10,15 +10,15 @@ status](https://www.r-pkg.org/badges/version/fpaR?svg=1.png)](https://CRAN.R-pro
 
 ## A Business Intelligence Toolkit for Financial Planning & Analysis (FP&A)
 
-`fpaR` is a collection of business intelligence tools designed to
+This package is a collection of business intelligence tools designed to
 simplify common **financial planning and analysis (FP&A)** tasks such as
-time intelligence calculations, customer, vendor or product
-segmentation, and factor/variance analysis
+time intelligence calculations, group members segmentation and
+factor/variance analysis.
 
 The package is inspired by best practices from a collection of blogs,
 books, industry research, and hands-on work experience, consolidating
 frequently performed business analyses into a fast, efficient, and
-reusable framework
+reusable framework.
 
 In particular, the time intelligence functions are heavily inspired by
 [PowerBI DAX](https://www.sqlbi.com/) functions
@@ -29,15 +29,15 @@ Under the hood, these functions are built upon the great foundations of:
 - [duckdb](https://github.com/duckdb/duckdb-r)
 - [lubridate](https://lubridate.tidyverse.org/)
 
-`fpaR` is designed to work with either tibbles or modern databases
-(DuckDB, Snowflake, SQLite, etc) with a unified syntax
+All functions are designed to work with either tibbles or modern
+databases (DuckDB, Snowflake, SQLite, etc) with a unified syntax.
 
-Even if you are working with tibbles, most functions are optimized to
+Even if you are working with tibbles, all functions are optimized to
 leverage [DuckDB](https://github.com/duckdb/duckdb-r) for increased
 speed and performance[^1]
 
-By default most `fpaR` function returns a lazy DBI object which you can
-return as a tibble with `dplyr::collect()`
+By default, all functions returns a lazy DBI object which you can return
+as a tibble with `dplyr::collect()`
 
 ## Key features & benefits
 
@@ -50,7 +50,7 @@ return as a tibble with `dplyr::collect()`
 
 ## Installation
 
-Install the development version of `fpaR` from GitHub:
+Install the development from GitHub:
 
 ``` r
 # Install using pak or install.package()
@@ -58,16 +58,16 @@ Install the development version of `fpaR` from GitHub:
 pak::pak("usrbinr/fpaR")
 ```
 
-## What is in fpaR?
+## What is in fpa?
 
 > We recommend using the [Contoso](https://usrbinr.github.io/contoso/)
 > package for any practice analysis. The contoso datasets are fictional
-> business transaction of Contoso toy company which are helpful for
+> business transaction of the Contoso toy company which are helpful for
 > business intelligence related analysis
 
 There are 3 main categories of functions:
 
-- Time intelligence realted functions
+- Time intelligence related functions
   (<a href="#tbl-ti-fn" class="quarto-xref">Table 1</a>)
 - Categorization strategies
   (<a href="#tbl-abc-fn" class="quarto-xref">Table 2</a>)
@@ -75,13 +75,13 @@ There are 3 main categories of functions:
 
 ### Time intelligence
 
-`fpaR` provides readily available functions for most time intelligence
+This is a collection of the most commonly used time intelligence
 analysis such as **Year-over-Year**(`yoy()`),
 **Month-to-Date**(`mtd()`), and **Current Year-to-Date over Previous
-Year-to-Date** (`ytdopy()`) analysis
+Year-to-Date** (`ytdopy()`) analysis.
 
-These functions are designed to quickly answer most common time
-intelligence related analysis in a consistent, fast and transparent way
+These functions are designed to quickly answer questions in a
+consistent, fast and transparent way.
 
 **Key benefits:**
 
@@ -89,13 +89,11 @@ intelligence related analysis in a consistent, fast and transparent way
   datasets so that right period comparisons are performed
 
 - **Flexible calendar options**: Handle comparisons based on a
-  **standard** or **5-5-4** fiscal calendar to accommodate different
-  reporting frameworks
+  **standard** or **non-standard** fiscal calendar to accommodate
+  different reporting frameworks
 
-- **Period imbalance indicator**: When comparing periods with dates
-  imbalance, the time intelligence functions will alert you to the type
-  and number of period imbalances to ensure you are aware of misleading
-  likewise comparisons
+- **Clear definition**: Full transparency to the calculations that are
+  performed with visibilty to any missing or incomplete date periods
 
 Below is the full list of time intelligence functions:
 
@@ -133,29 +131,31 @@ Table 1
 
 </div>
 
-### **Segmentation Strategies**
+------------------------------------------------------------------------
+
+### **Classification Strategies**
 
 #### ABC Classification
 
 ABC classification is an business analysis technique that categorizes
 items (like products, customers, or suppliers) based on their relative
-contribution of a value. It facilities the Pareto Principle (the 80/20
-rule), suggesting that a small percentage of items contribute to the
-largest percentage of the total value
+contribution of a value. It expands upon the the Pareto Principle (the
+80/20 rule), allowing the user to determine which percentage of items or
+group members contribute to the largest percentage of the total value
 
-The analysis will assign a letter category to each break point so that
-you can further focus your analysis
+You assign the break points for the categorization and the function will
+label each category with a letter value
 
 #### Cohort
 
 Cohort analysis is a type of behavioral analytics that takes data from a
-given group of users (a cohort) and tracks their activity over time. A
-cohort is typically defined by a shared starting characteristic, most
-commonly the time period in which the entities first interacted with the
-product or service
+given group of users (called a cohort) and tracks their activity over
+time. A cohort is typically defined by a shared starting characteristic,
+most commonly the time period in which the entities first interacted
+with the product or service
 
-This allows you to understand retention, turnover and other attributes
-more clearly
+This allows you to understand retention, turnover and other cohort
+attributes more clearly
 
 <div id="tbl-abc-fn">
 
@@ -177,13 +177,15 @@ Table 2
 ### **Factor / Variation Analysis**
 
 Breaks down revenue or cost changes into **price, volume, and mix
-effects**.
+effects**
+
+Work in progress.
 
 ------------------------------------------------------------------------
 
 ## Future capabilities
 
-Is there a future capability that you want to see here? please open up a
+Is there a future capability that you want to see here? please open up
 [discussion](https://github.com/usrbinr/fpaR/discussions) on our github
 site
 

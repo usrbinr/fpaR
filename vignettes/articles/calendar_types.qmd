@@ -1,6 +1,6 @@
 ---
-title: "Standard vs. 5-4-4 Calendar"
-subtitle: "What do we mean by standard and non-standard calendar?"
+title: "Standard vs. Non-Standard Calendars"
+subtitle: "What are non-standard calendars and when do we use it?"
 author: "Alejandro Hagan"
 format: html
 ---
@@ -12,74 +12,78 @@ quarto::write_yaml_metadata_block(
    )
 ```
 
-### Introduction
+## Introduction: Beyond the Gregorian Calendar
 
-In many fpaR functions, you will see a reference to a `calendar_type` argument which may confuse most of you, isn't there only one type of calendar?
+In many **Financial Planning & Analysis (FP&A)** functions, you'll encounter a `calendar_type` argument. This might be confusing, as most people assume there is only one type of calendar!
 
-To accomodate the uniqueness of some industries, financial planning analysis will often involve two calendar systems:
+To accommodate the unique operational and analytical needs of certain industries (particularly retail and manufacturing), FP&A often involves two primary calendar systems:
 
-1. **Standard Calendar**  
-2. **Non-standard Calendar** such as `5-4-4`, `4-4-5` or `4-5-4`
+1.  **Standard Calendar** (Gregorian)
+2.  **Non-Standard Calendars** (e.g., *5-4-4, 4-4-5, 4-5-4*)
 
-This vignette explains the differences between these calendars and their typical use cases.
+This guide explains the differences between these calendars and their typical use cases in business analysis.
 
-### Standard Calendar
+---
 
-This is your "typical" calendar also known as a conventional Gregorian calendar:
+### 1. The Standard (Gregorian) Calendar
 
-- 12 months of varying lengths (28–31 days)
-- 52 weeks per year (sometimes 53 in leap years)
-- 7 days in a week 
-- 365 days in a year (except in the leap years)
+This is the **conventional calendar** used for general financial reporting, scheduling, and external communication.
 
-For most of your analysis this is most likely the calendar "type" that you need to follow
-**Example:**
+#### Structure & Use
+* **Period Structure:** 12 months of **varying lengths** (28–31 days).
+* **Days/Weeks:** 365 days per year (366 in a leap year).
+* **Advantage:** It matches external reporting deadlines, regulatory timelines, and standard corporate schedules.
 
-| Month | Days |
-|-------|------|
-| January | 31 |
-| February | 28 (29 in leap year) |
-| March | 31 |
-| ... | ... |
-| December | 31 |
+#### Disadvantage: Inconsistent Comparisons
 
-The advantage of this calendar type is that it matches most internal / external reporting timelines since this is the calendar that we mainly used to plan or schedules our lives
+The primary drawback is that comparing operational metrics (like sales or margin) month-over-month (MoM) or quarter-over-quarter (QoQ) is challenging. The varying number of days or weekends leads to **misleading conclusions**.
 
-The primary disadvantage of this calendar is that when you try to compare a metric, lets say revenue, across periods you can easily compare periods with uneven days (eg. comparing January sales to February sales)
+> For example, comparing sales from a 31-day month to a 28-day month will inherently show a "drop" in total revenue, even if the daily performance was identical. This makes true performance comparison difficult.
 
-This can lead to misleading conclusions that revenue is increasing or decreasing
+---
 
+### 2. Non-Standard (Retail/Fiscal) Calendars 
 
-### 5-4-4 Calendar
+Non-standard calendars are explicitly designed to **control for period-to-period variance**. They achieve this by ensuring every comparable period has an identical number of weeks and, critically, an identical number of **weekends**. This allows for a **cleaner "apples-to-apples" comparison** of operational performance.
 
-The **5-4-4 calendar** is commonly used in retail designed to simplify period-over-period comparisons which a standard calendar introduces
+The most common types are the **Retail Calendars** (used in retail, restaurant, and manufacturing), such as **5-4-4**, **4-4-5**, and **4-5-4**.
 
-- Each quarter has **13 weeks**, divided into three periods: 5 weeks, 4 weeks, 4 weeks
-- Each month in the quarter has a fixed number of weeks (rather than days)
-- Some years include a **53rd week** to align with the solar calendar
+#### Example: The 5-4-4 Calendar Structure
 
-**Example of a Quarter in 5-4-4 Calendar:**
+The 5-4-4 structure ensures that every quarter is exactly **13 weeks** long, and the month structure repeats perfectly:
 
-| Period | Weeks |
-|--------|------|
-| Month 1 | 5 |
-| Month 2 | 4 |
-| Month 3 | 4 |
+* **Basis:** Weeks in a period, not days in a month.
+* **Total Year:** 52 weeks (364 days).
 
-### Comparison
+| Quarter Structure | Weeks | Days | Purpose |
+| :---: | :---: | :---: | :--- |
+| **Period 1** | 5 Weeks | 35 days | Captures seasonal spikes or month-end activity. |
+| **Period 2** | 4 Weeks | 28 days | Standard monthly period. |
+| **Period 3** | 4 Weeks | 28 days | Standard monthly period. |
+| **Total Quarter** | 13 Weeks | 91 days | Ensures exact period alignment QoQ. |
 
-| Feature | Standard Calendar | 5-4-4 Calendar |
-|---------|-----------------|----------------|
-| Basis | Days in month | Weeks in period |
-| Month Length | Varies (28–31 days) | Fixed (4 or 5 weeks) |
-| Year Alignment | Calendar year | Usually aligned to fiscal year starting on a specific day (e.g., Sunday) |
-| Best for | General reporting, financial statements | Retail, period-over-period sales and inventory analysis |
+#### The 53rd Week Challenge
 
+Since a 52-week year is 364 days, and the solar year is $\approx 365.25$ days, a **53rd week** must be added every 5 to 6 years to keep the fiscal year aligned with the actual calendar year. This **53-week year** is a crucial planning consideration for businesses using non-standard calendars.
+
+---
+
+### Calendar Comparison
+
+| Feature | Standard (Gregorian) Calendar | Non-Standard (e.g., 5-4-4) Calendar |
+| :--- | :--- | :--- |
+| **Basis of Period** | Days in month | Weeks in period |
+| **Month/Period Length** | Varies (28–31 days) | Fixed (4 or 5 weeks) |
+| **Consistency MoM/QoQ** | Low: Days/weekends vary | High: Weeks/weekends are identical |
+| **Best For** | General reporting, external financial statements (GAAP/IFRS) | **Operational Analysis:** Retail sales, inventory, labor costs, and year-over-year comparisons. |
+
+---
 
 ### How to reference in `fpaR` functions?
 
-Where you see `calandar_type` argument in function you can either put in "standard" to get a traditional calendar or you can put "544","454" or  "445" to get the alternative calendar equivalents.
+The `calendar_type` argument is how you instruct the function on which system to use for its internal calculations and indexing.
 
-Under the hood `fpaR` will create and convert your calendar to right calendar types an the functions will correctly index of the new keys.
+* To use a traditional calendar, pass: `"standard"`
+* To use a retail calendar, pass the respective structure: `"544"`, `"454"`, or `"445"`
 
-
+Under the hood, `fpaR` handles the complexities: it generates the appropriate date keys and ensures that all your metrics are indexed correctly to the start and end of the chosen calendar's periods.
