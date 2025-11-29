@@ -580,10 +580,11 @@ create_non_standard_month <- function(.data,pattern){
 #'
 #' @param .data data
 #' @param pattern 554,445 or 545
+#' @param x is ti object
 #'
 #' @returns DBI object
 #'
-augment_non_standard_calendar <- function(.data,pattern){
+augment_non_standard_calendar <- function(.data,x,pattern){
 
   #test inputs
   # pattern <- "544"
@@ -593,7 +594,7 @@ augment_non_standard_calendar <- function(.data,pattern){
   weeks_in_quarter=13
   quarters_in_year=4
   # start_year <- closest_sunday_feb1(min_year)
-
+  min_date <- x@datum@min_date
 
   #
   # new_cal <- seq_date_sql(start_date = start_year,end_date=x@datum@max_date,time_unit = "day",con =con ) |>
@@ -625,7 +626,10 @@ augment_non_standard_calendar <- function(.data,pattern){
       day=lubridate::day(date)
     ) |>
     dplyr::select(
-      date,day,week,month,quarter,year
+      -c(week_index,year_index)
+    ) |>
+    dplyr::filter(
+      date>min_date
     )
 
   return(out)

@@ -4,10 +4,12 @@
 \alias{augment_non_standard_calendar}
 \title{Augment non-standard calendar}
 \usage{
-augment_non_standard_calendar(.data, pattern)
+augment_non_standard_calendar(.data, x, pattern)
 }
 \arguments{
 \item{.data}{data}
+
+\item{x}{is ti object}
 
 \item{pattern}{554,445 or 545}
 }

@@ -59,3 +59,14 @@
         - yoytd      # YTD vs prior YTD
         - ytdopy     # YTD over previous full year
 
+  articles:
+  - title: Segmentation
+    navbar: Segmentation
+    contents:
+    - articles/abc
+    - articles/cohort
+
+  - title: Time Intillgience
+    navbar: Time Intelligence
+    contents:
+    - articles/calendar_types
