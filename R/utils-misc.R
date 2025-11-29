@@ -581,10 +581,11 @@ create_non_standard_month <- function(.data,pattern){
 #' @param .data data
 #' @param pattern 554,445 or 545
 #' @param x is ti object
-#'
+#' @keywords internal
 #' @returns DBI object
 #'
-augment_non_standard_calendar <- function(.data,x,pattern){
+complete_non_standard_calendar <- function(.data,x){
+
 
   #test inputs
   # pattern <- "544"
@@ -593,6 +594,11 @@ augment_non_standard_calendar <- function(.data,x,pattern){
   days_in_week=7
   weeks_in_quarter=13
   quarters_in_year=4
+  old_cols <- colnames(.data)
+  date_cols <- x@fn@new_date_column_name[x@fn@new_date_column_name!="date"]
+  new_cols <- lubridate::union(old_cols,new_cols)
+  pattern <- x@datum@calendar_type
+
   # start_year <- closest_sunday_feb1(min_year)
   min_date <- x@datum@min_date
 
@@ -632,7 +638,89 @@ augment_non_standard_calendar <- function(.data,x,pattern){
       date>min_date
     )
 
+
+  out <- out |>
+    dplyr::select(dplyr::any_of(new_cols))
+
   return(out)
+
+}
+
+
+#' Title
+#'
+#' @param .data DBI object
+#' @param x ti object
+#' @keywords internal
+#' @returns DBI object
+#'
+complete_standard_calendar <- function(.data,x){
+
+
+  if(any(x@fn@new_date_column_name %in% "year")){
+
+    .data <- .data |>
+      dplyr::mutate(
+        year=lubridate::year(date)
+      )
+
+  }
+  if(any(x@fn@new_date_column_name %in% "quarter")){
+
+    .data <- .data |>
+      dplyr::mutate(
+        year=lubridate::quarter(date)
+      )
+
+  }
+
+  if(any(x@fn@new_date_column_name %in% "month")){
+
+    .data <- .data |>
+      dplyr::mutate(
+        year=lubridate::month(date)
+      )
+
+  }
+
+  if(any(x@fn@new_date_column_name %in% "day")){
+
+    .data <- .data |>
+      dplyr::mutate(
+        year=lubridate::day(date)
+      )
+
+  }
+
+  return(.data)
+
+}
+
+
+#' Title
+#'
+#' @param x ti object
+#' @keywords internal
+#'
+#' @returns DBI object
+#'
+create_full_dbi <- function(x){
+
+
+  if(x@datum@calendar_type=="standard"){
+
+    full_dbi <-  create_calendar(x) |>
+      complete_standard_calendar(x=x)
+
+  }
+
+  if(x@datum@calendar_type!="standard"){
+
+    full_dbi <-  create_calendar(x) |>
+      complete_non_standard_calendar(x=x)
+  }
+
+  return(full_dbi)
 
 }
 
