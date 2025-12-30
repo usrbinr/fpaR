@@ -18,10 +18,8 @@ ytd_fn <- function(x){
 
   # create calendar table
 
-  full_dbi <- create_calendar(x) |>
-    dplyr::mutate(
-      year=lubridate::year(date)
-    )
+  full_dbi <- create_full_dbi(x)
+
 
  # aggregate the data and create the cumulative sum
 
@@ -58,11 +56,13 @@ pytd_fn <- function(x){
 
 
   # create calendar table
-  full_dbi <-  create_calendar(x) |>
-    dplyr::mutate(
-      year=lubridate::year(date)
-      ,.before = 1
-    )
+  # full_dbi <-  create_calendar(x) |>
+  #   dplyr::mutate(
+  #     year=lubridate::year(date)
+  #     ,.before = 1
+  #   )
+
+  full_dbi <- create_full_dbi(x)
 
   # create lag table
 
@@ -158,7 +158,9 @@ yoytd_fn <- function(x){
 yoy_fn <- function(x){
 
   # create calendar
-  full_dbi <-  create_calendar(x)
+  # full_dbi <-  create_calendar(x)
+
+  full_dbi <- create_full_dbi(x)
 
   # create lag
   lag_dbi <- full_dbi |>
@@ -248,12 +250,14 @@ qtd_fn <- function(x){
 
 # x <- fpaR::qtd(.data,.date = order_date,.value = margin,calendar_type = "standard")
 
-  full_dbi <-  create_calendar(x) |>
-    dplyr::mutate(
-      year=lubridate::year(date)
-      ,quarter=lubridate::quarter(date)
-      ,.before = 1
-    )
+  # full_dbi <-  create_calendar(x) |>
+  #   dplyr::mutate(
+  #     year=lubridate::year(date)
+  #     ,quarter=lubridate::quarter(date)
+  #     ,.before = 1
+  #   )
+
+  full_dbi <- create_full_dbi(x)
 
     out_dbi <- full_dbi |>
     dbplyr::window_order(date) |>
@@ -286,12 +290,14 @@ pqtd_fn <- function(x){
 
   # create calendar table
 
-  full_dbi <-  create_calendar(x) |>
-    dplyr::mutate(
-      year=lubridate::year(date)
-      ,quarter=lubridate::quarter(date)
-      ,.before = 1
-    )
+  # full_dbi <-  create_calendar(x) |>
+  #   dplyr::mutate(
+  #     year=lubridate::year(date)
+  #     ,quarter=lubridate::quarter(date)
+  #     ,.before = 1
+  #   )
+
+  full_dbi <- create_full_dbi(x)
 
   lag_dbi <- full_dbi |>
     dbplyr::window_order(date,quarter,year) |>
@@ -391,7 +397,9 @@ qtd_dbi <- qtd(.data=x@datum@data,.date=!!x@datum@date_quo,.value = !!x@value@va
 qoq_fn <- function(x){
 
   # create calendar
-  full_dbi <-  fpaR::create_calendar(x)
+  # full_dbi <-  fpaR::create_calendar(x)
+
+  full_dbi <- create_full_dbi(x)
 
   # create lag
   lag_dbi <- full_dbi |>
@@ -469,13 +477,15 @@ qtdopq_fn <- function(x){
 #' @keywords internal
 mtd_fn <- function(x){
 
+#
+#   full_dbi <-  create_calendar(x) |>
+#     dplyr::mutate(
+#       year=lubridate::year(date)
+#       ,month=lubridate::month(date)
+#       ,.before = 1
+#     )
 
-  full_dbi <-  create_calendar(x) |>
-    dplyr::mutate(
-      year=lubridate::year(date)
-      ,month=lubridate::month(date)
-      ,.before = 1
-    )
+  full_dbi <- create_full_dbi(x)
 
   out_dbi <- full_dbi |>
     dbplyr::window_order(date) |>
@@ -511,12 +521,16 @@ pmtd_fn <- function(x){
  lag_n_vec <-  x@fn@lag_n |> rlang::as_label()
   # create calendar table
 
-  full_dbi <-  create_calendar(x) |>
-    dplyr::mutate(
-      year=lubridate::year(date)
-      ,month=lubridate::month(date)
-      ,.before = 1
-    ) |>
+  # full_dbi <-  create_calendar(x) |>
+  #   dplyr::mutate(
+  #     year=lubridate::year(date)
+  #     ,month=lubridate::month(date)
+  #     ,.before = 1
+  #   ) |>
+  #   dplyr::select(-c(missing_date_indicator))
+
+
+  full_dbi <- create_full_dbi(x) |>
     dplyr::select(-c(missing_date_indicator))
 
   # create lag table
@@ -613,7 +627,10 @@ momtd_fn <- function(x){
 #' @keywords internal
 mom_fn <- function(x){
 
-  full_dbi <-  create_calendar(x)
+  # full_dbi <-  create_calendar(x)
+
+  full_dbi <- create_full_dbi(x)
+
 
   # create lag
   lag_dbi <- full_dbi |>
@@ -708,13 +725,15 @@ mtdopm_fn <- function(x){
 #' @keywords internal
 wtd_fn <- function(x){
 
-  full_dbi <-  create_calendar(x) |>
-    dplyr::mutate(
-      year=lubridate::year(date)
-      ,month=lubridate::month(date)
-      ,week=dplyr::sql("DATE_PART('week',date)")
-      ,.before = 1
-    )
+  # full_dbi <-  create_calendar(x) |>
+  #   dplyr::mutate(
+  #     year=lubridate::year(date)
+  #     ,month=lubridate::month(date)
+  #     ,week=dplyr::sql("DATE_PART('week',date)")
+  #     ,.before = 1
+  #   )
+
+  full_dbi <- create_full_dbi(x)
 
 
 
@@ -751,14 +770,17 @@ pwtd_fn <- function(x){
 
   # create calendar table
 
-  full_dbi <-  create_calendar(x) |>
-    dplyr::mutate(
-      year=lubridate::year(date)
-      ,month=lubridate::month(date)
-      ,week=dplyr::sql("DATE_PART('week',date)")
-      ,.before = 1
-    )
+  # full_dbi <-  create_calendar(x) |>
+  #   dplyr::mutate(
+  #     year=lubridate::year(date)
+  #     ,month=lubridate::month(date)
+  #     ,week=dplyr::sql("DATE_PART('week',date)")
+  #     ,.before = 1
+  #   )
 
+
+
+  full_dbi <- create_full_dbi(x)
 
   # create lag table
   lag_dbi <- full_dbi|>
@@ -849,7 +871,10 @@ wowtd_fn <- function(x){
 wow_fn <- function(x){
 
 
-  full_dbi <-  create_calendar(x)
+  # full_dbi <-  create_calendar(x)
+
+
+  full_dbi <- create_full_dbi(x)
 
 
   lag_dbi <- full_dbi|>
@@ -930,7 +955,10 @@ wtdopw_fn <- function(x){
 #' @keywords internal
 atd_fn <- function(x){
 
-  full_dbi <-  create_calendar(x)
+  # full_dbi <-  create_calendar(x)
+
+
+  full_dbi <- create_full_dbi(x)
 
   out_dbi<- full_dbi |>
     dbplyr::window_order(date) |>
@@ -958,7 +986,8 @@ atd_fn <- function(x){
 #' @keywords internal
 dod_fn <- function(x){
 
-  full_dbi <-  create_calendar(x)
+  # full_dbi <-  create_calendar(x)
+  full_dbi <- create_full_dbi(x)
 
   lag_dbi <- full_dbi |>
     dbplyr::window_order(date) |>

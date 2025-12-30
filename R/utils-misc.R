@@ -596,7 +596,7 @@ complete_non_standard_calendar <- function(.data,x){
   quarters_in_year=4
   old_cols <- colnames(.data)
   date_cols <- x@fn@new_date_column_name[x@fn@new_date_column_name!="date"]
-  new_cols <- lubridate::union(old_cols,new_cols)
+  new_cols <- lubridate::union(old_cols,date_cols)
   pattern <- x@datum@calendar_type
 
   # start_year <- closest_sunday_feb1(min_year)
@@ -682,6 +682,18 @@ complete_standard_calendar <- function(.data,x){
       )
 
   }
+
+
+
+  if(any(x@fn@new_date_column_name %in% "week")){
+
+    .data <- .data |>
+      dplyr::mutate(
+        week=dplyr::sql("DATE_PART('week',date)")
+      )
+
+  }
+
 
   if(any(x@fn@new_date_column_name %in% "day")){
 
