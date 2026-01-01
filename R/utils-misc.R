@@ -669,7 +669,7 @@ complete_standard_calendar <- function(.data,x){
 
     .data <- .data |>
       dplyr::mutate(
-        year=lubridate::quarter(date)
+        quarter=lubridate::quarter(date)
       )
 
   }
@@ -678,7 +678,7 @@ complete_standard_calendar <- function(.data,x){
 
     .data <- .data |>
       dplyr::mutate(
-        year=lubridate::month(date)
+        month=lubridate::month(date)
       )
 
   }
@@ -699,7 +699,7 @@ complete_standard_calendar <- function(.data,x){
 
     .data <- .data |>
       dplyr::mutate(
-        year=lubridate::day(date)
+        day=lubridate::day(date)
       )
 
   }

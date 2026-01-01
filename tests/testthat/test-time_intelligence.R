@@ -4,6 +4,8 @@ library(dplyr)
 library(rlang)
 library(lubridate)
 library(tidyr)
+library(testthat)
+library(contoso)
 
 
 
@@ -11,25 +13,30 @@ library(tidyr)
 
 test_that("create calendar fills in missing periods",{
 
- new_tbl <-  sales |>
-   group_by(currency_code) |>
-    mutate(
-      year=year(order_date)
+
+
+ new_tbl <-  contoso::sales |>
+   dplyr::group_by(currency_code) |>
+    dplyr::mutate(
+      year=lubridate::year(order_date)
     ) |>
-    filter(
+    dplyr::filter(
       TRUE
       ,!year %in% c(2022,2023)
     ) |>
     yoy(order_date,margin,"standard",1) |>
     calculate() |>
-    arrange(date) |>
-   collect()
+    dplyr::arrange(date) |>
+    dplyr::collect()
 
- validation_vec <- new_tbl |> pull(year) %in% c(2022,2023) |> sum()
+ validation_vec <- new_tbl |>
+   dplyr::pull(year) %in% c(2022,2023) |>
+   sum()
 
   testthat::expect_true(
    validation_vec==10
-  )}
+  )
+  }
 
  )
 
@@ -38,7 +45,7 @@ test_that("create calendar fills in missing periods",{
 
 test_that("period imabalance validation -- month",{
 
-  pm_mtd_tbl <- sales |>
+  pm_mtd_tbl <- contoso::sales |>
     group_by(currency_code) |>
     mtd(order_date,margin,"standard") |>
     calculate() |>
@@ -66,7 +73,8 @@ pm_mtd_vec <-   pm_mtd_tbl |>
     filter(
       date=="2022-01-27"
     ) |>
-    pull(mtd_margin) |> sum()
+    pull(mtd_margin) |>
+  sum()
 
 
 cm_pmtd_vec <-   cm_pmtd_tbl |>

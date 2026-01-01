@@ -160,7 +160,11 @@ yoy_fn <- function(x){
   # create calendar
   # full_dbi <-  create_calendar(x)
 
-  full_dbi <- create_full_dbi(x)
+
+
+
+  full_dbi <- create_full_dbi(x) |>
+    dplyr::select(-c(year))
 
   # create lag
   lag_dbi <- full_dbi |>
@@ -168,8 +172,8 @@ yoy_fn <- function(x){
     dplyr::mutate(
       date_lag=dplyr::lead(date,n = !!x@fn@lag_n)
       ,!!x@value@new_column_name_vec:=!!x@value@value_quo
-      ,days_in_current_period=sql("day(last_day(date))")
-      , days_in_previous_period=sql("day(last_day(date_lag))")
+      # ,days_in_current_period=sql("day(last_day(date))")
+      # , days_in_previous_period=sql("day(last_day(date_lag))")
       ,.by=c(!!!x@datum@group_quo)
     ) |>
     dplyr::select(-c(date,!!x@value@value_quo))
@@ -183,9 +187,6 @@ yoy_fn <- function(x){
     dplyr::mutate(
       year=lubridate::year(date)
       ,.after=date
-    ) |>
-    dplyr::mutate(
-      month=lubridate::month(date)
     )
 
   return(out_dbi)
@@ -518,7 +519,11 @@ mtd_fn <- function(x){
 pmtd_fn <- function(x){
 
 
- lag_n_vec <-  x@fn@lag_n |> rlang::as_label()
+  # x <- pmtd(sales,order_date,quantity,calendar_type = "standard",lag_n = 1)
+
+
+ lag_n_vec <-  x@fn@lag_n |>
+   rlang::as_label()
   # create calendar table
 
   # full_dbi <-  create_calendar(x) |>
