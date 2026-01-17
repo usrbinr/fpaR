@@ -442,7 +442,9 @@ qoqtd <- function(.data,.date,.value,calendar_type,lag_n){
 #' @name qtdopq
 #' @inheritParams pytd
 #' @description
-#' A short description...
+#' -  This calculates the quarterly cumulative sum of a targeted value and compares it with the previous full quarter's total value respecting
+#' any groups that are passed through with [dplyr::group_by()]
+#' -  Use [calculate] to return the results
 #' @inherit ytd details
 #' @family time_intelligence
 #' @returns ti object
@@ -489,7 +491,9 @@ qtdopq <- function(.data,.date,.value,calendar_type,lag_n=1){
 #' @title Current full period quarter over previous full period quarter
 #' @name qoq
 #' @description
-#' A short description...
+#' -  This calculates the full quarter value compared to the previous quarter value respecting
+#' any groups that are passed through with [dplyr::group_by()]
+#' -  Use [calculate] to return the results
 #'
 #' @inheritParams pytd
 #' @family time_intelligence
@@ -890,7 +894,7 @@ pwtd <- function(.data,.date,.value,calendar_type,lag_n){
 
 
 
-#' @title Current period Wwek-to-date over previous period week-to-date
+#' @title Current period Week-to-date over previous period week-to-date
 #' @name wowtd
 #' @inheritParams pytd
 #' @description
