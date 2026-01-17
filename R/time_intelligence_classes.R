@@ -806,8 +806,10 @@ mom <- function(.data,.date,.value,calendar_type,lag_n=1){
 #' @returns ti object
 #' @export
 #' @examples
-#' library(contoso)
+#' \dontrun{
 #' wtd(sales,.date=order_date,.value=quantity,calendar_type="standard")
+#' }
+
 wtd <- function(.data,.date,.value,calendar_type){
 
   # Validate inputs

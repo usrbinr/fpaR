@@ -31,6 +31,10 @@ ytd_fn <- function(x){
     ) |>
     dplyr::relocate(
       date,year
+    ) |>
+    dplyr::relocate(
+      dplyr::any_of("missing_date_indicator")
+      ,.after = dplyr::last_col() # Ensures this is the final column
     )
 
   return(out_dbi)
@@ -77,7 +81,7 @@ pytd_fn <- function(x){
 
 
   # join tables together
-  out_tbl <-   dplyr::full_join(
+  out_dbi <-   dplyr::full_join(
     full_dbi
     ,lag_dbi
     ,by=dplyr::join_by(date==date_lag,!!!x@datum@group_quo)
@@ -90,9 +94,11 @@ pytd_fn <- function(x){
     dplyr::summarise(
       dplyr::across(dplyr::contains(x@value@value_vec),\(x) sum(x,na.rm=TRUE))
       ,.by=c(date,year,!!!x@datum@group_quo)
-    )
+    ) |>
+    dplyr::relocate(date,year) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
 
-  return(out_tbl)
+  return(out_dbi)
 
 }
 
@@ -113,19 +119,21 @@ yoytd_fn <- function(x){
 
 
 
-  # ytd table
+  # ytd tabl
 
-  ytd_dbi <- ytd(.data=x@datum@data,.date=!!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@data_type) |>
+  ytd_dbi <- ytd(.data=x@datum@data,.date=!!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type) |>
     ytd_fn()
 
   #pytd table
 
-  pytd_dbi <- pytd(.data=x@datum@data,.date=!!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@data_type,lag_n = x@fn@lag_n) |>
+  pytd_dbi <- pytd(.data=x@datum@data,.date=!!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type,lag_n = x@fn@lag_n) |>
     pytd_fn()
+
 
   # join tables together
 
-  out_dbi <-   dplyr::full_join(
+  out_dbi <-
+    dplyr::full_join(
     ytd_dbi
     ,pytd_dbi
     ,by=dplyr::join_by(date==date,year,!!!x@datum@group_quo)
@@ -136,7 +144,12 @@ yoytd_fn <- function(x){
     dplyr::summarise(
       dplyr::across(dplyr::contains(x@value@value_vec),\(x) sum(x,na.rm=TRUE))
       ,.by=c(date,!!!x@datum@group_quo)
-    )
+    ) |>
+    mutate(
+      year=lubridate::year(date)
+    ) |>
+    dplyr::relocate(date,year) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
 
   return(out_dbi)
 
@@ -176,18 +189,20 @@ yoy_fn <- function(x){
       # , days_in_previous_period=sql("day(last_day(date_lag))")
       ,.by=c(!!!x@datum@group_quo)
     ) |>
-    dplyr::select(-c(date,!!x@value@value_quo))
+    dplyr::select(-c(date,!!x@value@value_quo,missing_date_indicator))
 
   # bring tables together
   out_dbi <-   dplyr::left_join(
     full_dbi
     ,lag_dbi
-    ,by=dplyr::join_by(date==date_lag,!!!x@datum@group_quo,missing_date_indicator)
+    ,by=dplyr::join_by(date==date_lag,!!!x@datum@group_quo)
   ) |>
     dplyr::mutate(
       year=lubridate::year(date)
       ,.after=date
-    )
+    ) |>
+    dplyr::relocate(date,year) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
 
   return(out_dbi)
 
@@ -227,7 +242,9 @@ ytdopy_fn <- function(x){
         -c(!!x@value@value_quo)
       )
       ,by=dplyr::join_by(year,date,!!!x@datum@group_quo)
-    )
+    ) |>
+   dplyr::relocate(date,year) |>
+   dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
 
   return(out_dbi)
 }
@@ -266,7 +283,9 @@ qtd_fn <- function(x){
       !!x@value@new_column_name_vec:=base::cumsum(!!x@value@value_quo)
       ,.by=c(year,quarter,!!!x@datum@group_quo)
     ) |>
-    dplyr::ungroup()
+    dplyr::ungroup() |>
+    dplyr::relocate(date,year) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
 
   return(out_dbi)
 
@@ -329,7 +348,9 @@ pqtd_fn <- function(x){
     ) |>
     dplyr::filter(
       !is.na(year)
-    )
+    ) |>
+    dplyr::relocate(date,year) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
 
   return(out_dbi)
 
@@ -352,12 +373,12 @@ qoqtd_fn <- function(x){
 
   # ytd table
 
-qtd_dbi <- qtd(.data=x@datum@data,.date=!!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@data_type) |>
+qtd_dbi <- qtd(.data=x@datum@data,.date=!!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type) |>
   qtd_fn()
 
   # pytd table
 
-  pqtd_dbi <- pqtd(.data=x@datum@data,.date=!!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@data_type,lag_n = x@fn@lag_n) |>
+  pqtd_dbi <- pqtd(.data=x@datum@data,.date=!!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type,lag_n = x@fn@lag_n) |>
     pqtd_fn()
 
   # join tables together
@@ -376,7 +397,9 @@ qtd_dbi <- qtd(.data=x@datum@data,.date=!!x@datum@date_quo,.value = !!x@value@va
     ) |>
     dplyr::filter(
       !is.na(year)
-    )
+    ) |>
+    dplyr::relocate(date,year) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
 
   return(out_dbi)
 
@@ -400,7 +423,8 @@ qoq_fn <- function(x){
   # create calendar
   # full_dbi <-  fpaR::create_calendar(x)
 
-  full_dbi <- create_full_dbi(x)
+  full_dbi <- create_full_dbi(x) |>
+    dplyr::select(-c(year,quarter))
 
   # create lag
   lag_dbi <- full_dbi |>
@@ -410,7 +434,7 @@ qoq_fn <- function(x){
       ,!!x@value@new_column_name_vec:=!!x@value@value_quo
       ,.by=c(!!!x@datum@group_quo)
     ) |>
-    dplyr::select(-c(date,!!x@value@value_quo))
+    dplyr::select(-c(date,!!x@value@value_quo,missing_date_indicator))
 
   # bring tables together
   out_dbi <-   dplyr::left_join(
@@ -422,7 +446,8 @@ qoq_fn <- function(x){
       year=lubridate::year(date)
       ,quarter=lubridate::quarter(date)
     ) |>
-    dplyr::relocate(date,year,quarter)
+    dplyr::relocate(date,year,quarter) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
 
   return(out_dbi)
 }
@@ -457,7 +482,9 @@ qtdopq_fn <- function(x){
     dplyr::left_join(
       qoq_dbi
       ,by=dplyr::join_by(year,quarter,!!!x@datum@group_quo)
-    )
+    ) |>
+    dplyr::relocate(date,year,quarter) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
 
   return(out_dbi)
 }
@@ -493,7 +520,9 @@ mtd_fn <- function(x){
     dplyr::mutate(
       !!x@value@new_column_name_vec:=cumsum(!!x@value@value_quo)
       ,.by=c(year,month,!!!x@datum@group_quo)
-    )
+    ) |>
+    dplyr::relocate(date,year,month) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
 
   return(out_dbi)
 
@@ -566,7 +595,9 @@ pmtd_fn <- function(x){
       !!x@value@new_column_name_vec:=max(!!x@value@new_column_name_quo,na.rm=TRUE)
       ,days_in_comparison_period=max(days_in_comparison_period,na.rm=TRUE)
       ,.by=c(date,year,month,!!!x@datum@group_quo)
-    )
+    ) |>
+    dplyr::relocate(date,year,month) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
 
 
   return(out_dbi)
@@ -591,25 +622,29 @@ momtd_fn <- function(x){
 
   # mtd table
 
-  mtd_dbi <- mtd(.data = x@datum@data,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@data_type) |>
+  mtd_dbi <- mtd(.data = x@datum@data,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type) |>
     calculate()
 
   # pmtd table
 
-  pmtd_dbi <- pmtd(.data = x@datum@data,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@data_type,lag_n = x@fn@lag_n) |>
+  pmtd_dbi <- pmtd(.data = x@datum@data,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type,lag_n = x@fn@lag_n) |>
     calculate()
 
   # join tables together
 
-  out_dbi <-   dplyr::full_join(
+  out_dbi <-
+    dplyr::full_join(
     mtd_dbi
     ,pmtd_dbi
-    ,by=dplyr::join_by(date==date,year,month,!!!x@datum@group_quo,missing_date_indicator)
+    ,by=dplyr::join_by(date==date,year,month,!!!x@datum@group_quo)
   ) |>
     dplyr::summarise(
       dplyr::across(dplyr::contains(x@value@value_vec),\(x) sum(x,na.rm=TRUE))
-      ,.by=c(missing_date_indicator,date,year,month,!!!x@datum@group_quo,pp_missing_dates_cnt,pp_extra_dates_cnt)
-    )
+      ,.by=c(date,year,month,!!!x@datum@group_quo)
+    ) |>
+    dplyr::relocate(date,year,month)
+
+
   return(out_dbi)
 
 }
@@ -631,7 +666,10 @@ mom_fn <- function(x){
 
   # full_dbi <-  create_calendar(x)
 
-  full_dbi <- create_full_dbi(x)
+  full_dbi <- create_full_dbi(x) |>
+    dplyr::select(
+      -c(year,month)
+    )
 
 
   # create lag
@@ -640,12 +678,11 @@ mom_fn <- function(x){
     dplyr::mutate(
       date_lag=dplyr::lead(date,n = !!x@fn@lag_n)
       ,!!x@value@new_column_name_vec:=!!x@value@value_quo
-      ,days_in_current_period=sql("day(last_day(date))")
-      ,days_in_previous_period=sql("day(last_day(date_lag))")
+      # ,days_in_current_period=sql("day(last_day(date))")
+      # ,days_in_previous_period=sql("day(last_day(date_lag))")
       ,.by=c(!!!x@datum@group_quo)
     ) |>
-    dplyr::select(-c(date,!!x@value@value_quo)) |>
-    dplyr::filter(!is.na(date_lag))
+    dplyr::select(-c(date,!!x@value@value_quo,missing_date_indicator))
 
 
 
@@ -653,13 +690,15 @@ mom_fn <- function(x){
   out_dbi <-   dplyr::left_join(
     full_dbi
     ,lag_dbi
-    ,by=dplyr::join_by(date==date_lag,!!!x@datum@group_quo,missing_date_indicator)
+    ,by=dplyr::join_by(date==date_lag,!!!x@datum@group_quo)
   ) |>
     dplyr::mutate(
       year=lubridate::year(date)
       ,month=lubridate::month(date)
       ,.after=date
-    )
+    ) |>
+    dplyr::relocate(date,year,month) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
 
   return(out_dbi)
 
@@ -701,7 +740,9 @@ mtdopm_fn <- function(x){
         -c(!!x@value@value_quo)
       )
       ,by=dplyr::join_by(year,month,date,!!!x@datum@group_quo,missing_date_indicator)
-    )
+    ) |>
+   dplyr::relocate(date,year,month) |>
+   dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
 
   return(out_dbi)
 
@@ -744,7 +785,9 @@ wtd_fn <- function(x){
     dplyr::mutate(
       !!x@value@new_column_name_vec:=cumsum(!!x@value@value_quo)
       ,.by=c(year,month,week,!!!x@datum@group_quo)
-    )
+    ) |>
+    dplyr::relocate(date,year,month,week) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
 
   return(out_dbi)
 
@@ -797,7 +840,8 @@ pwtd_fn <- function(x){
 
 
   # join tables together
-  out_dbi <-   dplyr::full_join(
+  # out_dbi <-
+    dplyr::full_join(
     full_dbi
     ,lag_dbi
     ,by=dplyr::join_by(date==date_lag,!!!x@datum@group_quo)
@@ -811,9 +855,8 @@ pwtd_fn <- function(x){
       dplyr::across(dplyr::contains(x@value@value_vec),\(x) sum(x,na.rm=TRUE))
       ,.by=c(date,year,month,!!!x@datum@group_quo)
     ) |>
-    dplyr::filter(
-      !is.na(year)
-    )
+
+    dplyr::relocate(date,year,month)
 
   return(out_dbi)
 
@@ -834,24 +877,37 @@ pwtd_fn <- function(x){
 #' @keywords internal
 wowtd_fn <- function(x){
 
-  # ytd table
 
-  wtd_dbi <- wtd(x)
+
+  # ytd table
+  wtd_dbi <-
+    x@datum@data |>
+    dplyr::group_by(!!!x@datum@group_quo) |>
+    wtd(.data = _,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type) |>
+    calculate()
 
   #pytd table
 
-  pwtd_dbi <- pwtd(x) |>
-    dplyr::rename(
-      !!x@value@second_column_name:=!!x@value@new_column_name_quo
-    )
+
+  pwtd_dbi <-
+    x@datum@data |>
+    dplyr::group_by(!!!x@datum@group_quo) |>
+    pwtd(.data = _,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type,lag_n=x@fn@lag_n) |>
+    calculate()
+    # dplyr::rename(
+    #   !!x@value@second_column_name:=!!x@value@new_column_name_quo
+    # )
 
   # join tables together
 
-  out_tbl <-   dplyr::left_join(
+  # out_tbl <-
+    dplyr::left_join(
     wtd_dbi
     ,pwtd_dbi
-    ,by=dplyr::join_by(date,year,month,week,!!!x@datum@group_quo)
+    ,.by=dplyr::join_by(date,year,month,week,!!!x@datum@group_quo)
   )
+    dplyr::relocate(date,year,month,week) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
 
   return(out_tbl)
 
@@ -876,8 +932,12 @@ wow_fn <- function(x){
   # full_dbi <-  create_calendar(x)
 
 
-  full_dbi <- create_full_dbi(x)
 
+
+  full_dbi <- create_full_dbi(x) |>
+    dplyr::select(
+      -c(year,month,week)
+    )
 
   lag_dbi <- full_dbi|>
     dbplyr::window_order(date) |>
@@ -886,14 +946,22 @@ wow_fn <- function(x){
       ,!!x@value@new_column_name_vec:=!!x@value@value_quo
       ,.by=c(!!!x@datum@group_quo)
     ) |>
-    dplyr::select(-c(date,!!x@value@value_quo))
+    dplyr::select(-c(date,!!x@value@value_quo,missing_date_indicator))
 
 
-  out_dbi <-   dplyr::left_join(
+  out_dbi <-
+    dplyr::left_join(
     full_dbi
     ,lag_dbi
     ,by=dplyr::join_by(date==date_lag,!!!x@datum@group_quo)
-  )
+  ) |>
+    dplyr::mutate(
+      year=lubridate::year(date)
+      ,month=lubridate::month(date)
+      ,week=dplyr::sql("DATE_PART('week',date)")
+    ) |>
+    dplyr::relocate(date,year,month,week) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
 
   return(out_dbi)
 
@@ -914,12 +982,12 @@ wow_fn <- function(x){
 wtdopw_fn <- function(x){
 
   # year-to-date table
-  wtd_dbi <-  wtd(.data = x@datum@data,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@data_type) |>
+  wtd_dbi <-  wtd(.data = x@datum@data,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type) |>
     calculate()
 
   #aggregate to prior year
 
-  pw_dbi <-   wow(.data = x@datum@data,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@data_type,lag_n = x@fn@lag_n) |>
+  pw_dbi <-   wow(.data = x@datum@data,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type,lag_n = x@fn@lag_n) |>
     calculate()
 
   # join together
@@ -934,7 +1002,9 @@ wtdopw_fn <- function(x){
         -c(!!x@value@value_quo)
       )
       ,by=dplyr::join_by(date,!!!x@datum@group_quo)
-    )
+    ) |>
+    dplyr::relocate(date,year,month,week) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
 
   return(out_dbi)
 
@@ -967,7 +1037,9 @@ atd_fn <- function(x){
     dplyr::mutate(
       !!x@value@new_column_name_vec:=cumsum(!!x@value@value_quo)
       ,.by=c(!!!x@datum@group_quo)
-    )
+    ) |>
+    dplyr::relocate(date) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
   return(out_dbi)
 }
 
@@ -998,13 +1070,15 @@ dod_fn <- function(x){
       ,!!x@value@new_column_name_vec:=!!x@value@value_quo
       ,.by=c(!!!x@datum@group_quo)
     ) |>
-    dplyr::select(-c(date,!!x@value@value_quo))
+    dplyr::select(-c(date,!!x@value@value_quo,missing_date_indicator))
 
   out_dbi <-   dplyr::left_join(
     full_dbi
     ,lag_dbi
     ,by=dplyr::join_by(date==date_lag,!!!x@datum@group_quo)
-  )
+  ) |>
+    dplyr::relocate(date) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
 
   return(out_dbi)
 

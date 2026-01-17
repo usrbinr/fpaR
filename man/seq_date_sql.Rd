@@ -2,29 +2,48 @@
 % Please edit documentation in R/utils-sql.R
 \name{seq_date_sql}
 \alias{seq_date_sql}
-\title{Create a calendar table in sql}
+\title{Generate a Cross-Dialect SQL Date Series}
 \usage{
 seq_date_sql(start_date, end_date, time_unit, con)
 }
 \arguments{
-\item{start_date}{calendar start date in YYYY-MM-DD format}
+\item{start_date}{A character string in 'YYYY-MM-DD' format or a Date object
+representing the start of the series.}
 
-\item{end_date}{calendar end date in YYYY-MM-DD format}
+\item{end_date}{A character string in 'YYYY-MM-DD' format or a Date object
+representing the end of the series.}
 
-\item{time_unit}{calendar table unit in 'day', 'week', 'month', 'quarter' or 'year'}
+\item{time_unit}{A character string specifying the interval. Must be one of:
+\code{"day"}, \code{"week"}, \code{"month"}, \code{"quarter"}, or \code{"year"}.}
 
-\item{con}{database connection}
+\item{.con}{A valid DBI connection object (e.g., DuckDB, Postgres, Snowflake)
+or a \code{dbplyr} simulated connection.}
 }
 \value{
-DBI object
+A \code{tbl_lazy} (SQL) object with a single column \code{date}.
 }
 \description{
-Create a calendar table in sql
+Creates a lazy \code{dbplyr} table containing a continuous sequence of dates.
+The function automatically detects the SQL dialect of the connection and
+dispatches the most efficient native series generator (e.g., \code{GENERATE_SERIES}
+for DuckDB/Postgres or \code{GENERATOR} for Snowflake).
+}
+\details{
+This function is designed to be "nestable," meaning the resulting SQL can be
+used safely inside larger \code{dplyr} pipelines. It avoids \code{WITH} clauses in
+dialects like DuckDB to prevent parser errors when \code{dbplyr} wraps the query
+in a subquery (e.g., \verb{SELECT * FROM (...) AS q01}).
+
+For unit testing, the function supports \code{dbplyr} simulation objects. If a
+\code{TestConnection} is detected, it returns a \code{lazy_frame} to avoid metadata
+field queries that would otherwise fail on a mock connection.
 }
 \examples{
 \dontrun{
-con <- DBI::dbConnect(drv = duckdb::duckdb())
-seq_date_sql(start_date = "2015-01-01", end_date = "2024-04-20", time_unit = "day", con = con)
+con <- DBI::dbConnect(duckdb::duckdb())
+# Generates a daily sequence for the year 2025
+calendar <- seq_date_sql("2025-01-01", "2025-12-31", "day", con)
 }
+
 }
 \keyword{internal}

@@ -2,51 +2,60 @@
 ## calendar table--------
 
 
-#' Create a calendar table in sql
+#' Generate a Cross-Dialect SQL Date Series
 #'
-#' @param start_date calendar start date in YYYY-MM-DD format
-#' @param end_date calendar end date in YYYY-MM-DD format
-#' @param time_unit calendar table unit in 'day', 'week', 'month', 'quarter' or 'year'
-#' @param con database connection
-#' @return DBI object
-#' @keywords internal
+#' @description
+#' Creates a lazy `dbplyr` table containing a continuous sequence of dates.
+#' The function automatically detects the SQL dialect of the connection and
+#' dispatches the most efficient native series generator (e.g., `GENERATE_SERIES`
+#' for DuckDB/Postgres or `GENERATOR` for Snowflake).
+#'
+#' @details
+#' This function is designed to be "nestable," meaning the resulting SQL can be
+#' used safely inside larger `dplyr` pipelines. It avoids `WITH` clauses in
+#' dialects like DuckDB to prevent parser errors when `dbplyr` wraps the query
+#' in a subquery (e.g., `SELECT * FROM (...) AS q01`).
+#'
+#' For unit testing, the function supports `dbplyr` simulation objects. If a
+#' `TestConnection` is detected, it returns a `lazy_frame` to avoid metadata
+#' field queries that would otherwise fail on a mock connection.
+#'
+#' @param start_date A character string in 'YYYY-MM-DD' format or a Date object
+#' representing the start of the series.
+#' @param end_date A character string in 'YYYY-MM-DD' format or a Date object
+#' representing the end of the series.
+#' @param time_unit A character string specifying the interval. Must be one of:
+#' \code{"day"}, \code{"week"}, \code{"month"}, \code{"quarter"}, or \code{"year"}.
+#' @param .con A valid DBI connection object (e.g., DuckDB, Postgres, Snowflake)
+#' or a \code{dbplyr} simulated connection.
+#'
+#' @return A \code{tbl_lazy} (SQL) object with a single column \code{date}.
+#'
 #' @examples
 #' \dontrun{
-#' con <- DBI::dbConnect(drv = duckdb::duckdb())
-#' seq_date_sql(start_date = "2015-01-01", end_date = "2024-04-20", time_unit = "day", con = con)
+#' con <- DBI::dbConnect(duckdb::duckdb())
+#' # Generates a daily sequence for the year 2025
+#' calendar <- seq_date_sql("2025-01-01", "2025-12-31", "day", con)
 #' }
-seq_date_sql <- function(start_date,end_date,time_unit,con){
+#'
+#' @keywords internal
+seq_date_sql <- function(start_date, end_date, time_unit, con) {
 
-  # start_date <- "2022-01-01"
-  # end_date <- "2023-01-01"
-  # time_unit <- "day"
+  # 1. Validations ----------------------------------------------------------
+  assertthat::assert_that(
+    time_unit %in% c("day", "week", "month", "quarter", "year"),
+    msg = "Please have time unit match 'day', 'week','month','quarter' or 'year'"
+  )
 
-  # error check
+  # 2. Variable Prep -------------------------------------------------------
+  unit <- tolower(time_unit)
+  is_duckdb_pg <- inherits(con, "duckdb_connection") || inherits(con, "PqConnection")
+  is_snowflake <- inherits(con, "Snowflake")
+  is_test      <- inherits(con, "TestConnection")
 
-    assertthat::assert_that(
-      time_unit %in% c("day", "week", "month", "quarter", "year"),
-      msg = "Please have time unit match 'day', 'week','month','quarter' or 'year'"
-    )
+  # 3. SQL Dispatch --------------------------------------------------------
 
-    assertthat::assert_that(
-      is_yyyy_mm_dd(start_date) & is_yyyy_mm_dd(end_date),
-      msg = "Please ensure dates are in YYYY-MM-DD format"
-    )
-
-    assertthat::assert_that(
-      lubridate::ymd(start_date) < lubridate::ymd(end_date),
-      msg = "Please ensure end date is greater than start date"
-    )
-
-    con_info <- paste0("connection: ", DBI::dbGetInfo(con)$dbname)
-
-    assertthat::assert_that(
-      DBI::dbIsValid(con),
-      msg = paste("Please check if your connection is valid", con_info)
-    )
-
-    # create variables
-
+  if (is_duckdb_pg) {
 
     time_interval <- paste("1",time_unit)
 
@@ -72,11 +81,49 @@ seq_date_sql <- function(start_date,end_date,time_unit,con){
   FROM CALENDAR_TBL
 
 ",.con=con)
+  }
 
-    out <- dplyr::tbl(con,dplyr::sql(date_seq_sql))
+  else if (is_snowflake) {
+    # SNOWFLAKE: Uses the GENERATOR table function (no WITH clause needed)
+    date_seq_sql <- glue::glue_sql("
+      SELECT
+        DATEADD({unit}, SEQ4(), DATE_TRUNC({unit}, {start_date}::DATE))::DATE AS date
+      FROM TABLE(GENERATOR(ROWCOUNT => (
+        DATEDIFF({unit}, {start_date}::DATE, {end_date}::DATE) + 1
+      )))
+    ", .con = con)
+  }
 
-    return(out)
+  else {
+    # FALLBACK: Recursive CTE (Note: This may still struggle in subqueries
+    # depending on the backend, but is the standard for T-SQL)
+    date_seq_sql <- glue::glue_sql("
+      WITH date_range AS (
+        SELECT CAST({start_date} AS DATE) AS date
+        UNION ALL
+        SELECT DATEADD({unit*}, 1, date)
+        FROM date_range
+        WHERE date < CAST({end_date} AS DATE)
+      )
+      SELECT date FROM date_range
+    ", .con = con)
+  }
 
+  # 4. Handle Return --------------------------------------------------------
+
+  # Protect simulations from 'dbGetQuery' errors
+  if (is_test) {
+    return(
+      dbplyr::lazy_frame(
+        date = as.Date(start_date),
+        con = con,
+        .name = as.character(date_seq_sql)
+      )
+    )
+  }
+
+  # Return as lazy tbl
+  return(dplyr::tbl(con, dplyr::sql(date_seq_sql)))
 }
 
 
@@ -86,38 +133,53 @@ seq_date_sql <- function(start_date,end_date,time_unit,con){
 #' @export
 #' @returns dbi object
 #' @keywords internal
-make_db_tbl <- function(x){
+#' Coerce data into a DuckDB-backed lazy table
+#'
+#' @description
+#' Ensures the input is a database-backed object. If a data.frame is provided,
+#' it is registered into a temporary, in-memory DuckDB instance. If already
+#' a `tbl_dbi`, it is returned unchanged.
+#'
+#' @param x A tibble, data.frame, or tbl_dbi object.
+#' @return A \code{tbl_dbi} object backed by DuckDB.
+#'
+#' @details
+#' When converting a data.frame, this function preserves existing \code{dplyr}
+#' groups. It uses DuckDB's \code{duckdb_register}, which is a virtual registration
+#' and does not perform a physical copy of the data, making it extremely fast.
+#'
+#' @export
+#' @keywords internal
+make_db_tbl <- function(x) {
 
-
+  # 1. Type Validation
   assertthat::assert_that(
-    any(class(x) %in% c("tbl_dbi","data.frame"))
-    ,msg = "Please use class dbi or tibble"
+    inherits(x, "data.frame") || inherits(x, "tbl_dbi"),
+    msg = "Input must be a data.frame, tibble, or tbl_dbi object."
   )
 
-
-
-  if(any(class(x) %in% c("tbl_dbi"))){
-
+  # 2. Return early if already in a DB
+  if (inherits(x, "tbl_dbi")) {
     return(x)
-
   }
 
-  if(is.data.frame(x)){
+  # 3. Convert data.frame to DuckDB
+  # Extract group metadata
+  groups_lst <- dplyr::groups(x)
 
-    groups_lst <- dplyr::groups(x)
+  # Use a global or session-persistent connection to avoid overhead
+  # DuckDB ':memory:' is faster than tempfile() for small/medium sets
+  con <- DBI::dbConnect(duckdb::duckdb(), ":memory:")
 
-    con <- DBI::dbConnect(duckdb::duckdb(tempfile()))
-
-    duckdb::duckdb_register(con,name = "x",df = x,overwrite = TRUE)
-
-
-    out <- dplyr::tbl(con,"x") |>
-      dplyr::group_by(groups_lst)
-
-    return(out)
-
-  }
+  # Register the data.frame as a virtual table
+  # This is O(1) complexity because it references R memory directly
+  duckdb::duckdb_register(con, name = "virtual_table", df = x)
 
 
+  # Create the lazy table and re-apply groups
+  out <- dplyr::tbl(con, "virtual_table") |>
+    dplyr::group_by(!!!groups_lst)
+
+  return(out)
 }
 

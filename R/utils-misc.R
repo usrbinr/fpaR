@@ -721,7 +721,8 @@ create_full_dbi <- function(x){
 
   if(x@datum@calendar_type=="standard"){
 
-    full_dbi <-  create_calendar(x) |>
+    full_dbi <-
+      create_calendar(x) |>
       complete_standard_calendar(x=x)
 
   }

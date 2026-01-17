@@ -7,12 +7,28 @@
 make_db_tbl(x)
 }
 \arguments{
-\item{x}{tibble or dbi object}
+\item{x}{A tibble, data.frame, or tbl_dbi object.}
 }
 \value{
 dbi object
+
+A \code{tbl_dbi} object backed by DuckDB.
 }
 \description{
-Make an in memory database from a table
+Ensures the input is a database-backed object. If a data.frame is provided,
+it is registered into a temporary, in-memory DuckDB instance. If already
+a \code{tbl_dbi}, it is returned unchanged.
 }
+\details{
+When converting a data.frame, this function preserves existing \code{dplyr}
+groups. It uses DuckDB's \code{duckdb_register}, which is a virtual registration
+and does not perform a physical copy of the data, making it extremely fast.
+}
+\keyword{Coerce}
+\keyword{DuckDB-backed}
+\keyword{a}
+\keyword{data}
 \keyword{internal}
+\keyword{into}
+\keyword{lazy}
+\keyword{table}

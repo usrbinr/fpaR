@@ -32,6 +32,27 @@ S7::method(create_calendar,ti) <- function(x){
   # For 5-5-4 calendars, we must anchor to the fiscal start (Sunday closest to Feb 1).
   # For standard calendars, we use the natural data minimum.
 
+  # 2. Summarize Raw Data ---------------------------------------------------
+  # Aggregate the source data to the target time unit (day, month, etc.)
+  # before building the scaffold.
+
+
+
+
+
+  summary_dbi <- x@datum@data |>
+    dplyr::ungroup() |>
+    make_db_tbl() |>
+    dplyr::mutate(
+      date = lubridate::floor_date(!!x@datum@date_quo, unit = !!x@time_unit@value,week_start = 1),
+      time_unit = !!x@time_unit@value
+    ) |>
+    dplyr::summarise(
+      !!x@value@value_vec := sum(!!x@value@value_quo, na.rm = TRUE),
+      .by = c(date, !!!x@datum@group_quo)
+    )
+
+
   if (x@datum@calendar_type != "standard") {
     min_year <- lubridate::year(x@datum@min_date)
     start_date <- closest_sunday_feb1(min_year)
@@ -44,21 +65,7 @@ S7::method(create_calendar,ti) <- function(x){
     start_date <- x@datum@min_date
   }
 
-  # 2. Summarize Raw Data ---------------------------------------------------
-  # Aggregate the source data to the target time unit (day, month, etc.)
-  # before building the scaffold.
 
-  summary_dbi <- x@datum@data |>
-    dplyr::ungroup() |>
-    make_db_tbl() |>
-    dplyr::mutate(
-      date = lubridate::floor_date(!!x@datum@date_quo, unit = !!x@time_unit@value),
-      time_unit = !!x@time_unit@value
-    ) |>
-    dplyr::summarise(
-      !!x@value@value_vec := sum(!!x@value@value_quo, na.rm = TRUE),
-      .by = c(date, !!!x@datum@group_quo)
-    )
 
   # 3. Define "Active Life" Bounds ------------------------------------------
   # Optimization: Calculate the first and last activity per group.
@@ -107,7 +114,8 @@ S7::method(create_calendar,ti) <- function(x){
 
 
 
-  full_dbi <- calendar_dbi |>
+  full_dbi <-
+    calendar_dbi |>
     dplyr::full_join(
       summary_dbi,
       by = dplyr::join_by(date, !!!x@datum@group_quo)
@@ -118,6 +126,8 @@ S7::method(create_calendar,ti) <- function(x){
     )
 
   return(full_dbi)
+
+
 }
 
 
