@@ -21,7 +21,11 @@ qoq(.data, .date, .value, calendar_type, lag_n = 1)
 ti object
 }
 \description{
-A short description...
+\itemize{
+\item This calculates the full quarter value compared to the previous quarter value respecting
+any groups that are passed through with \code{\link[dplyr:group_by]{dplyr::group_by()}}
+\item Use \link{calculate} to return the results
+}
 }
 \examples{
 library(contoso)

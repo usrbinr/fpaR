@@ -28,78 +28,94 @@ calculate <- S7::new_generic("calculate","x")
 #' @keywords internal
 S7::method(create_calendar,ti) <- function(x){
 
+  # 1. Determine the Anchor Start Date --------------------------------------
+  # For 5-5-4 calendars, we must anchor to the fiscal start (Sunday closest to Feb 1).
+  # For standard calendars, we use the natural data minimum.
 
-  ## neeed to add in standard and non-standard logic here.
-
-
-  if(x@datum@calendar_type!="standard"){
-
+  if (x@datum@calendar_type != "standard") {
     min_year <- lubridate::year(x@datum@min_date)
-
     start_date <- closest_sunday_feb1(min_year)
 
-    if(min_year<lubridate::year(start_date)){
-
-      start_date <- closest_sunday_feb1(min_year-1)
-
+    # Ensure the anchor doesn't start after our actual data
+    if (min_year < lubridate::year(start_date)) {
+      start_date <- closest_sunday_feb1(min_year - 1)
     }
+  } else {
+    start_date <- x@datum@min_date
   }
 
+  # 2. Summarize Raw Data ---------------------------------------------------
+  # Aggregate the source data to the target time unit (day, month, etc.)
+  # before building the scaffold.
 
-  ## summarize data table
   summary_dbi <- x@datum@data |>
     dplyr::ungroup() |>
     make_db_tbl() |>
     dplyr::mutate(
-      date = lubridate::floor_date(!!x@datum@date_quo,unit = !!x@time_unit@value)
-      ,time_unit=!!x@time_unit@value
+      date = lubridate::floor_date(!!x@datum@date_quo, unit = !!x@time_unit@value),
+      time_unit = !!x@time_unit@value
     ) |>
     dplyr::summarise(
-      !!x@value@value_vec:= sum(!!x@value@value_quo,na.rm=TRUE)
-      ,.by=c(date,!!!x@datum@group_quo)
+      !!x@value@value_vec := sum(!!x@value@value_quo, na.rm = TRUE),
+      .by = c(date, !!!x@datum@group_quo)
     )
 
-  #create calendar table
+  # 3. Define "Active Life" Bounds ------------------------------------------
+  # Optimization: Calculate the first and last activity per group.
+  # This prevents generating thousands of 'zero' rows for products that
+  # didn't exist yet or were discontinued.
 
-  if(x@datum@calendar_type=="standard"){
+  active_bounds <- summary_dbi |>
+    dplyr::summarise(
+      min_g = min(date, na.rm = TRUE),
+      max_g = max(date, na.rm = TRUE),
+      .by = c(!!!x@datum@group_quo)
+    )
 
+  # 4. Generate Master Date Sequence ---------------------------------------
+  # Create a single-column table of all possible dates in the range.
 
-    calendar_dbi <- seq_date_sql(start_date = x@datum@min_date,end_date = x@datum@max_date,time_unit = x@time_unit@value,con=dbplyr::remote_con(x@datum@data))
+  master_dates <- seq_date_sql(
+    start_date = start_date,
+    end_date   = x@datum@max_date,
+    time_unit  = x@time_unit@value,
+    con        = dbplyr::remote_con(x@datum@data)
+  )
 
-  }else{
+  # 5. Build the Scaffolding ------------------------------------------------
+  # If groups exist, expand the calendar. We use an inner join to the bounds
+  # to constrain the cross-join to only the "Active Life" of each group.
 
-    calendar_dbi <- seq_date_sql(start_date = start_date,end_date = x@datum@max_date,time_unit = x@time_unit@value,con=dbplyr::remote_con(x@datum@data))
-
-  }
-
-  # Expand calendar table with cross join of groups
-  if(x@datum@group_indicator){
-
-    calendar_dbi <- calendar_dbi |>
+  if (x@datum@group_indicator) {
+    calendar_dbi <- master_dates |>
       dplyr::cross_join(
-        summary_dbi |>
-          dplyr::distinct(!!!x@datum@group_quo)
-      )
-      # dplyr::mutate(
-      #   missing_date_indicator=dplyr::if_else(is.na(!!x@value@value_quo),1,0)
-      #   ,!!x@value@value_vec:= dplyr::coalesce(!!x@value@value_quo, 0)
-      # )
-
+        active_bounds |> dplyr::distinct(!!!x@datum@group_quo)
+      ) |>
+      dplyr::inner_join(
+        active_bounds,
+        by = dplyr::join_by(!!!x@datum@group_quo)
+      ) |>
+      dplyr::filter(date >= min_g & date <= max_g) |>
+      dplyr::select(-min_g, -max_g)
+  } else {
+    calendar_dbi <- master_dates
   }
 
-  # Perform a full join to ensure all time frames are represented
-  full_dbi <- dplyr::full_join(
-    calendar_dbi
-    ,summary_dbi
-    ,by = dplyr::join_by(date,!!!x@datum@group_quo)
-  ) |>
+  # 6. Final Join & Gap Filling ---------------------------------------------
+  # Combine the scaffold with actual data. Dates with no records are
+  # flagged and filled with 0 to ensure continuous time intelligence.
+
+
+
+  full_dbi <- calendar_dbi |>
+    dplyr::full_join(
+      summary_dbi,
+      by = dplyr::join_by(date, !!!x@datum@group_quo)
+    ) |>
     dplyr::mutate(
-      missing_date_indicator=dplyr::if_else(is.na(!!x@value@value_quo),1,0)
-      ,!!x@value@value_vec:= dplyr::coalesce(!!x@value@value_quo, 0)
+      missing_date_indicator = dplyr::if_else(is.na(!!x@value@value_quo), 1, 0),
+      !!x@value@value_vec := dplyr::coalesce(!!x@value@value_quo, 0)
     )
-
-
-
 
   return(full_dbi)
 }

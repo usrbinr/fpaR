@@ -2,7 +2,7 @@
 % Please edit documentation in R/time_intelligence_classes.R
 \name{wowtd}
 \alias{wowtd}
-\title{Current period Wwek-to-date over previous period week-to-date}
+\title{Current period Week-to-date over previous period week-to-date}
 \usage{
 wowtd(.data, .date, .value, calendar_type, lag_n)
 }

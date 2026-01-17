@@ -21,7 +21,11 @@ qtdopq(.data, .date, .value, calendar_type, lag_n = 1)
 ti object
 }
 \description{
-A short description...
+\itemize{
+\item This calculates the quarterly cumulative sum of a targeted value and compares it with the previous full quarter's total value respecting
+any groups that are passed through with \code{\link[dplyr:group_by]{dplyr::group_by()}}
+\item Use \link{calculate} to return the results
+}
 }
 \details{
 \itemize{

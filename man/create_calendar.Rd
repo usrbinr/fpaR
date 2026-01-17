@@ -10,7 +10,7 @@
 dbi object
 }
 \description{
-\code{create_calendar()} summarizes a tibble to target time unit and completes the calendar to ensure
+\code{\link[=create_calendar]{create_calendar()}} summarizes a tibble to target time unit and completes the calendar to ensure
 no missing days, month, quarter or years. If a grouped tibble is passed through it will complete the calendar
 for each combination of the group
 }
