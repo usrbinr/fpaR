@@ -456,7 +456,7 @@ qtdopq_fn <- function(x){
   out_dbi <-  qtd_dbi |>
     dplyr::left_join(
       qoq_dbi
-      ,by=dplyr::join_by(year,quater,!!!x@datum@group_quo)
+      ,by=dplyr::join_by(year,quarter,!!!x@datum@group_quo)
     )
 
   return(out_dbi)
@@ -493,9 +493,6 @@ mtd_fn <- function(x){
     dplyr::mutate(
       !!x@value@new_column_name_vec:=cumsum(!!x@value@value_quo)
       ,.by=c(year,month,!!!x@datum@group_quo)
-    ) |>
-    dplyr::mutate(
-      days_in_current_period=lubridate::day(date)
     )
 
   return(out_dbi)
@@ -818,7 +815,7 @@ pwtd_fn <- function(x){
       !is.na(year)
     )
 
-  return(out_tbl)
+  return(out_dbi)
 
 }
 
@@ -839,11 +836,11 @@ wowtd_fn <- function(x){
 
   # ytd table
 
-  wtd_tbl <- wtd_tbl(x)
+  wtd_dbi <- wtd(x)
 
   #pytd table
 
-  pwtd_tbl <- pwtd_tbl(x) |>
+  pwtd_dbi <- pwtd(x) |>
     dplyr::rename(
       !!x@value@second_column_name:=!!x@value@new_column_name_quo
     )
@@ -851,8 +848,8 @@ wowtd_fn <- function(x){
   # join tables together
 
   out_tbl <-   dplyr::left_join(
-    wtd_tbl
-    ,pwtd_tbl
+    wtd_dbi
+    ,pwtd_dbi
     ,by=dplyr::join_by(date,year,month,week,!!!x@datum@group_quo)
   )
 
@@ -971,7 +968,7 @@ atd_fn <- function(x){
       !!x@value@new_column_name_vec:=cumsum(!!x@value@value_quo)
       ,.by=c(!!!x@datum@group_quo)
     )
-  return(out_tbl)
+  return(out_dbi)
 }
 
 
