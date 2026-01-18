@@ -20,3 +20,4 @@
 ^test_script.R
 non_standard_calendar.R
 ^vignettes/articles$
+^vignettes/\.quarto$

@@ -39,7 +39,7 @@
 #' }
 #'
 #' @keywords internal
-seq_date_sql <- function(start_date, end_date, time_unit, con) {
+seq_date_sql <- function(start_date, end_date, time_unit, .con) {
 
   # 1. Validations ----------------------------------------------------------
   assertthat::assert_that(
@@ -49,9 +49,9 @@ seq_date_sql <- function(start_date, end_date, time_unit, con) {
 
   # 2. Variable Prep -------------------------------------------------------
   unit <- tolower(time_unit)
-  is_duckdb_pg <- inherits(con, "duckdb_connection") || inherits(con, "PqConnection")
-  is_snowflake <- inherits(con, "Snowflake")
-  is_test      <- inherits(con, "TestConnection")
+  is_duckdb_pg <- inherits(.con, "duckdb_.connection") || inherits(.con, "Pq.connection")
+  is_snowflake <- inherits(.con, "Snowflake")
+  is_test      <- inherits(.con, "Test.connection")
 
   # 3. SQL Dispatch --------------------------------------------------------
 
@@ -80,7 +80,7 @@ seq_date_sql <- function(start_date, end_date, time_unit, con) {
   SELECT *
   FROM CALENDAR_TBL
 
-",.con=con)
+",.con=.con)
   }
 
   else if (is_snowflake) {
@@ -91,7 +91,7 @@ seq_date_sql <- function(start_date, end_date, time_unit, con) {
       FROM TABLE(GENERATOR(ROWCOUNT => (
         DATEDIFF({unit}, {start_date}::DATE, {end_date}::DATE) + 1
       )))
-    ", .con = con)
+    ",.con = .con)
   }
 
   else {
@@ -106,7 +106,7 @@ seq_date_sql <- function(start_date, end_date, time_unit, con) {
         WHERE date < CAST({end_date} AS DATE)
       )
       SELECT date FROM date_range
-    ", .con = con)
+    ", .con = .con)
   }
 
   # 4. Handle Return --------------------------------------------------------
@@ -116,14 +116,14 @@ seq_date_sql <- function(start_date, end_date, time_unit, con) {
     return(
       dbplyr::lazy_frame(
         date = as.Date(start_date),
-        con = con,
+        con = .con,
         .name = as.character(date_seq_sql)
       )
     )
   }
 
   # Return as lazy tbl
-  return(dplyr::tbl(con, dplyr::sql(date_seq_sql)))
+  return(dplyr::tbl(.con, dplyr::sql(date_seq_sql)))
 }
 
 

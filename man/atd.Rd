@@ -4,7 +4,7 @@
 \alias{atd}
 \title{All period-to-date}
 \usage{
-atd(.data, .date, .value, calendar_type)
+atd(.data, .date, .value, calendar_type = "standard")
 }
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}

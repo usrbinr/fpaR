@@ -4,7 +4,7 @@
 \alias{mtd}
 \title{Current period month-to-date}
 \usage{
-mtd(.data, .date, .value, calendar_type)
+mtd(.data, .date, .value, calendar_type = "standard")
 }
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}

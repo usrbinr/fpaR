@@ -4,7 +4,7 @@
 \alias{ytdopy}
 \title{Current period year-to-date compared to full previous period}
 \usage{
-ytdopy(.data, .date, .value, calendar_type, lag_n = 1)
+ytdopy(.data, .date, .value, calendar_type = "standard", lag_n = 1)
 }
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}

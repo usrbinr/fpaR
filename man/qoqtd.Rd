@@ -4,7 +4,7 @@
 \alias{qoqtd}
 \title{Current period quarter-to-date compared to previous period quarter-to-date}
 \usage{
-qoqtd(.data, .date, .value, calendar_type, lag_n)
+qoqtd(.data, .date, .value, calendar_type = "standard", lag_n = 1)
 }
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}

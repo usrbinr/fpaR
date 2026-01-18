@@ -4,7 +4,7 @@
 \alias{pytd}
 \title{Previous period year-to-date}
 \usage{
-pytd(.data, .date, .value, calendar_type, lag_n)
+pytd(.data, .date, .value, calendar_type = "standard", lag_n)
 }
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}

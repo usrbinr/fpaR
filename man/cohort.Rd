@@ -4,14 +4,7 @@
 \alias{cohort}
 \title{Cohort Analysis}
 \usage{
-cohort(
-  .data,
-  .date,
-  .value,
-  calendar_type,
-  time_unit = "month",
-  period_label = FALSE
-)
+cohort(.data, .date, .value, time_unit = "month", period_label = FALSE)
 }
 \arguments{
 \item{.data}{tibble or dbi object}
@@ -19,8 +12,6 @@ cohort(
 \item{.date}{date column}
 
 \item{.value}{id column}
-
-\item{calendar_type}{clarify the calendar type; 'standard' or '554'}
 
 \item{time_unit}{do you want summarize the date column to 'day', 'week', 'month','quarter' or 'year'}
 

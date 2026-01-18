@@ -4,7 +4,7 @@
 \alias{dod}
 \title{Current period day over previous period day}
 \usage{
-dod(.data, .date, .value, calendar_type, lag_n = 1)
+dod(.data, .date, .value, calendar_type = "standard", lag_n = 1)
 }
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}

@@ -4,7 +4,7 @@
 \alias{qoq}
 \title{Current full period quarter over previous full period quarter}
 \usage{
-qoq(.data, .date, .value, calendar_type, lag_n = 1)
+qoq(.data, .date, .value, calendar_type = "standard", lag_n = 1)
 }
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}

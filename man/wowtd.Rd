@@ -4,7 +4,7 @@
 \alias{wowtd}
 \title{Current period Week-to-date over previous period week-to-date}
 \usage{
-wowtd(.data, .date, .value, calendar_type, lag_n)
+wowtd(.data, .date, .value, calendar_type = "standard", lag_n = 1)
 }
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}

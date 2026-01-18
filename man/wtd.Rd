@@ -4,7 +4,7 @@
 \alias{wtd}
 \title{Current period week-to-date}
 \usage{
-wtd(.data, .date, .value, calendar_type)
+wtd(.data, .date, .value, calendar_type = "standard")
 }
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}

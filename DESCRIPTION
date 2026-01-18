@@ -33,7 +33,8 @@ Suggests:
     fansi,
     crayon,
     knitr,
-    contoso
+    contoso,
+    knitr
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 Depends: 

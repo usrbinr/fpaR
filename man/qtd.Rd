@@ -4,7 +4,7 @@
 \alias{qtd}
 \title{Current period quarter-to-date}
 \usage{
-qtd(.data, .date, .value, calendar_type)
+qtd(.data, .date, .value, calendar_type = "standard")
 }
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}

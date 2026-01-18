@@ -4,7 +4,7 @@
 \alias{ytd}
 \title{Current period year-to-date}
 \usage{
-ytd(.data, .date, .value, calendar_type)
+ytd(.data, .date, .value, calendar_type = "standard")
 }
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}

@@ -4,7 +4,7 @@
 \alias{yoytd}
 \title{Current period year-to-date compared to previous period year-to-date}
 \usage{
-yoytd(.data, .date, .value, calendar_type, lag_n)
+yoytd(.data, .date, .value, calendar_type = "standard", lag_n)
 }
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}

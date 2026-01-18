@@ -29,7 +29,7 @@
 #' @examples
 #' library(contoso)
 #' ytd(sales,.date=order_date,.value=quantity,calendar_type="standard")
-ytd <- function(.data,.date,.value,calendar_type){
+ytd <- function(.data,.date,.value,calendar_type='standard'){
 
 
 
@@ -83,7 +83,7 @@ ytd <- function(.data,.date,.value,calendar_type){
 #' @examples
 #' library(contoso)
 #' pytd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
-pytd <- function(.data,.date,.value,calendar_type,lag_n){
+pytd <- function(.data,.date,.value,calendar_type='standard',lag_n){
 
 
   # assigns inputs to ytd_tbl class
@@ -133,7 +133,7 @@ pytd <- function(.data,.date,.value,calendar_type,lag_n){
 #' @examples
 #' library(contoso)
 #' yoytd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
-yoytd <- function(.data,.date,.value,calendar_type,lag_n){
+yoytd <- function(.data,.date,.value,calendar_type='standard',lag_n){
 
 
   # Vali.date inputs
@@ -190,7 +190,7 @@ yoytd <- function(.data,.date,.value,calendar_type,lag_n){
 #' @examples
 #' library(contoso)
 #' yoy(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
-yoy <- function(.data,.date,.value,calendar_type,lag_n=1){
+yoy <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 
   out <- ti(
     datum(
@@ -241,7 +241,7 @@ yoy <- function(.data,.date,.value,calendar_type,lag_n=1){
 #' @examples
 #' library(contoso)
 #' ytdopy(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
-ytdopy <- function(.data,.date,.value,calendar_type,lag_n=1){
+ytdopy <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 
   out <- ti(
     datum(
@@ -297,7 +297,7 @@ ytdopy <- function(.data,.date,.value,calendar_type,lag_n=1){
 #' @examples
 #' library(contoso)
 #' qtd(sales,.date=order_date,.value=quantity,calendar_type="standard")
-qtd <- function(.data,.date,.value,calendar_type){
+qtd <- function(.data,.date,.value,calendar_type='standard'){
 
 
   # Aggregate data based on provided time unit
@@ -349,7 +349,7 @@ qtd <- function(.data,.date,.value,calendar_type){
 #' @examples
 #' library(contoso)
 #' pqtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
-pqtd <- function(.data,.date,.value,calendar_type,lag_n){
+pqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 
   # Aggregate data based on provided time unit
 
@@ -401,7 +401,7 @@ pqtd <- function(.data,.date,.value,calendar_type,lag_n){
 #' @examples
 #' library(contoso)
 #' qoqtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
-qoqtd <- function(.data,.date,.value,calendar_type,lag_n){
+qoqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 
   # assigns inputs to yoytd class
 
@@ -453,7 +453,7 @@ qoqtd <- function(.data,.date,.value,calendar_type,lag_n){
 #' @examples
 #' library(contoso)
 #' qtdopq(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
-qtdopq <- function(.data,.date,.value,calendar_type,lag_n=1){
+qtdopq <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 
   out <- ti(
     datum(
@@ -503,7 +503,7 @@ qtdopq <- function(.data,.date,.value,calendar_type,lag_n=1){
 #' @examples
 #' library(contoso)
 #' qoq(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
-qoq <- function(.data,.date,.value,calendar_type,lag_n=1){
+qoq <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 
   out <- ti(
     datum(
@@ -558,7 +558,7 @@ qoq <- function(.data,.date,.value,calendar_type,lag_n=1){
 #' @examples
 #' library(contoso)
 #' mtd(sales,.date=order_date,.value=quantity,calendar_type="standard")
-mtd <- function(.data,.date,.value,calendar_type){
+mtd <- function(.data,.date,.value,calendar_type='standard'){
 
     out <- ti(
       datum(
@@ -607,7 +607,7 @@ mtd <- function(.data,.date,.value,calendar_type){
 #' @examples
 #' library(contoso)
 #' pmtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
-pmtd <- function(.data,.date,.value,calendar_type,lag_n){
+pmtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 
   out <- ti(
     datum(
@@ -654,7 +654,7 @@ pmtd <- function(.data,.date,.value,calendar_type,lag_n){
 #' @examples
 #' library(contoso)
 #' momtd(sales,.date=order_date,.value=quantity,calendar_type="standard", lag_n=1)
-momtd <- function(.data,.date,.value,calendar_type,lag_n){
+momtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 
 
   out <- ti(
@@ -707,7 +707,7 @@ momtd <- function(.data,.date,.value,calendar_type,lag_n){
 #' @examples
 #' library(contoso)
 #' mtdopm(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
-mtdopm <- function(.data,.date,.value,calendar_type,lag_n){
+mtdopm <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
   out <- ti(
     datum(
       data                 = .data
@@ -755,7 +755,7 @@ mtdopm <- function(.data,.date,.value,calendar_type,lag_n){
 #' @examples
 #' library(contoso)
 #' mom(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
-mom <- function(.data,.date,.value,calendar_type,lag_n=1){
+mom <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 
   out <- ti(
     datum(
@@ -810,7 +810,7 @@ mom <- function(.data,.date,.value,calendar_type,lag_n=1){
 #' wtd(sales,.date=order_date,.value=quantity,calendar_type="standard")
 #' }
 
-wtd <- function(.data,.date,.value,calendar_type){
+wtd <- function(.data,.date,.value,calendar_type='standard'){
 
   # Validate inputs
 
@@ -859,7 +859,7 @@ wtd <- function(.data,.date,.value,calendar_type){
 #' @examples
 #' library(contoso)
 #' pwtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
-pwtd <- function(.data,.date,.value,calendar_type,lag_n){
+pwtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 
 
   out <- ti(
@@ -911,7 +911,7 @@ pwtd <- function(.data,.date,.value,calendar_type,lag_n){
 #' @examples
 #' library(contoso)
 #' wowtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
-wowtd <- function(.data,.date,.value,calendar_type,lag_n){
+wowtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 
   # Vali.date inputs
 
@@ -963,7 +963,7 @@ wowtd <- function(.data,.date,.value,calendar_type,lag_n){
 #' @examples
 #' library(contoso)
 #' wtdopw(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
-wtdopw <- function(.data,.date,.value,calendar_type,lag_n){
+wtdopw <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 
   out <- ti(
     datum(
@@ -1014,7 +1014,7 @@ wtdopw <- function(.data,.date,.value,calendar_type,lag_n){
 #' @examples
 #' library(contoso)
 #' wow(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
-wow <- function(.data,.date,.value,calendar_type,lag_n=1){
+wow <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 
   out <- ti(
     datum(
@@ -1069,7 +1069,7 @@ wow <- function(.data,.date,.value,calendar_type,lag_n=1){
 #' library(contoso)
 #' atd(sales,.date=order_date,.value=quantity,calendar_type="standard")
 #' }
-atd <- function(.data,.date,.value,calendar_type){
+atd <- function(.data,.date,.value,calendar_type='standard'){
 
   out <- ti(
     datum(
@@ -1121,7 +1121,7 @@ atd <- function(.data,.date,.value,calendar_type){
 #' library(contoso)
 #' dod(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 #' }
-dod <- function(.data,.date,.value,calendar_type,lag_n=1){
+dod <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 
   out <- ti(
     datum(

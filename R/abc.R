@@ -91,114 +91,89 @@ abc_fn <- function(x){
   # category_values <- c(.2,.5,.3)
   # fn="n"
 
-  # create summary table by the group
-
-  if(x@value@value_vec!="n"){
-
-  summary_dbi  <- x@datum@data |>
+  # 1. AGGREGATE DATA
+  # We handle both count-based (n) and sum-based (.value) categorization
+  if (x@value@value_vec != "n") {
+    summary_dbi <- x@datum@data |>
       dplyr::summarize(
-        !!x@value@new_column_name_vec:=sum(!!x@value@value_quo,na.rm=TRUE)
-        ,.groups="drop"
-      ) |>
-      dbplyr::window_order(desc(!!x@value@new_column_name_quo))
-
+        !!x@value@new_column_name_vec := sum(!!x@value@value_quo, na.rm = TRUE),
+        .groups = "drop"
+      )
   } else {
-
-  summary_dbi <- x@datum@data |>
-    dplyr::summarize(
-      !!x@value@new_column_name_vec:=dplyr::n()
-      ,.groups="drop"
-    ) |>
-      dbplyr::window_order(desc(!!x@value@new_column_name_quo))
-
+    summary_dbi <- x@datum@data |>
+      dplyr::summarize(
+        !!x@value@new_column_name_vec := dplyr::n(),
+        .groups = "drop"
+      )
   }
 
-
-  # category_tbl <-  abc_obj@category_values |>
-  #    stack() |>
-  #    tibble::as_tibble() |>
-  #    dplyr::rename(
-  #      category_value=values,category_name=ind
-  #    )
-
-
-   ## create summary stats table
-
+  # 2. CALCULATE CUMULATIVE STATS
+  # Using window functions to prepare the 'cum_unit_prop' for bucket matching
   stats_dbi <- summary_dbi |>
+    dbplyr::window_order(desc(!!x@value@new_column_name_quo)) |>
     dplyr::mutate(
-      cum_sum=cumsum(!!x@value@new_column_name_quo)
-      ,prop_total=!!x@value@new_column_name_quo/max(cum_sum,na.rm=TRUE)
-      ,cum_prop_total=cumsum(prop_total)
-      ,row_id=dplyr::row_number()
-      ,max_row_id=max(row_id,na.rm=TRUE)
-      ,cum_unit_prop=row_id/max_row_id
+      cum_sum       = cumsum(!!x@value@new_column_name_quo),
+      prop_total    = !!x@value@new_column_name_quo / max(cum_sum, na.rm = TRUE),
+      cum_prop_total = cumsum(prop_total),
+      row_id        = dplyr::row_number(),
+      max_row_id    = max(row_id, na.rm = TRUE),
+      cum_unit_prop = row_id / max_row_id # This determines the ABC bucket
     )
 
-
-  # assign names to category list
-  names(x@category@category_values) <- x@category@category_names
-
-  ## create sql scripts for category CTE----------
-
-  category_values_vec <- glue::glue("({x@category@category_values}")
-
-  category_names_vec <- glue::glue("'{names(x@category@category_values)}')")
-
-
-  sql_values <- stringr::str_flatten_comma(paste0(category_values_vec,", ",category_names_vec))
-
-  sql_base <- "WITH my_cte (category_value, category_name) AS (
-    VALUES "
-
-  sql_end <- ") select * from my_cte"
-
-  sql_category_dbi <- paste0(sql_base,sql_values,sql_end)
-
-  ## grab connection from the summary tbl
-
+  # 3. PREPARE THE LOOKUP TABLE (The Optimization)
+  # Instead of glue/paste SQL strings, we create a small temp table on the DB
   con <- dbplyr::remote_con(stats_dbi)
 
-  ## create category table to be used later
-  category_dbi <-  dplyr::tbl(con,dplyr::sql(sql_category_dbi))
+  # Ensure category names exist (default to A, B, C... if empty)
+  cat_names <- x@category@category_names %||% LETTERS[seq_along(x@category@category_values)]
 
-  # join together stats table and category table and then filter to reduce duplicate matches
+  cat_lookup_df <- data.frame(
+    category_value = x@category@category_values,
+    category_name  = cat_names
+  )
+
+  # Copy the tiny threshold table to the database
+  category_dbi <- dplyr::copy_to(
+    dest = con,
+    df = cat_lookup_df,
+    name = paste0("tmp_abc_", sample(1000:9999, 1)), # Random name to avoid collisions
+    overwrite = TRUE,
+    temporary = TRUE
+  )
+
+  # 4. PERFORM THE OPTIMIZED JOIN
+  # Instead of an inequality join which is essentially a filtered Cartesian product:
+  #
   out <- stats_dbi |>
-    dplyr::left_join(
-      category_dbi
-      ,by=dplyr::join_by(cum_unit_prop<=category_value)
+    dplyr::cross_join(category_dbi) |>
+    # Find all thresholds that are greater than or equal to our current position
+    dplyr::filter(cum_unit_prop <= category_value) |>
+    # Use a window function to pick the 'closest' (smallest) threshold
+    dplyr::mutate(
+      dist_rank = rank(category_value),
+      .by = row_id
     ) |>
-  dplyr::mutate(
-      delta=category_value-cum_unit_prop
-    ) |>
-  dplyr::mutate(
-      row_id_rank=rank(delta)
-      ,.by=row_id
-    ) |>
-    dplyr::filter(
-      row_id_rank==1
-    ) |>
-  dplyr::select(-c(row_id_rank,delta))
-
-  ## previous ------
-#
-#  out <- stats_tbl |>
-#     dplyr::left_join(
-#       category_tbl
-#       ,by=dplyr::join_by(dplyr::closest(cum_unit_prop<=category_value))
-#     ) |>
-#    arrange(category_name)
+    dplyr::filter(dist_rank == 1) |>
+    # Cleanup intermediate columns
+    dplyr::select(
+      -dist_rank,
+      -category_value,
+      -row_id,
+      -max_row_id,
+      -cum_unit_prop
+    )
 
   return(out)
 
 
 }
 
+
 #' @title Cohort Analysis
 #' @name cohort
 #' @param .data tibble or dbi object
 #' @param .date date column
 #' @param .value id column
-#' @param calendar_type clarify the calendar type; 'standard' or '554'
 #' @param period_label do you want period labels or the dates c(TRUE , FALSE)
 #' @param time_unit do you want summarize the date column to 'day', 'week', 'month','quarter' or 'year'
 #'
@@ -216,7 +191,7 @@ abc_fn <- function(x){
 #' @return segment object
 #' @export
 #'
-cohort <- function(.data,.date,.value,calendar_type,time_unit="month",period_label=FALSE){
+cohort <- function(.data,.date,.value,time_unit="month",period_label=FALSE){
 
   ## test data
 
@@ -229,7 +204,7 @@ cohort <- function(.data,.date,.value,calendar_type,time_unit="month",period_lab
   x <-  segment_cohort(
     datum= datum(
       .data
-      ,calendar_type = calendar_type
+      ,calendar_type = "standard"
       ,date_vec = rlang::as_label(rlang::enquo(.date))
     )
     ,fn = fn(
@@ -359,4 +334,5 @@ cohort_fn <- function(x){
 
 
 
-utils::globalVariables(c("category","delta","row_id_rank","cohort_date","period_id","cohort_id","category_value"))
+
+utils::globalVariables(c("category", "delta", "row_id_rank", "cohort_date", "period_id", "cohort_id", "category_value", "dist_rank"))

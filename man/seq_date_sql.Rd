@@ -4,7 +4,7 @@
 \alias{seq_date_sql}
 \title{Generate a Cross-Dialect SQL Date Series}
 \usage{
-seq_date_sql(start_date, end_date, time_unit, con)
+seq_date_sql(start_date, end_date, time_unit, .con)
 }
 \arguments{
 \item{start_date}{A character string in 'YYYY-MM-DD' format or a Date object

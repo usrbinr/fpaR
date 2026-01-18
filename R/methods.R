@@ -86,7 +86,7 @@ S7::method(create_calendar,ti) <- function(x){
     start_date = start_date,
     end_date   = x@datum@max_date,
     time_unit  = x@time_unit@value,
-    con        = dbplyr::remote_con(x@datum@data)
+    .con        = dbplyr::remote_con(x@datum@data)
   )
 
   # 5. Build the Scaffolding ------------------------------------------------

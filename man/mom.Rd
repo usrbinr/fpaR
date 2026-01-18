@@ -4,7 +4,7 @@
 \alias{mom}
 \title{Current full period month over previous full period month}
 \usage{
-mom(.data, .date, .value, calendar_type, lag_n = 1)
+mom(.data, .date, .value, calendar_type = "standard", lag_n = 1)
 }
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}

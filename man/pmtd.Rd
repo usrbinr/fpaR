@@ -4,7 +4,7 @@
 \alias{pmtd}
 \title{Previous period month-to-date}
 \usage{
-pmtd(.data, .date, .value, calendar_type, lag_n)
+pmtd(.data, .date, .value, calendar_type = "standard", lag_n = 1)
 }
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}

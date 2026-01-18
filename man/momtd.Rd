@@ -4,7 +4,7 @@
 \alias{momtd}
 \title{Current period month to date compared to previous period month-to-date}
 \usage{
-momtd(.data, .date, .value, calendar_type, lag_n)
+momtd(.data, .date, .value, calendar_type = "standard", lag_n = 1)
 }
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}

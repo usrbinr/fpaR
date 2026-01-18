@@ -4,7 +4,7 @@
 \alias{wow}
 \title{Current full period week over full previous period week}
 \usage{
-wow(.data, .date, .value, calendar_type, lag_n = 1)
+wow(.data, .date, .value, calendar_type = "standard", lag_n = 1)
 }
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}

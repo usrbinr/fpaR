@@ -4,7 +4,7 @@
 \alias{wtdopw}
 \title{Current period week-to-date over full previous period week}
 \usage{
-wtdopw(.data, .date, .value, calendar_type, lag_n)
+wtdopw(.data, .date, .value, calendar_type = "standard", lag_n = 1)
 }
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}

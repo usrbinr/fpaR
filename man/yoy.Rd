@@ -4,7 +4,7 @@
 \alias{yoy}
 \title{Current full period year over previous full period year}
 \usage{
-yoy(.data, .date, .value, calendar_type, lag_n = 1)
+yoy(.data, .date, .value, calendar_type = "standard", lag_n = 1)
 }
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}
