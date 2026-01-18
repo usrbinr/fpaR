@@ -49,7 +49,7 @@ seq_date_sql <- function(start_date, end_date, time_unit, .con) {
 
   # 2. Variable Prep -------------------------------------------------------
   unit <- tolower(time_unit)
-  is_duckdb_pg <- inherits(.con, "duckdb_.connection") || inherits(.con, "Pq.connection")
+  is_duckdb_pg <- inherits(.con, "duckdb_connection") || inherits(.con, "Pqconnection")
   is_snowflake <- inherits(.con, "Snowflake")
   is_test      <- inherits(.con, "Test.connection")
 

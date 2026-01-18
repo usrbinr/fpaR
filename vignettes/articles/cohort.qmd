@@ -25,7 +25,7 @@ The `cohort()` function in **fpaR** provides a **tibble and database-friendly im
 
 - Assigns each member in your dataset to a **time-based cohort** based on the first occurrence in the `.date` column
 - Aggregates distinct counts of cohort members over time
-- Supports multiple calendar types (`"standard"` or a non-standard calendar `"544"`) and `time_unit` (`day`, `week`, `month`, `quarter`, `year`)
+- Supports multiple time units (`day`, `week`, `month`, `quarter`, `year`)
 - Returns a **segment object**, which can be processed using `calculate()` to generate the cohort table
 
 # Arguments
@@ -35,8 +35,7 @@ The `cohort()` function in **fpaR** provides a **tibble and database-friendly im
 | `.data` | A `tibble` or DBI object containing your dataset. |
 | `.date` | The date column to base the cohort assignment on. |
 | `.value` | The column representing members to track (e.g., customer ID). |
-| `calendar_type` | Type of calendar to use for aggregation: `"standard"` or `"554"`. |
-| `time_unit` | Time unit to summarize the cohort table by (`day`, `week`, `month`, `quarter`, `year`). Default is `"month"`. |
+| `time_unit` | Argument to group your calendar dates: `day`, `week`,`month`,`quarter` or `year` |
 | `period_label` | Whether to use numeric period labels (`TRUE`) or actual dates (`FALSE`). Default is `FALSE`. |
 
 
@@ -52,7 +51,6 @@ The function returns a **segment_cohort** object. Use `calculate()` to retrieve 
 fpaR::cohort(.data = contoso::sales,
                   .date = order_date,
                   .value = customer_key,
-                  calendar_type = "standard",
                   time_unit = "month",
                   period_label = FALSE
              )

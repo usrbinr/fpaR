@@ -28,7 +28,7 @@ The `abc()` function applies this method by ranking group members according to e
 
 **Value Capture**  
 
--  If `.value` is provided, then that column is aggregate per group member; otherwise, it counts rows
+-  If `.value` is provided, then that column is aggregated per group member; otherwise, it counts rows
 
 **Category Values**
 
@@ -160,7 +160,7 @@ tibble::tibble(
     "The cumulative proportion of the total, showing the running total percentage of the entire dataset as you move through the rows.",
     "The unique identifier for the row, often used to track or identify specific rows in the dataset. Typically sequential ID or index.",
     "The maximum row ID in the current group (if grouping is applied), representing the total number of rows in the group.",
-    "The cumulative proportion of the unit values, similar to cum_prop_total, but typically used when the unit is treated as aggregate.",
+    "The cumulative proportion of the unit values, similar to cum_prop_total, but typically used when the unit is aggregated.",
     "The category value that corresponds to the cumulative proportion break points (e.g., top 10%, top 40%, etc.). Based on the break points provided.",
     "The name of the category assigned to each row based on the cumulative contribution. Categories are represented by letters (A, B, C, etc.)."
   ),

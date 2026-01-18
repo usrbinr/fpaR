@@ -158,7 +158,6 @@ abc_fn <- function(x){
     dplyr::select(
       -dist_rank,
       -category_value,
-      -row_id,
       -max_row_id,
       -cum_unit_prop
     )
