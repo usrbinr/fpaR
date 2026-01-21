@@ -176,11 +176,13 @@ yoy_fn <- function(x){
 
 
 
-  full_dbi <- create_full_dbi(x) |>
-    dplyr::select(-c(year))
+  full_dbi <- create_full_dbi(x)
+    # dplyr::select(-c(year))
 
   # create lag
-  lag_dbi <- full_dbi |>
+  lag_dbi <-
+    full_dbi |>
+    dplyr::select(-c(year)) |>
     dbplyr::window_order(date,!!!x@datum@group_quo) |>
     dplyr::mutate(
       date_lag=dplyr::lead(date,n = !!x@fn@lag_n)
@@ -192,17 +194,15 @@ yoy_fn <- function(x){
     dplyr::select(-c(date,!!x@value@value_quo,missing_date_indicator))
 
   # bring tables together
-  out_dbi <-   dplyr::left_join(
+  out_dbi <-
+    dplyr::left_join(
     full_dbi
     ,lag_dbi
     ,by=dplyr::join_by(date==date_lag,!!!x@datum@group_quo)
   ) |>
-    dplyr::mutate(
-      year=lubridate::year(date)
-      ,.after=date
-    ) |>
     dplyr::relocate(date,year) |>
     dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
+
 
   return(out_dbi)
 
@@ -429,11 +429,11 @@ qoq_fn <- function(x){
   # create calendar
   # full_dbi <-  fpaR::create_calendar(x)
 
-  full_dbi <- create_full_dbi(x) |>
-    dplyr::select(-c(year,quarter))
+  full_dbi <- create_full_dbi(x)
 
   # create lag
   lag_dbi <- full_dbi |>
+    dplyr::select(-c(year,quarter)) |>
     dbplyr::window_order(date,!!!x@datum@group_quo) |>
     dplyr::mutate(
       date_lag=dplyr::lead(date,n = !!x@fn@lag_n)
@@ -448,10 +448,6 @@ qoq_fn <- function(x){
     ,lag_dbi
     ,by=dplyr::join_by(date==date_lag,!!!x@datum@group_quo)
   ) |>
-    dplyr::mutate(
-      year=lubridate::year(date)
-      ,quarter=lubridate::quarter(date)
-    ) |>
     dplyr::relocate(date,year,quarter) |>
     dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
 
@@ -680,14 +676,12 @@ mom_fn <- function(x){
 
   # full_dbi <-  create_calendar(x)
 
-  full_dbi <- create_full_dbi(x) |>
-    dplyr::select(
-      -c(year,month)
-    )
+  full_dbi <- create_full_dbi(x)
 
 
   # create lag
   lag_dbi <- full_dbi |>
+    dplyr::select(-c(year,month)) |>
     dbplyr::window_order(date,!!!x@datum@group_quo) |>
     dplyr::mutate(
       date_lag=dplyr::lead(date,n = !!x@fn@lag_n)
@@ -706,11 +700,6 @@ mom_fn <- function(x){
     ,lag_dbi
     ,by=dplyr::join_by(date==date_lag,!!!x@datum@group_quo)
   ) |>
-    dplyr::mutate(
-      year=lubridate::year(date)
-      ,month=lubridate::month(date)
-      ,.after=date
-    ) |>
     dplyr::relocate(date,year,month) |>
     dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
 
@@ -952,12 +941,10 @@ wow_fn <- function(x){
 
 
 
-  full_dbi <- create_full_dbi(x) |>
-    dplyr::select(
-      -c(year,month,week)
-    )
+  full_dbi <- create_full_dbi(x)
 
   lag_dbi <- full_dbi|>
+    dplyr::select(-c(year,month,week)) |>
     dbplyr::window_order(date) |>
     dplyr::mutate(
       date_lag=dplyr::lead(date,n = !!x@fn@lag_n)
@@ -973,11 +960,6 @@ wow_fn <- function(x){
     ,lag_dbi
     ,by=dplyr::join_by(date==date_lag,!!!x@datum@group_quo)
   ) |>
-    dplyr::mutate(
-      year=lubridate::year(date)
-      ,month=lubridate::month(date)
-      ,week=dplyr::sql("DATE_PART('week',date)")
-    ) |>
     dplyr::relocate(date,year,month,week) |>
     dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
 

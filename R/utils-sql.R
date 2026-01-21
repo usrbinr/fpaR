@@ -1,130 +1,4 @@
 
-## calendar table--------
-
-
-#' Generate a Cross-Dialect SQL Date Series
-#'
-#' @description
-#' Creates a lazy `dbplyr` table containing a continuous sequence of dates.
-#' The function automatically detects the SQL dialect of the connection and
-#' dispatches the most efficient native series generator (e.g., `GENERATE_SERIES`
-#' for DuckDB/Postgres or `GENERATOR` for Snowflake).
-#'
-#' @details
-#' This function is designed to be "nestable," meaning the resulting SQL can be
-#' used safely inside larger `dplyr` pipelines. It avoids `WITH` clauses in
-#' dialects like DuckDB to prevent parser errors when `dbplyr` wraps the query
-#' in a subquery (e.g., `SELECT * FROM (...) AS q01`).
-#'
-#' For unit testing, the function supports `dbplyr` simulation objects. If a
-#' `TestConnection` is detected, it returns a `lazy_frame` to avoid metadata
-#' field queries that would otherwise fail on a mock connection.
-#'
-#' @param start_date A character string in 'YYYY-MM-DD' format or a Date object
-#' representing the start of the series.
-#' @param end_date A character string in 'YYYY-MM-DD' format or a Date object
-#' representing the end of the series.
-#' @param time_unit A character string specifying the interval. Must be one of:
-#' \code{"day"}, \code{"week"}, \code{"month"}, \code{"quarter"}, or \code{"year"}.
-#' @param .con A valid DBI connection object (e.g., DuckDB, Postgres, Snowflake)
-#' or a \code{dbplyr} simulated connection.
-#'
-#' @return A \code{tbl_lazy} (SQL) object with a single column \code{date}.
-#'
-#' @examples
-#' \dontrun{
-#' con <- DBI::dbConnect(duckdb::duckdb())
-#' # Generates a daily sequence for the year 2025
-#' calendar <- seq_date_sql("2025-01-01", "2025-12-31", "day", con)
-#' }
-#'
-#' @keywords internal
-seq_date_sql <- function(start_date, end_date, time_unit, .con) {
-
-  # 1. Validations ----------------------------------------------------------
-  assertthat::assert_that(
-    time_unit %in% c("day", "week", "month", "quarter", "year"),
-    msg = "Please have time unit match 'day', 'week','month','quarter' or 'year'"
-  )
-
-  # 2. Variable Prep -------------------------------------------------------
-  unit <- tolower(time_unit)
-  is_duckdb_pg <- inherits(.con, "duckdb_connection") || inherits(.con, "Pqconnection")
-  is_snowflake <- inherits(.con, "Snowflake")
-  is_test      <- inherits(.con, "Test.connection")
-
-  # 3. SQL Dispatch --------------------------------------------------------
-
-  if (is_duckdb_pg) {
-
-    time_interval <- paste("1",time_unit)
-
-    date_seq_sql <- glue::glue_sql("
-  WITH DATE_SERIES AS (
-  SELECT
-
-  GENERATE_SERIES(
-     MIN(DATE_TRUNC({time_unit}, DATE {start_date}::date))::DATE
-    ,MAX(DATE_TRUNC({time_unit}, DATE {end_date}::date))::DATE
-    ,INTERVAL {time_interval}
-  ) AS DATE_LIST),
-
-  CALENDAR_TBL AS (
-        SELECT
-
-        UNNEST(DATE_LIST)::DATE AS date
-
-        FROM DATE_SERIES
-
-        )
-  SELECT *
-  FROM CALENDAR_TBL
-
-",.con=.con)
-  }
-
-  else if (is_snowflake) {
-    # SNOWFLAKE: Uses the GENERATOR table function (no WITH clause needed)
-    date_seq_sql <- glue::glue_sql("
-      SELECT
-        DATEADD({unit}, SEQ4(), DATE_TRUNC({unit}, {start_date}::DATE))::DATE AS date
-      FROM TABLE(GENERATOR(ROWCOUNT => (
-        DATEDIFF({unit}, {start_date}::DATE, {end_date}::DATE) + 1
-      )))
-    ",.con = .con)
-  }
-
-  else {
-    # FALLBACK: Recursive CTE (Note: This may still struggle in subqueries
-    # depending on the backend, but is the standard for T-SQL)
-    date_seq_sql <- glue::glue_sql("
-      WITH date_range AS (
-        SELECT CAST({start_date} AS DATE) AS date
-        UNION ALL
-        SELECT DATEADD({unit*}, 1, date)
-        FROM date_range
-        WHERE date < CAST({end_date} AS DATE)
-      )
-      SELECT date FROM date_range
-    ", .con = .con)
-  }
-
-  # 4. Handle Return --------------------------------------------------------
-
-  # Protect simulations from 'dbGetQuery' errors
-  if (is_test) {
-    return(
-      dbplyr::lazy_frame(
-        date = as.Date(start_date),
-        con = .con,
-        .name = as.character(date_seq_sql)
-      )
-    )
-  }
-
-  # Return as lazy tbl
-  return(dplyr::tbl(.con, dplyr::sql(date_seq_sql)))
-}
 
 
 #' Make an in memory database from a table
@@ -181,5 +55,213 @@ make_db_tbl <- function(x) {
     dplyr::group_by(!!!groups_lst)
 
   return(out)
+}
+
+
+#' Generate a Cross-Dialect SQL Date Series
+#'
+#' @description
+#' Creates a lazy `dbplyr` table containing a continuous sequence of dates.
+#' The function automatically detects the SQL dialect of the connection and
+#' dispatches the most efficient native series generator (e.g., `GENERATE_SERIES`
+#' for DuckDB/Postgres or `GENERATOR` for Snowflake).
+#'
+#' @details
+#' This function is designed to be "nestable," meaning the resulting SQL can be
+#' used safely inside larger `dplyr` pipelines. It avoids `WITH` clauses in
+#' dialects like DuckDB to prevent parser errors when `dbplyr` wraps the query
+#' in a subquery (e.g., `SELECT * FROM (...) AS q01`).
+#'
+#' For unit testing, the function supports `dbplyr` simulation objects. If a
+#' `TestConnection` is detected, it returns a `lazy_frame` to avoid metadata
+#' field queries that would otherwise fail on a mock connection.
+#' @param week_start description
+#' @param start_date A character string in 'YYYY-MM-DD' format or a Date object
+#' representing the start of the series.
+#' @param end_date A character string in 'YYYY-MM-DD' format or a Date object
+#' representing the end of the series.
+#' @param time_unit A character string specifying the interval. Must be one of:
+#' \code{"day"}, \code{"week"}, \code{"month"}, \code{"quarter"}, or \code{"year"}.
+#' @param .con A valid DBI connection object (e.g., DuckDB, Postgres, Snowflake)
+#' or a \code{dbplyr} simulated connection.
+#'
+#' @return A \code{tbl_lazy} (SQL) object with a single column \code{date}.
+#'
+#' @examples
+#' \dontrun{
+#' con <- DBI::dbConnect(duckdb::duckdb())
+#' # Generates a daily sequence for the year 2025
+#' calendar <- seq_date_sql("2025-01-01", "2025-12-31", "day", con)
+#' }
+#'
+#' @keywords internal
+seq_date_sql <- function(
+    .con
+    ,start_date
+    ,end_date
+    ,calendar_type = "standard"
+    ,time_unit="day"
+    ,week_start = 7) {
+
+  browser()
+  # 1. Validation Logic
+  # assertthat::assert_that(
+  #   assertthat::is.string(time_unit),
+  #   assertthat::is.string(start_date),
+  #   assertthat::is.string(end_date),
+  #   assertthat::is.string(calendar_type),
+  #   msg = "All inputs (time_unit, start_date, end_date, calendar_type) must be a single character string."
+  # )
+
+  # assertthat::assert_that(assertthat::is.string(start_date), msg = "start_date must be a string (YYYY-MM-DD)")
+
+  assertthat::assert_that(any(time_unit %in% c("day", "month","quarter", "week","year")),msg = "time_unit must be one of: 'day', 'week','quarter, 'month' or 'year'")
+
+  # assertthat::assert_that(assertthat::is.string(end_date), msg = "end_date must be a string (YYYY-MM-DD)")
+
+  assertthat::assert_that(any(calendar_type %in% c("445", "454", "544","standard")),msg = "calendar_type must be one of: '445', '454', '544' or 'standard'")
+
+  assertthat::assert_that(assertthat::is.number(week_start) && week_start %in% 1:7,
+              msg = "week_start must be an integer between 1 (Monday) and 7 (Sunday)")
+
+
+
+
+## standard
+if(calendar_type=='standard'){
+
+  date_seq_sql <- glue::glue_sql("
+  WITH DATE_SERIES AS (
+  SELECT
+
+  GENERATE_SERIES(
+     MIN(DATE_TRUNC('day', DATE {start_date}::date))::DATE
+    ,MAX(DATE_TRUNC('day', DATE {end_date}::date))::DATE
+    ,INTERVAL '1 day'
+  ) AS DATE_LIST),
+
+  CALENDAR_TBL AS (
+        SELECT
+
+        UNNEST(DATE_LIST)::DATE AS date
+
+        FROM DATE_SERIES
+
+        )
+  SELECT *
+  ,EXTRACT(YEAR FROM date) AS year
+  ,EXTRACT(QUARTER FROM date) AS quarter
+  ,EXTRACT(month FROM date) AS month
+  ,FLOOR((EXTRACT(DOY FROM date) - 1) / 7) + 1 AS week
+
+  FROM CALENDAR_TBL
+
+",.con=.con)
+}
+
+ ## non-standard
+
+if(calendar_type!='standard'){
+
+
+    # 2. Logic for Pattern Boundaries
+    bounds <- if (calendar_type == "445") {
+      c(4, 8, 13, 17, 21, 26, 30, 34, 39, 43, 47)
+    } else if (calendar_type == "454") {
+      c(4, 9, 13, 17, 22, 26, 30, 35, 39, 43, 48)
+    } else { # 544
+      c(5, 9, 13, 18, 22, 26, 31, 35, 39, 44, 48)
+    }
+
+    # 3. Namespaced SQL String
+    date_seq_sql <- glue::glue_sql("
+  SELECT
+    sub.calendar_date AS date,
+    EXTRACT(YEAR FROM (sub.f_year_start + INTERVAL '6 months'))::INT AS year,
+    CASE
+      WHEN sub.week_num <= {bounds[3]}  THEN 1
+      WHEN sub.week_num <= {bounds[6]}  THEN 2
+      WHEN sub.week_num <= {bounds[9]}  THEN 3
+      ELSE 4
+    END AS quarter,
+    CASE
+      WHEN sub.week_num <= {bounds[1]}  THEN 1
+      WHEN sub.week_num <= {bounds[2]}  THEN 2
+      WHEN sub.week_num <= {bounds[3]}  THEN 3
+      WHEN sub.week_num <= {bounds[4]}  THEN 4
+      WHEN sub.week_num <= {bounds[5]}  THEN 5
+      WHEN sub.week_num <= {bounds[6]}  THEN 6
+      WHEN sub.week_num <= {bounds[7]}  THEN 7
+      WHEN sub.week_num <= {bounds[8]}  THEN 8
+      WHEN sub.week_num <= {bounds[9]}  THEN 9
+      WHEN sub.week_num <= {bounds[10]} THEN 10
+      WHEN sub.week_num <= {bounds[11]} THEN 11
+      ELSE 12
+    END AS month,
+    sub.week_num AS week
+  FROM (
+    SELECT
+      spine.date AS calendar_date,
+      spine.f_year_start,
+      (FLOOR((spine.date - spine.f_year_start) / 7)::INT + 1) AS week_num
+    FROM (
+      SELECT
+        s.date_raw AS date,
+        LAST_VALUE(a.anchor_date IGNORE NULLS) OVER (ORDER BY s.date_raw) AS f_year_start
+      FROM (
+        SELECT UNNEST(GENERATE_SERIES({start_date}::DATE, {end_date}::DATE, INTERVAL '1 day'))::DATE AS date_raw
+      ) s
+      LEFT JOIN (
+        SELECT yr,
+               CASE WHEN ABS(target_date - prev_s) <= ABS(next_s - target_date) THEN prev_s ELSE next_s END AS anchor_date
+        FROM (
+          SELECT yr, target_date,
+                 (target_date - CAST(CASE WHEN EXTRACT(isodow FROM target_date) = 7 THEN 0 ELSE EXTRACT(isodow FROM target_date) END AS INT))::DATE AS prev_s,
+                 (target_date - CAST(CASE WHEN EXTRACT(isodow FROM target_date) = 7 THEN 0 ELSE EXTRACT(isodow FROM target_date) END AS INT) + 7)::DATE AS next_s
+          FROM (
+            SELECT y_gen.yr, (y_gen.yr || '-01-31')::DATE AS target_date
+            FROM (SELECT UNNEST(GENERATE_SERIES(EXTRACT(YEAR FROM {start_date}::DATE)::INT - 1,
+                                               EXTRACT(YEAR FROM {end_date}::DATE)::INT + 1)) AS yr) y_gen
+          ) t_inner
+        ) a_calc
+      ) a ON s.date_raw = a.anchor_date
+    ) spine
+  ) sub
+  WHERE sub.f_year_start IS NOT NULL
+  ",.con=.con)
+
+}
+  # return out
+
+ calendar_dbi <-  dplyr::tbl(.con,dplyr::sql(date_seq_sql))
+
+
+ time_unit_lst <- list(
+   year="year"
+   ,quarter=c("year","quarter")
+   ,month=c("year","quarter","month")
+   ,week=c("year","quarter","month","week")
+   ,day=c("year","quarter","month","week")
+ )
+
+ group_cols <- c("date",time_unit_lst[[time_unit]])
+
+ ### if non-standard need differnet logic -- min date.
+
+out <-
+  calendar_dbi |>
+ dplyr::mutate(
+   date=lubridate::floor_date(date,unit = time_unit)
+ ) |>
+   dplyr::summarise(
+     .by=dplyr::any_of(group_cols)
+     ,n=dplyr::n()
+   ) |>
+   dplyr::select(-c(n))
+
+
+
+  return(out)
+
 }
 

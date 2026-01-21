@@ -179,8 +179,9 @@ tibble::tibble(
   order_date=lubridate::ymd(c("2024-01-01","2024-01-03","2024-01-06","2024-01-07","2024-01-08","2024-01-09","2024-01-11"))
   ,margin=c(1200,1100,1300,900,1200,850,1450)
 ) |> 
-   fpaR::dod(.date = order_date,.value = margin,calendar_type = "standard") |>  
-   fpaR::calculate() 
+   fpaR::dod(.date = order_date,.value = margin,calendar_type = "standard") |> 
+   fpaR::calculate() |> 
+   dplyr::collect() |> 
    dplyr::arrange(date) |> 
    tinytable::tt(width=.7)
 

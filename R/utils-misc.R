@@ -587,6 +587,9 @@ create_non_standard_month <- function(.data,pattern){
 complete_non_standard_calendar <- function(.data,x){
 
 
+  # .data <- create_calendar(x)
+    # complete_non_standard_calendar(x=x)
+
   #test inputs
   # pattern <- "544"
 
@@ -639,7 +642,8 @@ complete_non_standard_calendar <- function(.data,x){
     )
 
 
-  out <- out |>
+  out <-
+    out |>
     dplyr::select(dplyr::any_of(new_cols))
 
   return(out)
@@ -723,14 +727,16 @@ create_full_dbi <- function(x){
 
     full_dbi <-
       create_calendar(x) |>
-      complete_standard_calendar(x=x)
+
+    complete_standard_calendar(x=x)
 
   }
 
   if(x@datum@calendar_type!="standard"){
 
-    full_dbi <-  create_calendar(x) |>
-      complete_non_standard_calendar(x=x)
+    full_dbi <-  create_calendar(x)
+
+
   }
 
   return(full_dbi)

@@ -37,9 +37,6 @@ S7::method(create_calendar,ti) <- function(x){
   # before building the scaffold.
 
 
-
-
-
   summary_dbi <- x@datum@data |>
     dplyr::ungroup() |>
     make_db_tbl() |>
@@ -83,10 +80,11 @@ S7::method(create_calendar,ti) <- function(x){
   # Create a single-column table of all possible dates in the range.
 
   master_dates <- seq_date_sql(
-    start_date = start_date,
-    end_date   = x@datum@max_date,
-    time_unit  = x@time_unit@value,
-    .con        = dbplyr::remote_con(x@datum@data)
+    start_date    = start_date,
+    end_date      = x@datum@max_date,
+    calendar_type = x@datum@calendar_type,
+    time_unit     = x@time_unit@value,
+    .con          = dbplyr::remote_con(x@datum@data)
   )
 
   # 5. Build the Scaffolding ------------------------------------------------
@@ -94,6 +92,7 @@ S7::method(create_calendar,ti) <- function(x){
   # to constrain the cross-join to only the "Active Life" of each group.
 
   if (x@datum@group_indicator) {
+
     calendar_dbi <- master_dates |>
       dplyr::cross_join(
         active_bounds |> dplyr::distinct(!!!x@datum@group_quo)

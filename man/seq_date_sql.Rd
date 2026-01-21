@@ -4,9 +4,19 @@
 \alias{seq_date_sql}
 \title{Generate a Cross-Dialect SQL Date Series}
 \usage{
-seq_date_sql(start_date, end_date, time_unit, .con)
+seq_date_sql(
+  .con,
+  start_date,
+  end_date,
+  calendar_type = "standard",
+  time_unit = "day",
+  week_start = 7
+)
 }
 \arguments{
+\item{.con}{A valid DBI connection object (e.g., DuckDB, Postgres, Snowflake)
+or a \code{dbplyr} simulated connection.}
+
 \item{start_date}{A character string in 'YYYY-MM-DD' format or a Date object
 representing the start of the series.}
 
@@ -16,8 +26,7 @@ representing the end of the series.}
 \item{time_unit}{A character string specifying the interval. Must be one of:
 \code{"day"}, \code{"week"}, \code{"month"}, \code{"quarter"}, or \code{"year"}.}
 
-\item{.con}{A valid DBI connection object (e.g., DuckDB, Postgres, Snowflake)
-or a \code{dbplyr} simulated connection.}
+\item{week_start}{description}
 }
 \value{
 A \code{tbl_lazy} (SQL) object with a single column \code{date}.
