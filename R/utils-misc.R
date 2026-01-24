@@ -438,219 +438,6 @@ augment_standard_calendar <- function(.data,.date){
 }
 
 
-#' Finds closet sunday to February 1st
-#'
-#' @param year year of the date
-#'
-#' @returns character vector
-#' @keywords internal
-closest_sunday_feb1 <- function(year) {
-
-  # Create a Date object for February 1st of the given year
-  feb1 <- as.Date(paste0(year, "-02-01"))
-
-  # Get the day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
-  wday <- as.integer(format(feb1, "%w"))
-
-  # Calculate offset to the nearest Sunday
-  # If wday <= 3, the closest Sunday is before; else it's after
-  offset <- ifelse(wday <= 3, -wday, 7 - wday)
-
-  # Return the closest Sunday
-  feb1 + offset
-}
-
-
-#' Create Non-Standard Month
-#'
-#' @param .data non-standard calendar table
-#' @param pattern '554','545' or '445'
-#'
-#' @returns DBI object
-#'
-#' @keywords internal
-create_non_standard_month <- function(.data,pattern){
-
-
-  valid_colnames <- c("week_ns","year_ns")
-  valid_pattern <- c("544","545","445")
-
-
-  assertthat::assert_that(
-    pattern %in% valid_pattern
-    ,msg = cli::cli_abort("Please select {.or {.val {valid_pattern}}}")
-  )
-
-
-  assertthat::assert_that(
-    pattern %in% valid_pattern
-    ,msg = cli::cli_abort("Please ensure [.val week_ns] and [.val year_ns] are in the dataset")
-  )
-
-
-  if(pattern=="544"){
-
-    valid_cumulative_months <- cumsum(rep(c(5,4,4),4))
-
-    out <-
-      .data |>
-      dplyr::mutate(
-        .by=year
-        ,month=dplyr::case_when(
-          # either framing it in advance or somehow passing a arg to it
-          week<=!!valid_cumulative_months[[1]]~1
-          ,week<=!!valid_cumulative_months[[2]]~2
-          ,week<=!!valid_cumulative_months[[3]]~3
-          ,week<=!!valid_cumulative_months[[4]]~4
-          ,week<=!!valid_cumulative_months[[5]]~5
-          ,week<=!!valid_cumulative_months[[6]]~6
-          ,week<=!!valid_cumulative_months[[7]]~7
-          ,week<=!!valid_cumulative_months[[8]]~8
-          ,week<=!!valid_cumulative_months[[9]]~9
-          ,week<=!!valid_cumulative_months[[10]]~10
-          ,week<=!!valid_cumulative_months[[11]]~11
-          ,week<=!!valid_cumulative_months[[12]]~12
-          ,.default=13
-        )
-      )
-  }
-
-  if(pattern=="445"){
-
-    valid_cumulative_months <- cumsum(rep(c(4,4,5),4))
-
-    out <- .data |>
-      dplyr::mutate(
-        .by=year
-        ,month=dplyr::case_when(
-          # either framing it in advance or somehow passing a arg to it
-          week<=!!valid_cumulative_months[[1]]~1
-          ,week<=!!valid_cumulative_months[[2]]~2
-          ,week<=!!valid_cumulative_months[[3]]~3
-          ,week<=!!valid_cumulative_months[[4]]~4
-          ,week<=!!valid_cumulative_months[[5]]~5
-          ,week<=!!valid_cumulative_months[[6]]~6
-          ,week<=!!valid_cumulative_months[[7]]~7
-          ,week<=!!valid_cumulative_months[[8]]~8
-          ,week<=!!valid_cumulative_months[[9]]~9
-          ,week<=!!valid_cumulative_months[[10]]~10
-          ,week<=!!valid_cumulative_months[[11]]~11
-          ,week<=!!valid_cumulative_months[[12]]~12
-          ,.default=13
-        )
-      )
-  }
-
-
-  if(pattern=="454"){
-
-    valid_cumulative_months <- cumsum(rep(c(4,5,4),4))
-
-    out <- .data |>
-      dplyr::mutate(
-        .by=year
-        ,month=dplyr::case_when(
-          # either framing it in advance or somehow passing a arg to it
-          week<=!!valid_cumulative_months[[1]]~1
-          ,week<=!!valid_cumulative_months[[2]]~2
-          ,week<=!!valid_cumulative_months[[3]]~3
-          ,week<=!!valid_cumulative_months[[4]]~4
-          ,week<=!!valid_cumulative_months[[5]]~5
-          ,week<=!!valid_cumulative_months[[6]]~6
-          ,week<=!!valid_cumulative_months[[7]]~7
-          ,week<=!!valid_cumulative_months[[8]]~8
-          ,week<=!!valid_cumulative_months[[9]]~9
-          ,week<=!!valid_cumulative_months[[10]]~10
-          ,week<=!!valid_cumulative_months[[11]]~11
-          ,week<=!!valid_cumulative_months[[12]]~12
-          ,.default=13
-        )
-      )
-  }
-
-  return(out)
-
-
-}
-
-
-
-
-#' Augment non-standard calendar
-#'
-#' @param .data data
-#' @param pattern 554,445 or 545
-#' @param x is ti object
-#' @keywords internal
-#' @returns DBI object
-#'
-complete_non_standard_calendar <- function(.data,x){
-
-
-  # .data <- create_calendar(x)
-    # complete_non_standard_calendar(x=x)
-
-  #test inputs
-  # pattern <- "544"
-
-  # assign variables
-  days_in_week=7
-  weeks_in_quarter=13
-  quarters_in_year=4
-  old_cols <- colnames(.data)
-  date_cols <- x@fn@new_date_column_name[x@fn@new_date_column_name!="date"]
-  new_cols <- lubridate::union(old_cols,date_cols)
-  pattern <- x@datum@calendar_type
-
-  # start_year <- closest_sunday_feb1(min_year)
-  min_date <- x@datum@min_date
-
-  #
-  # new_cal <- seq_date_sql(start_date = start_year,end_date=x@datum@max_date,time_unit = "day",con =con ) |>
-  #   augment_standard_calendar(.date = date) |>
-  #   dplyr::select(date,day_of_week)
-
-  out <-
-    .data |>
-    dbplyr::window_order(date) |>
-    dplyr::mutate(
-      year_index=dplyr::if_else(dplyr::row_number()%%(days_in_week*weeks_in_quarter*quarters_in_year)==1,1,0)
-      ,year=cumsum(year_index)
-    ) |>
-    dplyr::mutate(
-      week_index=dplyr::if_else(dplyr::row_number()%%7==1,1,0)
-      ,week=cumsum(week_index)
-      ,.by=year
-    ) |>
-    create_non_standard_month(pattern=pattern) |>
-    dplyr::mutate(
-      quarter=dplyr::case_when(
-        month<=3~1
-        ,month<=6~2
-        ,month<=9~3
-        ,.default=4
-      )
-    ) |>
-    dplyr::mutate(
-      day=lubridate::day(date)
-    ) |>
-    dplyr::select(
-      -c(week_index,year_index)
-    ) |>
-    dplyr::filter(
-      date>min_date
-    )
-
-
-  out <-
-    out |>
-    dplyr::select(dplyr::any_of(new_cols))
-
-  return(out)
-
-}
-
-
 #' Title
 #'
 #' @param .data DBI object
@@ -722,24 +509,193 @@ complete_standard_calendar <- function(.data,x){
 #'
 create_full_dbi <- function(x){
 
-
-  if(x@datum@calendar_type=="standard"){
-
     full_dbi <-
       create_calendar(x) |>
-
-    complete_standard_calendar(x=x)
-
-  }
-
-  if(x@datum@calendar_type!="standard"){
-
-    full_dbi <-  create_calendar(x)
+      complete_standard_calendar(x=x)
 
 
-  }
 
   return(full_dbi)
+
+}
+
+#' Make an in memory database from a table
+#'
+#' @param x tibble or dbi object
+#' @export
+#' @returns dbi object
+#' @keywords internal
+#' Coerce data into a DuckDB-backed lazy table
+#'
+#' @description
+#' Ensures the input is a database-backed object. If a data.frame is provided,
+#' it is registered into a temporary, in-memory DuckDB instance. If already
+#' a `tbl_dbi`, it is returned unchanged.
+#'
+#' @param x A tibble, data.frame, or tbl_dbi object.
+#' @return A \code{tbl_dbi} object backed by DuckDB.
+#'
+#' @details
+#' When converting a data.frame, this function preserves existing \code{dplyr}
+#' groups. It uses DuckDB's \code{duckdb_register}, which is a virtual registration
+#' and does not perform a physical copy of the data, making it extremely fast.
+#'
+#' @export
+#' @keywords internal
+make_db_tbl <- function(x) {
+
+  # 1. Type Validation
+  assertthat::assert_that(
+    inherits(x, "data.frame") || inherits(x, "tbl_dbi"),
+    msg = "Input must be a data.frame, tibble, or tbl_dbi object."
+  )
+
+  # 2. Return early if already in a DB
+  if (inherits(x, "tbl_dbi")) {
+    return(x)
+  }
+
+  # 3. Convert data.frame to DuckDB
+  # Extract group metadata
+  groups_lst <- dplyr::groups(x)
+
+  # Use a global or session-persistent connection to avoid overhead
+  # DuckDB ':memory:' is faster than tempfile() for small/medium sets
+  con <- DBI::dbConnect(duckdb::duckdb(), ":memory:")
+
+  # Register the data.frame as a virtual table
+  # This is O(1) complexity because it references R memory directly
+  duckdb::duckdb_register(con, name = "virtual_table", df = x)
+
+
+  # Create the lazy table and re-apply groups
+  out <- dplyr::tbl(con, "virtual_table") |>
+    dplyr::group_by(!!!groups_lst)
+
+  return(out)
+}
+
+
+#' Generate a Cross-Dialect SQL Date Series
+#'
+#' @description
+#' Creates a lazy `dbplyr` table containing a continuous sequence of dates.
+#' The function automatically detects the SQL dialect of the connection and
+#' dispatches the most efficient native series generator (e.g., `GENERATE_SERIES`
+#' for DuckDB/Postgres or `GENERATOR` for Snowflake).
+#'
+#' @details
+#' This function is designed to be "nestable," meaning the resulting SQL can be
+#' used safely inside larger `dplyr` pipelines. It avoids `WITH` clauses in
+#' dialects like DuckDB to prevent parser errors when `dbplyr` wraps the query
+#' in a subquery (e.g., `SELECT * FROM (...) AS q01`).
+#'
+#' For unit testing, the function supports `dbplyr` simulation objects. If a
+#' `TestConnection` is detected, it returns a `lazy_frame` to avoid metadata
+#' field queries that would otherwise fail on a mock connection.
+#' @param week_start description
+#' @param start_date A character string in 'YYYY-MM-DD' format or a Date object
+#' representing the start of the series.
+#' @param end_date A character string in 'YYYY-MM-DD' format or a Date object
+#' representing the end of the series.
+#' @param time_unit A character string specifying the interval. Must be one of:
+#' \code{"day"}, \code{"week"}, \code{"month"}, \code{"quarter"}, or \code{"year"}.
+#' @param .con A valid DBI connection object (e.g., DuckDB, Postgres, Snowflake)
+#' or a \code{dbplyr} simulated connection.
+#'
+#' @return A \code{tbl_lazy} (SQL) object with a single column \code{date}.
+#'
+#' @examples
+#' \dontrun{
+#' con <- DBI::dbConnect(duckdb::duckdb())
+#' # Generates a daily sequence for the year 2025
+#' calendar <- seq_date_sql("2025-01-01", "2025-12-31", "day", con)
+#' }
+#'
+#' @keywords internal
+seq_date_sql <- function(
+    .con
+    ,start_date
+    ,end_date
+    ,calendar_type = "standard"
+    ,time_unit="day"
+    ,week_start = 7) {
+
+
+
+  # assertthat::assert_that(assertthat::is.string(start_date), msg = "start_date must be a string (YYYY-MM-DD)")
+
+  assertthat::assert_that(any(time_unit %in% c("day", "month","quarter", "week","year")),msg = "time_unit must be one of: 'day', 'week','quarter, 'month' or 'year'")
+
+  # assertthat::assert_that(assertthat::is.string(end_date), msg = "end_date must be a string (YYYY-MM-DD)")
+
+  assertthat::assert_that(any(calendar_type %in% c("standard")),msg = "calendar_type must be: 'standard'")
+
+  assertthat::assert_that(assertthat::is.number(week_start) && week_start %in% 1:7,msg = "week_start must be an integer between 1 (Monday) and 7 (Sunday)")
+
+
+  if(calendar_type=='standard'){
+
+    date_seq_sql <- glue::glue_sql("
+  WITH DATE_SERIES AS (
+  SELECT
+
+  GENERATE_SERIES(
+     MIN(DATE_TRUNC('day', DATE {start_date}::date))::DATE
+    ,MAX(DATE_TRUNC('day', DATE {end_date}::date))::DATE
+    ,INTERVAL '1 day'
+  ) AS DATE_LIST),
+
+  CALENDAR_TBL AS (
+        SELECT
+
+        UNNEST(DATE_LIST)::DATE AS date
+
+        FROM DATE_SERIES
+
+        )
+  SELECT *
+  ,EXTRACT(YEAR FROM date) AS year
+  ,EXTRACT(QUARTER FROM date) AS quarter
+  ,EXTRACT(month FROM date) AS month
+  ,FLOOR((EXTRACT(DOY FROM date) - 1) / 7) + 1 AS week
+
+  FROM CALENDAR_TBL
+
+",.con=.con)
+  }
+
+
+
+  calendar_dbi <-  dplyr::tbl(.con,dplyr::sql(date_seq_sql))
+
+
+  time_unit_lst <- list(
+    year="year"
+    ,quarter=c("year","quarter")
+    ,month=c("year","quarter","month")
+    ,week=c("year","quarter","month","week")
+    ,day=c("year","quarter","month","week","day")
+  )
+
+  group_col_vec <- c("date",time_unit_lst[[time_unit]])
+
+
+  out <-
+    calendar_dbi |>
+    dplyr::mutate(
+      day=lubridate::day(date)
+    ) |>
+    dplyr::mutate(
+      date=lubridate::floor_date(date,unit = time_unit)
+    ) |>
+    dplyr::summarise(
+      .by=dplyr::any_of(group_col_vec)
+      ,n=dplyr::n()
+    ) |>
+    dplyr::select(-c(n))
+
+  return(out)
 
 }
 

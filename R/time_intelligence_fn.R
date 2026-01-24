@@ -242,7 +242,7 @@ ytdopy_fn <- function(x){
   # join together
 
  out_dbi <-  ytd_dbi |>
-   select(
+   dplyr::select(
      -c(!!x@value@value_quo)
    ) |>
     dplyr::left_join(
@@ -681,7 +681,7 @@ mom_fn <- function(x){
 
   # create lag
   lag_dbi <- full_dbi |>
-    dplyr::select(-c(year,month)) |>
+    dplyr::select(-c(year,quarter,month)) |>
     dbplyr::window_order(date,!!!x@datum@group_quo) |>
     dplyr::mutate(
       date_lag=dplyr::lead(date,n = !!x@fn@lag_n)
@@ -728,7 +728,7 @@ mtdopm_fn <- function(x){
     dplyr::group_by(!!!x@datum@group_quo) |>
     mtd(.data = _,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type) |>
     calculate() |>
-    select(
+    dplyr::select(
       -c(missing_date_indicator,!!x@value@value_quo)
     )
 
@@ -944,7 +944,7 @@ wow_fn <- function(x){
   full_dbi <- create_full_dbi(x)
 
   lag_dbi <- full_dbi|>
-    dplyr::select(-c(year,month,week)) |>
+    dplyr::select(-c(year,quarter,month,week)) |>
     dbplyr::window_order(date) |>
     dplyr::mutate(
       date_lag=dplyr::lead(date,n = !!x@fn@lag_n)
@@ -1066,6 +1066,7 @@ dod_fn <- function(x){
   full_dbi <- create_full_dbi(x)
 
   lag_dbi <- full_dbi |>
+    dplyr::select(-c(year,quarter,month,week,day)) |>
     dbplyr::window_order(date) |>
     dplyr::mutate(
       date_lag=dplyr::lead(date,n=!!x@fn@lag_n)

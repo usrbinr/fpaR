@@ -137,14 +137,14 @@ Table 1
 
 #### ABC Classification
 
-ABC classification is an business analysis technique that categorizes
+ABC classification is a business analysis technique that categorizes
 items (like products, customers, or suppliers) based on their relative
 contribution of a value. It expands upon the the Pareto Principle (the
 80/20 rule), allowing the user to determine which percentage of items or
-group members contribute to the largest percentage of the total value
+group members contribute to the largest percentage of the total value.
 
 You assign the break points for the categorization and the function will
-label each category with a letter value
+label each category with a letter value.
 
 #### Cohort
 
@@ -152,10 +152,10 @@ Cohort analysis is a type of behavioral analytics that takes data from a
 given group of users (called a cohort) and tracks their activity over
 time. A cohort is typically defined by a shared starting characteristic,
 most commonly the time period in which the entities first interacted
-with the product or service
+with the product or service.
 
 This allows you to understand retention, turnover and other cohort
-attributes more clearly
+attributes more clearly.
 
 <div id="tbl-abc-fn">
 
@@ -171,23 +171,6 @@ Table 2
 </div>
 
 </div>
-
-------------------------------------------------------------------------
-
-### **Factor / Variation Analysis**
-
-Breaks down revenue or cost changes into **price, volume, and mix
-effects**
-
-Work in progress.
-
-------------------------------------------------------------------------
-
-## Future capabilities
-
-Is there a future capability that you want to see here? please open up
-[discussion](https://github.com/usrbinr/fpaR/discussions) on our github
-site
 
 ## Additional references and inspirations
 

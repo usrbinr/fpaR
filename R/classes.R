@@ -100,10 +100,11 @@ datum <- S7::new_class(
         class=S7::class_character
         ,default = "standard"
         ,validator =function(value){
-
-          valid_names <- c("standard","544","445","454",NA_character_)
-
-          if(!any(value %in% valid_names)) return(cli::format_error("Please return {.or {.val {valid_names}}}"))
+          valid_names <- c("standard", NA_character_)
+          if (!all(value %in% valid_names)) {
+            return(paste0("Must be one of: ", paste(valid_names, collapse = ", ")))
+          }
+          NULL
 
         }
         ,setter=function(self,value){

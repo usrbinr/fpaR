@@ -37,13 +37,10 @@ Most time intelligence functions follow the same structure:
 -  If there is a period rollback / rollforward then clarify the number of periods to roll
 -  Clarify if we are using a "standard" calendar or non-standard variation (currently supports 5-4-4, 4-4-5 and 4-5-4 calendars) see [standard vs. non standard calendar article](https://usrbinr.github.io/fpaR/articles/calendar_types.html) for more information
 
-> For most of your uses cases, you are likely to reference a "standard" calendar which is your standard gregorian calendar:
-> 
--  365 days in a year except for leap years where you have 366
--  24 hours in a day, 7 days in a week 
--  Days of the week cycle through Sunday, Monday, Tuesday, etc
--  12 months in a year
--  January has 30 days, Feburary has 28 (unless its a leap year then 29), etc
+
+
+
+> Non standard calendars are currently not supported in this release
 
 When you execute `mtd()`, your console will return a `ti` object displaying a custom print message:
 
@@ -51,7 +48,6 @@ When you execute `mtd()`, your console will return a `ti` object displaying a cu
 -  Details the calendar's attributes used to support the calculation
 -  Describes the main transformation steps and columns that are referenced
 -  Lists out possible next actions
-
 
 ```{r}
 #| label: print-example-run
@@ -238,18 +234,6 @@ contoso::sales |>
    tinytable::tt(width=1)
 ```
 
-Alternatively, if your industries requires non-standard calendars like `5-4-4`, `4-5-4`, or `4-4-5` simply put that as calendar type to see calculations on that basis.
-
-
-```{r}
-#| label: issue3-example-echo
-#| echo: true
-#| eval: false
-
-contoso::sales |>
-   fpaR::pmtd(order_date,margin,calendar_type = "544",lag_n = 1)
-
-```
 
 
 ### Issues 3: larger than memory

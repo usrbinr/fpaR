@@ -7,9 +7,6 @@ create_calendar <- S7::new_generic("create_calendar","x")
 
 calculate <- S7::new_generic("calculate","x")
 
-
-
-
 #' Create Calendar Table
 #' @name create_calendar
 #' @param x ti object
@@ -28,46 +25,18 @@ calculate <- S7::new_generic("calculate","x")
 #' @keywords internal
 S7::method(create_calendar,ti) <- function(x){
 
-  # 1. Determine the Anchor Start Date --------------------------------------
-  # For 5-5-4 calendars, we must anchor to the fiscal start (Sunday closest to Feb 1).
-  # For standard calendars, we use the natural data minimum.
-
-  # 2. Summarize Raw Data ---------------------------------------------------
-  # Aggregate the source data to the target time unit (day, month, etc.)
-  # before building the scaffold.
-
 
   summary_dbi <- x@datum@data |>
     dplyr::ungroup() |>
     make_db_tbl() |>
     dplyr::mutate(
-      date = lubridate::floor_date(!!x@datum@date_quo, unit = !!x@time_unit@value,week_start = 1),
+      date = lubridate::floor_date(!!x@datum@date_quo, unit = !!x@time_unit@value,week_start = 7),
       time_unit = !!x@time_unit@value
     ) |>
     dplyr::summarise(
       !!x@value@value_vec := sum(!!x@value@value_quo, na.rm = TRUE),
       .by = c(date, !!!x@datum@group_quo)
     )
-
-
-  if (x@datum@calendar_type != "standard") {
-    min_year <- lubridate::year(x@datum@min_date)
-    start_date <- closest_sunday_feb1(min_year)
-
-    # Ensure the anchor doesn't start after our actual data
-    if (min_year < lubridate::year(start_date)) {
-      start_date <- closest_sunday_feb1(min_year - 1)
-    }
-  } else {
-    start_date <- x@datum@min_date
-  }
-
-
-
-  # 3. Define "Active Life" Bounds ------------------------------------------
-  # Optimization: Calculate the first and last activity per group.
-  # This prevents generating thousands of 'zero' rows for products that
-  # didn't exist yet or were discontinued.
 
   active_bounds <- summary_dbi |>
     dplyr::summarise(
@@ -76,20 +45,14 @@ S7::method(create_calendar,ti) <- function(x){
       .by = c(!!!x@datum@group_quo)
     )
 
-  # 4. Generate Master Date Sequence ---------------------------------------
-  # Create a single-column table of all possible dates in the range.
 
   master_dates <- seq_date_sql(
-    start_date    = start_date,
+    start_date    = x@datum@min_date,
     end_date      = x@datum@max_date,
     calendar_type = x@datum@calendar_type,
     time_unit     = x@time_unit@value,
     .con          = dbplyr::remote_con(x@datum@data)
   )
-
-  # 5. Build the Scaffolding ------------------------------------------------
-  # If groups exist, expand the calendar. We use an inner join to the bounds
-  # to constrain the cross-join to only the "Active Life" of each group.
 
   if (x@datum@group_indicator) {
 
@@ -107,11 +70,6 @@ S7::method(create_calendar,ti) <- function(x){
     calendar_dbi <- master_dates
   }
 
-  # 6. Final Join & Gap Filling ---------------------------------------------
-  # Combine the scaffold with actual data. Dates with no records are
-  # flagged and filled with 0 to ensure continuous time intelligence.
-
-
 
   full_dbi <-
     calendar_dbi |>
@@ -123,6 +81,7 @@ S7::method(create_calendar,ti) <- function(x){
       missing_date_indicator = dplyr::if_else(is.na(!!x@value@value_quo), 1, 0),
       !!x@value@value_vec := dplyr::coalesce(!!x@value@value_quo, 0)
     )
+
 
   return(full_dbi)
 
@@ -326,7 +285,6 @@ S7::method(print,segment_abc) <- function(x,...){
       ,cli::col_br_blue(stringr::str_flatten_comma(x@category@category_names))
     )
   )
-
 
   cli::cat_line("")
 

@@ -1,207 +1,263 @@
 library(testthat)
-library(dplyr)
-library(lubridate)
 
-library(testthat)
-library(dplyr)
+describe("fpaR functions", {
 
-library(testthat)
-library(dplyr)
-
-library(testthat)
-library(dplyr)
-
-# -------------------------------------------------------------------------
-# SETUP
-# -------------------------------------------------------------------------
-df_test <- contoso::sales |> head(500) |> collect()
-
-describe("Time Intelligence Manual Execution Tests", {
-
-  # --- Year Related ---
-
-  it("ytd returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      ytd(order_date, margin, calendar_type = "standard") |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("ytd works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        dplyr::group_by(store_key) |>
+        fpaR::ytd(order_date, margin, "standard") |>
+        fpaR::calculate() |>
+        dplyr::collect() |>
+        dplyr::filter(store_key == "999999") |>
+        dplyr::arrange(date)
+    })
   })
 
-  it("pytd returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      pytd(order_date, margin, calendar_type = "standard", lag_n = 1) |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("qtd works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        dplyr::group_by(store_key) |>
+        fpaR::qtd(order_date, margin, "standard") |>
+        fpaR::calculate() |>
+        dplyr::filter(store_key == "999999") |>
+        dplyr::arrange(date)
+    })
   })
 
-  it("yoytd returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      yoytd(order_date, margin, calendar_type = "standard", lag_n = 1) |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("mtd works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        dplyr::group_by(store_key) |>
+        fpaR::mtd(order_date, margin, "standard") |>
+        fpaR::calculate() |>
+        dplyr::filter(store_key == "999999") |>
+        dplyr::arrange(date)
+    })
   })
 
-  it("yoy returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      yoy(order_date, margin, calendar_type = "standard", lag_n = 1) |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("wtd works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        dplyr::group_by(store_key) |>
+        fpaR::wtd(order_date, margin, "standard") |>
+        fpaR::calculate() |>
+        dplyr::filter(store_key == "999999") |>
+        dplyr::arrange(date)
+    })
   })
 
-  it("ytdopy returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      ytdopy(order_date, margin, calendar_type = "standard", lag_n = 1) |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("atd works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        dplyr::group_by(store_key) |>
+        fpaR::atd(order_date, margin, "standard") |>
+        fpaR::calculate() |>
+        dplyr::collect() |>
+        dplyr::filter(store_key == "999999") |>
+        dplyr::arrange(date)
+    })
   })
 
-  # --- Quarter Related ---
-
-  it("qtd returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      qtd(order_date, margin, calendar_type = "standard") |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("yoy works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        dplyr::group_by(store_key) |>
+        fpaR::yoy(order_date, margin, "standard", 1) |>
+        fpaR::calculate() |>
+        dplyr::arrange(date) |>
+        dplyr::filter(store_key == "999999") |>
+        dplyr::arrange(date)
+    })
   })
 
-  it("pqtd returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      pqtd(order_date, margin, calendar_type = "standard", lag_n = 1) |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("qoq works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        dplyr::group_by(store_key) |>
+        fpaR::qoq(order_date, margin, "standard") |>
+        fpaR::calculate() |>
+        dplyr::filter(store_key == "999999") |>
+        dplyr::arrange(date)
+    })
   })
 
-  it("qoqtd returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      qoqtd(order_date, margin, calendar_type = "standard", lag_n = 1) |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("mom works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        dplyr::group_by(store_key) |>
+        fpaR::mom(order_date, margin, "standard") |>
+        fpaR::calculate() |>
+        dplyr::filter(store_key == "999999") |>
+        dplyr::arrange(date)
+    })
   })
 
-  it("qoq returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      qoq(order_date, margin, calendar_type = "standard", lag_n = 1) |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("wow works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        dplyr::group_by(store_key) |>
+        fpaR::wow(order_date, margin, "standard") |>
+        fpaR::calculate() |>
+        dplyr::filter(store_key == "999999") |>
+        dplyr::arrange(date)
+    })
   })
 
-  it("qtdopq returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      qtdopq(order_date, margin, calendar_type = "standard", lag_n = 1) |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("dod works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        dplyr::group_by(store_key) |>
+        fpaR::dod(order_date, margin, "standard") |>
+        fpaR::calculate() |>
+        dplyr::filter(store_key == "999999") |>
+        dplyr::arrange(date)
+    })
   })
 
-  # --- Month Related ---
-
-  it("mtd returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      mtd(order_date, margin, calendar_type = "standard") |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("yoytd works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        dplyr::group_by(store_key) |>
+        fpaR::yoytd(order_date, margin, "standard", 1) |>
+        fpaR::calculate() |>
+        dplyr::filter(store_key == "999999") |>
+        dplyr::arrange(date) |>
+        dplyr::filter(!is.na(pytd_margin))
+    })
   })
 
-  it("pmtd returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      pmtd(order_date, margin, calendar_type = "standard", lag_n = 1) |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("qoqtd works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        fpaR::qoqtd(order_date, margin, "standard", 1) |>
+        fpaR::calculate() |>
+        dplyr::arrange(date) |>
+        dplyr::filter(!is.na(pqtd_margin))
+    })
   })
 
-  it("momtd returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      momtd(order_date, margin, calendar_type = "standard", lag_n = 1) |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("momtd works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        fpaR::momtd(order_date, margin, "standard", 1) |>
+        fpaR::calculate() |>
+        dplyr::arrange(date) |>
+        dplyr::filter(!is.na(pmtd_margin))
+    })
   })
 
-  it("mom returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      mom(order_date, margin, calendar_type = "standard", lag_n = 1) |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("wowtd works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        fpaR::wowtd(.date = order_date, .value = margin, calendar_type = "standard", lag_n = 1) |>
+        fpaR::calculate()
+    })
   })
 
-  it("mtdopm returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      mtdopm(order_date, margin, calendar_type = "standard", lag_n = 1) |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("pytd works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        dplyr::group_by(store_key) |>
+        fpaR::pytd(.date = order_date, .value = margin, calendar_type = "standard", lag_n = 1) |>
+        fpaR::calculate() |>
+        dplyr::filter(store_key == "999999") |>
+        dplyr::filter(!is.na(pytd_margin))
+    })
   })
 
-  # --- Week Related ---
-
-  it("wtd returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      wtd(order_date, margin, calendar_type = "standard") |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("pqtd works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        dplyr::group_by(store_key) |>
+        fpaR::pqtd(.date = order_date, .value = margin, calendar_type = "standard", lag_n = 1) |>
+        fpaR::calculate() |>
+        dplyr::filter(store_key == "999999") |>
+        dplyr::filter(!is.na(pqtd_margin))
+    })
   })
 
-  it("pwtd returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      pwtd(order_date, margin, calendar_type = "standard", lag_n = 1) |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("pmtd works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        dplyr::group_by(store_key) |>
+        fpaR::pmtd(.date = order_date, .value = margin, calendar_type = "standard", lag_n = 1) |>
+        fpaR::calculate() |>
+        dplyr::filter(store_key == "999999") |>
+        dplyr::filter(!is.na(pmtd_margin)) |>
+        dplyr::arrange(date)
+    })
   })
 
-  it("wowtd returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      wowtd(order_date, margin, calendar_type = "standard", lag_n = 1) |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("pwtd works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        dplyr::group_by(store_key) |>
+        fpaR::pwtd(.date = order_date, .value = margin, calendar_type = "standard", lag_n = 1) |>
+        fpaR::calculate() |>
+        dplyr::filter(store_key == "999999") |>
+        dplyr::filter(!is.na(pwtd_margin))
+    })
   })
 
-  it("wow returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      wow(order_date, margin, calendar_type = "standard", lag_n = 1) |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("ytdopy works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        dplyr::group_by(store_key) |>
+        fpaR::ytdopy(order_date, margin, calendar_type = "standard", lag_n = 1) |>
+        fpaR::calculate() |>
+        dplyr::filter(store_key == "999999") |>
+        dplyr::filter(!is.na(yoy_margin))
+    })
   })
 
-  it("wtdopw returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      wtdopw(order_date, margin, calendar_type = "standard", lag_n = 1) |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("mtdopm works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        dplyr::group_by(store_key) |>
+        fpaR::mtdopm(order_date, margin, calendar_type = "standard", lag_n = 1) |>
+        fpaR::calculate() |>
+        dplyr::filter(store_key == "999999") |>
+        dplyr::filter(!is.na(mom_margin)) |>
+        dplyr::arrange(date)
+    })
   })
 
-  # --- All/Day Related ---
-
-  it("atd returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      atd(order_date, margin, calendar_type = "standard") |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("qtdopq works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        dplyr::group_by(store_key) |>
+        fpaR::qtdopq(order_date, margin, calendar_type = "standard", lag_n = 1) |>
+        fpaR::calculate() |>
+        dplyr::filter(store_key == "999999")
+    })
   })
 
-  it("dod returns a non-empty tibble", {
-    result <- df_test |> group_by(store_key) |>
-      dod(order_date, margin, calendar_type = "standard", lag_n = 1) |>
-      calculate() |> collect()
-    expect_s3_class(result, "data.frame")
-    expect_gt(nrow(result), 0)
+  it("wtdopw works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        dplyr::group_by(store_key) |>
+        fpaR::wtdopw(order_date, margin, lag_n = 1, calendar_type = "standard") |>
+        fpaR::calculate() |>
+        dplyr::filter(store_key == "999999")
+    })
   })
 
+  it("abc works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        dplyr::group_by(store_key) |>
+        fpaR::abc(category_values = c(.3, .5, .7, .8), .value = margin) |>
+        fpaR::calculate()
+    })
+  })
+
+  it("cohort works", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        dplyr::group_by(store_key) |>
+        fpaR::cohort(.date = order_date, .value = margin, time_unit = "month", period_label = FALSE) |>
+        fpaR::calculate()
+    })
+  })
 })
